@@ -3,13 +3,12 @@
 > **Gebruik:** Dupliceer dit bestand voor je eigen project. Vervang alle `<>`-velden en vink de checkboxes aan.  
 > **Vaststaand (mag je overnemen):** sprints van 1 week, fysieke meetings in *Lokaal Mars (Bit Academy)*, stand-ups fysiek in het lokaal, communicatie via Mattermost, retro in sprint 2 & 4.  
 > **Tip:** Bewaar dit bestand in je repo als `SPRINT0.md`.
-
 ---
 
 ## 📌 Project
 
-- **Projectnaam:** `<Projectnaam>`  
-- **Korte omschrijving (1–2 zinnen):** `<Wat bouw je voor wie en waarom?>`
+- **Projectnaam:** `Backenders-EduReuse`  
+- **Korte omschrijving (1–2 zinnen):** `Wij bouwen een webapplicatie waarbij scholen hun gebruikte apparatuur kunnen aanmelden/ophalen, zodat eleketronica een tweede leven kan krijgen`
 
 ---
 
@@ -17,34 +16,68 @@
 
 | Rol                       | Naam                 | E-mail                         | Telefoon     |
 | ------------------------- | -------------------- | ------------------------------ | ------------ |
-| **Product Owner (klant)** | `<Naam organisatie>` | `<mail@klant.nl>`              | `<06-xxxx>`  |
+| **Product Owner (klant)** | `EduReuse` | `<mail@klant.nl>`              | `<06-xxxx>`  |
 | **Scrum Coach**           | `Ties Noordhuis`     | `ties@bit-academy.nl`          | `06-29313578`|
-| **Developer 1**           | `<Naam>`             | `<voornaam.achternaam@...>`    | `<06-xxxx>`  |
-| **Developer 2**           | `<Naam>`             | `<voornaam.achternaam@...>`    | `<06-xxxx>`  |
-| **Developer 3**           | `<Naam>`             | `<voornaam.achternaam@...>`    | `<06-xxxx>`  |
-
-> Voeg rijen toe of verwijder ze als je team groter/kleiner is.
+| **Developer 1**           | `Dymoreno Milan`             | `dymorenomilan@gmail.com`    | `06-xxxx`  |
+| **Developer 2**           | `Giorgio de Rijp`             | `gderijp@gmail.com`    | `06-48656328`  |
+| **Developer 3**           | `Jenebi Owini Deel`             | `<voornaam.achternaam@...>`    | `<06-xxxx>`  |
 
 ---
 
 ## 🎯 Wat
 
 ### Doel van het project
-`<Beschrijf in 1–2 zinnen het doel voor de klant/gebruiker (waarde, probleem dat je oplost).>`
+Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-printers, educatieve robots). Wij willen een prototype van een website waar scholen:
+
+1. E-waste (herbruikbare educatieve hardware) kunnen **aanmelden /opgeven**,
+2. Andere scholen **hun behoefte** kunnen aangeven,
+3. Ons als facilitator (Wailsalutem Foundation) **tussenzetten** voor verificatie, matching, ophalen en herverdeling,
+4. Informatie vinden over **duurzaam hergebruik** en **e-waste-bewustwording**.
 
 ### Eisen en wensen
 
 **Eisen (Must-haves):**
-- [ ] `<Eis 1>`
-- [ ] `<Eis 2>`
-- [ ] `<Eis 3>`
+
+**F1. Aanbod & Aanvraag**
+
+- [ ] DonorSchool kan items aanmaken: type (laptop/3D-printer/robot), merk/model, staat, hoeveelheid, foto(‘s), opmerkingen, locatie (stad/postcode).
+- [ ] NeedSchool kan een behoefte plaatsen: gewenste type/hoeveelheid, locatie, deadline/prioriteit.
+
+**F2. Matching (semi-handmatig in MVP)**
+
+- [ ] Admin ziet een lijst met **open aanbod** en **open behoeften** en kan een **match** aanmaken (1-op-1 of 1-op-meerdere).
+- [ ] Basic matchscore (heuristiek): type + afstand + hoeveelheid + staat.
+
+**F3. Workflow & Status**
+
+- [ ] Status per item: *Nieuw → In verificatie → Beschikbaar → Gematcht → Ophalen gepland → Opgehaald → Refurbish → Geleverd → Afgerond*.
+- [ ] Log van statusupdates zichtbaar voor betrokkenen.
+
+**F4. Authenticatie & Rollen**
+
+- [ ] Simpele login (email+code of demo-login knoppen) met rol: DonorSchool, NeedSchool, Admin.
+- [ ] Alleen Admin kan matches en statussen wijzigen (buiten eigen items/aanvragen).
+
+**F5. Informatiepagina’s**
+
+- [ ] Pagina’s met uitleg over e-waste, hergebruik, dataveilig wissen (links/infoblokken), en impact (aantal herverdeelde apparaten in de demo).
+
+**F6. Zoeken & Filters**
+
+- [ ] Filter op type, staat, afstand (op basis van postcode/plaats), hoeveelheid, status.
+
+**F7. Demo-Data & Seed**
+
+- [ ] Script of JSON om snel demo-records te laden (zie “Voorbeelddataset”).
 - [ ] **Responsief** (mobiel & desktop)
 
 **Wensen (Nice-to-haves):**
-- [ ] `<Wens 1>`
-- [ ] `<Wens 2>`
-
-> Voeg waar nodig extra bullets toe.
+- [ ] `Foto-upload (desnoods base64 of lokale storage in /uploads).`
+- [ ] `PDF/CSV-export van matched items.`
+- [ ] `Simpele notificaties (e-mailstub of in-app banners).`
+- [ ] `Kaartweergave (OpenStreetMap) met grove locaties (stad-niveau).`
+- [ ] `Meertalig (NL/EN) toggle.`
+- [ ] `Analytics/impact-teller (CO₂-/e-waste-besparing schatting).`
 
 ---
 
@@ -54,15 +87,31 @@
 > **Minimaal 5 stories.** Zet elke story in de juiste MoSCoW-categorie.
 
 ### ✅ Must have (M)
-- [ ] `<Story M1>`  
-- [ ] `<Story M2>`
+
+- [ ] Als DonorSchool wil ik apparaten aanmelden zodat ze hergebruikt worden.
+
+- [ ] Als NeedSchool wil ik een behoefte indienen zodat ik passende apparatuur kan ontvangen.
+
+
+- [ ] Als Admin wil ik vraag en aanbod koppelen en een statusflow beheren.
+
+- [ ] Als Admin wil ik een ophaalmoment toevoegen.
+
+- [ ] Als bezoeker wil ik informatie over e-waste hergebruik.
+
+- [ ] Als gebruiker wil ik lijstjes kunnen filteren op type/staat/locatie.
 
 ### 🟠 Should have (S)
 - [ ] `<Story S1>`  
 - [ ] `<Story S2>`
 
 ### 🔵 Could have (C)
-- [ ] `<Story C1>`
+- [ ] `Foto-upload (desnoods base64 of lokale storage in /uploads).`
+- [ ] `PDF/CSV-export van matched items.`
+- [ ] `Simpele notificaties (e-mailstub of in-app banners).`
+- [ ] `Kaartweergave (OpenStreetMap) met grove locaties (stad-niveau).`
+- [ ] `Meertalig (NL/EN) toggle.`
+- [ ] `Analytics/impact-teller (CO₂-/e-waste-besparing schatting).`
 
 ### ⚫ Won’t have (W) (nu niet / later misschien)
 - [ ] `<Story W1>`
@@ -77,8 +126,8 @@
 
 ### Sprints
 - Duur per sprint: **1 week**
-- Startdatum Sprint 1: `<DD MMM YYYY>`
-- Totale duur traject (optioneel): `<Aantal weken>`
+- Startdatum Sprint 1: `17-11-2025`
+- Totale duur traject (optioneel): `4/5`
 
 ### Meetings (fysiek – Lokaal Mars, Bit Academy)
 
@@ -100,9 +149,9 @@
 ### Teaminzet & beschikbaarheid
 - **Minimale aanwezigheid:** **di, wo, do** voor alle teamleden
 - Overzicht per persoon:
-  - `<Naam 1>`: `<dagen/tijden>`
-  - `<Naam 2>`: `<dagen/tijden>`
-  - `<Naam 3>`: `<dagen/tijden>`
+  - `Dymoreno`: `ma-do/9-15:30`
+  - `Giorgio`: `ma-do/9-15:30`
+  - `Jenebi`: `ma-do/9-15:30`
 
 **Afwezigheid & afspraken**
 - [ ] Ziek/afwezig vóór **08:30** melden via **Mattermost**
@@ -110,7 +159,7 @@
 - [ ] Bij langdurige afwezigheid: taken herverdelen (Scrum Master)
 
 **Communicatiekanalen**
-- **Team:** Mattermost (`<kanaalnaam>`)
+- **Team:** Mattermost
 - **Code & planning:** GitHub Projects (Bit Academy template)
 - **Klantcontact:** e-mail (`<mail klant>`)
 
@@ -149,7 +198,7 @@ Een user story is *Done* als:
 
 ## 📎 Bijlagen (optioneel)
 
-- Link naar repo: `<url>`  
+- Link naar repo: `https://github.com/Bit-Academy-Students/Backenders-EduReUse/blob/main/docs/sprint-0-template.md`  
 - Link naar designs/wireframes: `<url>`  
-- Link naar product backlog: `<url>`  
+- Link naar product backlog: `https://github.com/orgs/Bit-Academy-Students/projects/14`  
 - Contactgegevens klant (adres/locatie): `<adres>`
