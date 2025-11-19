@@ -1,0 +1,9 @@
+{
+    "name": "giorgio/backenders-edu-re-use",
+    "autoload": {
+        "psr-4": {
+            "Database\\": "database/"
+        }
+    },
+    "require": {}
+}
