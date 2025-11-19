@@ -1,4 +1,4 @@
-# Sprint 0 – Invulbaar Template (Markdown)
+# Sprint 0
 
 > **Gebruik:** Dupliceer dit bestand voor je eigen project. Vervang alle `<>`-velden en vink de checkboxes aan.  
 > **Vaststaand (mag je overnemen):** sprints van 1 week, fysieke meetings in *Lokaal Mars (Bit Academy)*, stand-ups fysiek in het lokaal, communicatie via Mattermost, retro in sprint 2 & 4.  
@@ -88,33 +88,33 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 
 ### ✅ Must have (M)
 
-- [ ] Als DonorSchool wil ik apparaten aanmelden zodat ze hergebruikt worden.
+- [ ] `Als DonorSchool wil ik apparaten kunnen aanmelden, zodat ze opgehaald en hergebruikt kunnen worden`
 
-- [ ] Als NeedSchool wil ik een behoefte indienen zodat ik passende apparatuur kan ontvangen.
+- [ ] `Als NeedSchool wil ik een behoefte indienen, zodat ik passende apparatuur kan ontvangen`
 
 
-- [ ] Als Admin wil ik vraag en aanbod koppelen en een statusflow beheren.
+- [ ] `Als Admin wil ik vraag en aanbod koppelen en een statusflow beheren, zodat ik zelf kan regelen welke matches haalbaar zijn`
 
-- [ ] Als Admin wil ik een ophaalmoment toevoegen.
+- [ ] `Als Admin wil ik een ophaalmoment toevoegen, zodat beide partijen weten wanneer item(s) worden opgehaald`
 
-- [ ] Als bezoeker wil ik informatie over e-waste hergebruik.
+- [ ] `Als bezoeker wil ik informatie over e-waste hergebruik, zodat bezoekers weten waar wij voor staan`
 
-- [ ] Als gebruiker wil ik lijstjes kunnen filteren op type/staat/locatie.
+- [ ] `Als Product Owner wil ik een wireframe design, zodat ik weet hoe de website eruit komt te zien`
+
+- [ ] `Als Product Owner wil ik een opgezette database, zodat ik kan valideren dat de gebruikers de juiste functionaliteiten krijgen`
 
 ### 🟠 Should have (S)
-- [ ] `<Story S1>`  
-- [ ] `<Story S2>`
+- [ ] `Als gebruiker wil ik lijstjes kunnen filteren op type/staat/locatie, zodat ik een simpel overzicht van aanvragen/aanbiedingen kan krijgen`
 
 ### 🔵 Could have (C)
-- [ ] `Foto-upload (desnoods base64 of lokale storage in /uploads).`
-- [ ] `PDF/CSV-export van matched items.`
-- [ ] `Simpele notificaties (e-mailstub of in-app banners).`
-- [ ] `Kaartweergave (OpenStreetMap) met grove locaties (stad-niveau).`
-- [ ] `Meertalig (NL/EN) toggle.`
-- [ ] `Analytics/impact-teller (CO₂-/e-waste-besparing schatting).`
+- [ ] `Als NeedSchool/DonorSchool wil ik een foto bij een aanbod/aanvraag zien, zodat ik van te voren weet hoe het product eruit ziet`
+- [ ] `Als gebruiker wil ik een PDF/CSV kunnen genereren voor de gematchte items, zodat ik logs bij kan houden`
+- [ ] `Als DonorSchool/NeedSchool wil ik simpele notificaties kunnen ontvangen, zodat ik weet wat de status is van mijn aanbod/aanvraag`
+- [ ] `Als gebruiker wil ik een kaartweergave (OpenStreetMap) met grove locaties (stad-niveau), zodat ik gemakkelijk kan zien waar de ophaal- / afleverlocaties zich bevinden`
+- [ ] `Als gebruiker wil ik de pagina in twee talen kunnen weergeven, zodat ik als buitenlander kan begrijpen wat de applicatie doet`
 
 ### ⚫ Won’t have (W) (nu niet / later misschien)
-- [ ] `<Story W1>`
+- [ ] `Als gebruiker wil ik een analytics/impact-teller (CO₂-/e-waste-besparing schatting), zodat ik bewust word van mijn handelingen`
 
 > **Voorbeeld (niet automatisch overnemen):**  
 > *Als bezoeker wil ik een **homepagina** zien zodat ik kan leren wat de bakkerij biedt.* (M)  
@@ -133,7 +133,7 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 
 | Type                                      | Datum         | Tijd   | Locatie                   |
 | ----------------------------------------- | ------------- | ------ | ------------------------- |
-| Sprint 1 **planning**                      | `<dd mmm yyyy>` | `10:00` | Lokaal Mars               |
+| Sprint 1 **planning**                      | `19 11 2025>` | `10:00` | Lokaal Mars               |
 | Sprint 2 **review + planning + retro**     | `<dd mmm yyyy>` | `10:00` | Lokaal Mars               |
 | Sprint 3 **planning + halfway presentatie**| `<dd mmm yyyy>` | `10:00` | Lokaal Mars               |
 | Sprint 4 **review + planning + retro**     | `<dd mmm yyyy>` | `10:00` | Lokaal Mars               |
@@ -161,7 +161,7 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 **Communicatiekanalen**
 - **Team:** Mattermost
 - **Code & planning:** GitHub Projects (Bit Academy template)
-- **Klantcontact:** e-mail (`<mail klant>`)
+- **Klantcontact:** e-mail `rachid.kherrazi@outlook.com`
 
 ---
 
