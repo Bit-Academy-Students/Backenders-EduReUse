@@ -8,7 +8,7 @@ $db = new Database()->getConnection();
 
 $db->exec(
     "CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     naam varchar(50) NOT NULL,
     email varchar(50) UNIQUE NOT NULL,
     wachtwoord varchar(255) NOT NULL,

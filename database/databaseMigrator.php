@@ -6,7 +6,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $db = new Database()->getConnection();
 
-
 // remove existing sqlite file
 unlink(__DIR__ . '/database.sqlite');
 
