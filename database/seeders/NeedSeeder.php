@@ -2,6 +2,8 @@
 
 namespace Database\seeders;
 
+use Exception;
+
 class NeedSeeder extends Seeder
 {
     /**
@@ -21,6 +23,11 @@ class NeedSeeder extends Seeder
         int $typeId,
         int $userId,
     ): void {
+        $pattern = '/(?<letters>\d{4}) (?<nummers>[a-zA-Z]{2})/';
+        if (!preg_match($pattern, $postcode)) {
+            throw new Exception("Verkeerde postcode '$postcode' ingevoerd, houdt het format '1234 AB' aan." . PHP_EOL);
+        }
+
         $this->db->exec(
             "INSERT INTO needs (model, hoeveelheid, postcode, type_id, user_id)
             VALUES ('$model', $hoeveelheid, '$postcode', $typeId, $userId)"

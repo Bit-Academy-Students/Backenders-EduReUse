@@ -53,20 +53,34 @@ $statusSeeder->addProductState('Beschadigd');
 $statusSeeder->addProductState('Niet werkend');
 echo 'Product states added' . PHP_EOL;
 
-// add offers
-$offerSeeder = new OfferSeeder($db->connect());
-$offerSeeder->truncate('offers');
-$offerSeeder->addOffer('Apple Macbook Air M3', 'gebruikt', 1, 'mooi ding', '1053 VL', 1, 2);
-$offerSeeder->addOffer('50x50cm printer', 'nieuw', 4, 'Printer werkt zoals verwacht', '1053 VL', 2, 2);
-echo 'Offers added' . PHP_EOL;
+try {
+    // add offers
+    $offerSeeder = new OfferSeeder($db->connect());
+    $offerSeeder->truncate('offers');
+    $offerSeeder->addOffer('50x50cm printer', 'nieuw', 4, 'Printer werkt zoals verwacht', '1053 VL', 2, 2);
+    $offerSeeder->addOffer('Apple Macbook Air M3', 'gebruikt', 1, 'mooi ding', '1053 VL', 1, 2);
+    echo 'Offers added' . PHP_EOL;
+    
+    // wrong postcode input test
+    $offerSeeder->addOffer('Apple Macbook Air M3', 'gebruikt', 1, 'mooi ding', '1053VL', 1, 2);
+} catch (Exception $e) {
+    echo PHP_EOL . '[WARNING]: '. $e->getMessage() . PHP_EOL;
+}
 
-// add needs
-$needSeeder = new NeedSeeder($db->connect());
-$needSeeder->truncate('needs');
-$needSeeder->addNeed('Snel werkende laptop', 1, '1011 AC', 1, 3);
-$needSeeder->addNeed('3D-printer', 2, '1011 AC', 2, 3);
-$needSeeder->addNeed('Zelfrijdende robot', 1, '1011 AC', 3, 3);
-echo 'Needs added' . PHP_EOL;
+try {
+    // add needs
+    $needSeeder = new NeedSeeder($db->connect());
+    $needSeeder->truncate('needs');
+    $needSeeder->addNeed('Snel werkende laptop', 1, '1011 AC', 1, 3);
+    $needSeeder->addNeed('3D-printer', 2, '1011 AC', 2, 3);
+    $needSeeder->addNeed('Zelfrijdende robot', 1, '1011 AC', 3, 3);
+    echo 'Needs added' . PHP_EOL;
+    
+    // wrong postcode input test
+    $needSeeder->addNeed('Zelfrijdende robot', 1, '1011AC', 3, 3);
+} catch(Exception $e) {
+    echo PHP_EOL . '[WARNING]: '. $e->getMessage() . PHP_EOL;
+}
 
 // add matches
 $matchSeeder = new MatchSeeder($db->connect());

@@ -2,6 +2,8 @@
 
 namespace Database\seeders;
 
+use Exception;
+
 class OfferSeeder extends Seeder
 {
     /**
@@ -25,6 +27,11 @@ class OfferSeeder extends Seeder
         int $typeId,
         int $userId
     ): void {
+        $pattern = '/(?<letters>\d{4}) (?<nummers>[a-zA-Z]{2})/';
+        if (!preg_match($pattern, $postcode)) {
+            throw new Exception("Verkeerde postcode '$postcode' ingevoerd, houdt het format '1234 AB' aan." . PHP_EOL);
+        }
+
         $this->db->exec(
             "INSERT INTO offers (model, staat, hoeveelheid, beschrijving, postcode, type_id, user_id)
             VALUES ('$model', '$staat', $hoeveelheid, '$beschrijving', '$postcode', $typeId, $userId)"

@@ -25,9 +25,9 @@ foreach ($dir as $file) {
         $migrations[] = $file->getPathname();
     }
 }
-
 sort($migrations);
 
+// include migration files
 foreach ($migrations as $migration) {
     include $migration;
     echo 'Add ..................... ' . basename($migration) . PHP_EOL;
