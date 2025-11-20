@@ -16,6 +16,7 @@ abstract class Seeder
 
     public function truncate(string $table): void
     {
+        $this->db->query("USE edureuse");
         $this->db->exec("DELETE FROM $table");
     }
 }

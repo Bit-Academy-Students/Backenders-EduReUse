@@ -4,11 +4,12 @@ use Database\Database;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-$db = new Database()->getConnection();
+$db = new Database('edureuse');
 
-$db->exec(
-    "CREATE TABLE history_logs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+$db->connect()->query("USE edureuse");
+$db->connect()->exec(
+    "CREATE TABLE IF NOT EXISTS history_logs (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
     notitie TEXT NOT NULL,
     admin_id INT NOT NULL,
     match_id INT NOT NULL,
