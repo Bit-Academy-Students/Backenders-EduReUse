@@ -2,13 +2,14 @@
 
 namespace Database\seeders;
 
+use PDO;
 use SQLite3;
 
 abstract class Seeder
 {
-    protected SQLite3 $db;
+    protected PDO $db;
 
-    public function __construct(SQLite3 $db)
+    public function __construct(PDO $db)
     {
         $this->db = $db;
     }
