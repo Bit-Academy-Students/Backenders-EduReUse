@@ -2,8 +2,6 @@
 
 namespace Database\seeders;
 
-use SQLite3;
-
 class UserSeeder extends Seeder
 {
     /**
