@@ -10,7 +10,7 @@ class Database
 
     public function __construct()
     {
-        $this->database = new SQLite3('/Users/giorgio/Documents/nexed/externe-projecten/Backenders-EduReUse/database/database.sqlite');
+        $this->database = new SQLite3(__DIR__ . '/database.sqlite');
     }
 
     public function getConnection(): SQLite3
