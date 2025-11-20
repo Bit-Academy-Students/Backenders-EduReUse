@@ -3,7 +3,6 @@
 namespace Database\seeders;
 
 use PDO;
-use SQLite3;
 
 abstract class Seeder
 {
@@ -18,5 +17,10 @@ abstract class Seeder
     {
         $this->db->query("USE edureuse");
         $this->db->exec("DELETE FROM $table");
+    }
+
+    protected function now()
+    {
+        return date('Y-m-d G:i:s');
     }
 }

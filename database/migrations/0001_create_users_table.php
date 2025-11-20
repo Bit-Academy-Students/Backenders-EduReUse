@@ -2,8 +2,6 @@
 
 use Database\Database;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
 $db = new Database('edureuse');
 
 $db->connect()->query("USE edureuse");
