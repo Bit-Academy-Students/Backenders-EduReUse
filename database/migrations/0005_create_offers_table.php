@@ -9,7 +9,7 @@ $db->connect()->exec(
     "CREATE TABLE IF NOT EXISTS offers (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
     model varchar(100) NOT NULL,
-    staat varchar(25) NOT NULL,
+    staat_id varchar(25) NOT NULL,
     hoeveelheid INT NOT NULL,
     beschrijving TEXT NOT NULL,
     postcode varchar(7) NOT NULL,

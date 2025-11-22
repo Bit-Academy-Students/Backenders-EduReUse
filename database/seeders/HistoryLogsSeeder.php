@@ -12,7 +12,7 @@ class HistoryLogsSeeder extends Seeder
      * @param int $matchId
      * @return void
      */
-    public function addHistoryLog(string $notitie, int $adminId, int $matchId): void
+    public function add(string $notitie, int $adminId, int $matchId): void
     {
         $now = date('Y-m-d G:i:s');
 

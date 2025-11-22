@@ -10,7 +10,7 @@ class StatusSeeder extends Seeder
      * @param string $label
      * @return void
      */
-    public function addStatus(string $label): void
+    public function add(string $label): void
     {
         $this->db->exec(
             "INSERT INTO statuses (label)

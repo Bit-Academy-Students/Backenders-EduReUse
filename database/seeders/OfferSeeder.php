@@ -10,7 +10,7 @@ class OfferSeeder extends Seeder
      * Adds an offer to the database
      * 
      * @param string $model Short summary/title of product
-     * @param string $staat 'nieuw' / 'gebruikt' / 'beschadigd' / 'niet-werkend'
+     * @param int $staat 'nieuw' / 'gebruikt' / 'beschadigd' / 'niet-werkend'
      * @param int $hoeveelheid Product amount
      * @param string $beschrijving Detailed description
      * @param string $postcode
@@ -18,9 +18,9 @@ class OfferSeeder extends Seeder
      * @param int $userId
      * @return void
      */
-    public function addOffer(
+    public function add(
         string $model,
-        string $staat,
+        int $staatId,
         int $hoeveelheid,
         string $beschrijving,
         string $postcode,
@@ -33,8 +33,8 @@ class OfferSeeder extends Seeder
         }
 
         $this->db->exec(
-            "INSERT INTO offers (model, staat, hoeveelheid, beschrijving, postcode, type_id, user_id)
-            VALUES ('$model', '$staat', $hoeveelheid, '$beschrijving', '$postcode', $typeId, $userId)"
+            "INSERT INTO offers (model, staat_id, hoeveelheid, beschrijving, postcode, type_id, user_id)
+            VALUES ('$model', $staatId, $hoeveelheid, '$beschrijving', '$postcode', $typeId, $userId)"
         );
     }
 }

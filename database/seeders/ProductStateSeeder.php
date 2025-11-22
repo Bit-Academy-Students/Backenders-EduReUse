@@ -10,7 +10,7 @@ class ProductStateSeeder extends Seeder
      * @param string $label
      * @return void
      */
-    public function addProductState(string $label): void
+    public function add(string $label): void
     {
         $this->db->exec("INSERT INTO product_states (label) VALUES ('$label')");
     }

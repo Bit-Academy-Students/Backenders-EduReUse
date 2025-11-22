@@ -11,6 +11,7 @@ $db->connect()->exec(
     model varchar(100) NOT NULL,
     hoeveelheid INT NOT NULL,
     postcode varchar(7) NOT NULL,
+    deadline DATE NULL,
     type_id INT NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (type_id) REFERENCES types(id),

@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      * @param int $is_admin
      * @return void
      */
-    public function addUser(string $name, string $email, string $pass, ?int $is_admin = 0): void
+    public function add(string $name, string $email, string $pass, ?int $is_admin = 0): void
     {
         $now = $this->now();
 

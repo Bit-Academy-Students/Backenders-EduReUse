@@ -3,7 +3,6 @@
 namespace Database;
 
 use PDO;
-// use SQLite3;
 
 class Database
 {
@@ -14,8 +13,6 @@ class Database
     {
         $this->database = new PDO('mysql:host=localhost;', 'bit_academy', 'bit_academy');
         $this->dbName = $dbName;
-
-        // $this->database = new SQLite3(__DIR__ . '/database.sqlite');
     }
 
     public function getDbName(): string
@@ -35,10 +32,5 @@ class Database
         $stmt->execute();
 
         return $stmt->fetch() !== false;
-    }
-
-    public function useDatabase()
-    {
-        $this->database->query("USE $this->dbName");
     }
 }

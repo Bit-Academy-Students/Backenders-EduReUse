@@ -1,95 +1,105 @@
 <?php
 
 use Database\Database;
-use Database\seeders\HistoryLogsSeeder;
-use Database\seeders\MatchSeeder;
-use Database\seeders\NeedSeeder;
-use Database\seeders\OfferSeeder;
-use Database\seeders\ProductStateSeeder;
-use Database\seeders\StatusSeeder;
-use Database\seeders\TypeSeeder;
 use Database\seeders\UserSeeder;
+use Database\seeders\TypeSeeder;
+use Database\seeders\StatusSeeder;
+use Database\seeders\ProductStateSeeder;
+use Database\seeders\OfferSeeder;
+use Database\seeders\NeedSeeder;
+use Database\seeders\MatchSeeder;
+use Database\seeders\HistoryLogsSeeder;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$db = new Database('edureuse');
+$db = new Database('');
 
-// add test users + admin
-$userSeeder = new UserSeeder($db->connect());
-$userSeeder->truncate('users');
-$userSeeder->addUser('test', 'test', 'test');
-$userSeeder->addUser('Donor', 'donor@school.nl', 'donor');
-$userSeeder->addUser('Need', 'need@school.nl', 'need');
-$userSeeder->addUser('admin', 'admin', 'admin', 1);
-echo 'Users added' . PHP_EOL;
+// seeders + data
+$seeders = [
+    UserSeeder::class => [
+        'truncate' => 'users',
+        'data' => [
+            ['test', 'test', 'test'],
+            ['Donor', 'donor@school.nl', 'donor'],
+            ['Need', 'need@school.nl', 'need'],
+            ['admin', 'admin', 'admin', 1],
+        ],
+    ],
+    TypeSeeder::class => [
+        'truncate' => 'types',
+        'data' => [
+            ['Laptops'],
+            ['3d-printers'],
+            ['Robots'],
+        ],
+    ],
+    StatusSeeder::class => [
+        'truncate' => 'statuses',
+        'data' => [
+            ['Nieuw'],
+            ['In verificatie'],
+            ['Gematched'],
+            ['Ophalen gepland'],
+            ['Opgehaald'],
+            ['Refurbish'],
+            ['Geleverd'],
+            ['Afgerond'],
+        ],
+    ],
+    ProductStateSeeder::class => [
+        'truncate' => 'product_states',
+        'data' => [
+            ['Nieuw'],
+            ['Gebruikt'],
+            ['Beschadigd'],
+            ['Niet werkend'],
+        ],
+    ],
+    OfferSeeder::class => [
+        'truncate' => 'offers',
+        'data' => [
+            ['50x50cm printer', 1, 4, 'Printer werkt zoals verwacht', '1053 VL', 2, 2],
+            ['Apple Macbook Air M3', 2, 1, 'mooi ding', '1053 VL', 1, 2],
+            ['Apple Macbook Air M3', 3, 1, 'mooi ding', '1053VL', 1, 2], // wrong postcode input test
+        ],
+    ],
+    NeedSeeder::class => [
+        'truncate' => 'needs',
+        'data' => [
+            ['Snel werkende laptop', 1, '1011 AC', '2025-12-17', 1, 3],
+            ['3D-printer', 2, '1011 AC', '2025-12-17', 2, 3],
+            ['Zelfrijdende robot', 1, '1011 AC', '2025-12-17', 3, 3],
+            ['Zelfrijdende robot', 1, '1011AC', '2025-12-17', 3, 3], // wrong postcode input test
+            ['Zelfrijdende robot', 1, '1011 AC', '2025-12-217', 3, 3], // wrong deadline input test
+        ],
+    ],
+    MatchSeeder::class => [
+        'truncate' => 'matches',
+        'data' => [
+            [1, 1, 3],
+        ],
+    ],
+    HistoryLogsSeeder::class => [
+        'truncate' => 'history_logs',
+        'data' => [
+            ["Ik heb de status van deze match van \'nieuw\' naar \'gematched\' gewijzigd", 4, 1],
+        ],
+    ],
+];
 
-// add types
-$typeSeeder = new TypeSeeder($db->connect());
-$typeSeeder->truncate('types');
-$typeSeeder->addType('Laptops');
-$typeSeeder->addType('3d-printers');
-$typeSeeder->addType('Robots');
-echo 'Types added' . PHP_EOL;
+echo '------------------------------------------------------------------' . PHP_EOL;
 
-// add statuses
-$statusSeeder = new StatusSeeder($db->connect());
-$statusSeeder->truncate('statuses');
-$statusSeeder->addStatus('Nieuw');
-$statusSeeder->addStatus('In verificatie');
-$statusSeeder->addStatus('Gematched');
-$statusSeeder->addStatus('Ophalen gepland');
-$statusSeeder->addStatus('Opgehaald');
-$statusSeeder->addStatus('Refurbish');
-$statusSeeder->addStatus('Geleverd');
-$statusSeeder->addStatus('Afgerond');
-echo 'Statuses added' . PHP_EOL;
+// Run seeders
+foreach ($seeders as $seederClass => $config) {
+    $seeder = new $seederClass($db->connect());
+    $seeder->truncate($config['truncate']);
+    foreach ($config['data'] as $data) {
+        try {
+            $seeder->add(...$data);
+        } catch (Exception $e) {
+            echo PHP_EOL . '[WARNING]: '. $e->getMessage() . PHP_EOL;
+        }
+    }
 
-// add product states
-$statusSeeder = new ProductStateSeeder($db->connect());
-$statusSeeder->truncate('product_states');
-$statusSeeder->addProductState('Nieuw');
-$statusSeeder->addProductState('Gebruikt');
-$statusSeeder->addProductState('Beschadigd');
-$statusSeeder->addProductState('Niet werkend');
-echo 'Product states added' . PHP_EOL;
-
-try {
-    // add offers
-    $offerSeeder = new OfferSeeder($db->connect());
-    $offerSeeder->truncate('offers');
-    $offerSeeder->addOffer('50x50cm printer', 'nieuw', 4, 'Printer werkt zoals verwacht', '1053 VL', 2, 2);
-    $offerSeeder->addOffer('Apple Macbook Air M3', 'gebruikt', 1, 'mooi ding', '1053 VL', 1, 2);
-    echo 'Offers added' . PHP_EOL;
-    
-    // wrong postcode input test
-    $offerSeeder->addOffer('Apple Macbook Air M3', 'gebruikt', 1, 'mooi ding', '1053VL', 1, 2);
-} catch (Exception $e) {
-    echo PHP_EOL . '[WARNING]: '. $e->getMessage() . PHP_EOL;
+    echo ucfirst($config['truncate']) . ' seeded' . PHP_EOL;
 }
-
-try {
-    // add needs
-    $needSeeder = new NeedSeeder($db->connect());
-    $needSeeder->truncate('needs');
-    $needSeeder->addNeed('Snel werkende laptop', 1, '1011 AC', 1, 3);
-    $needSeeder->addNeed('3D-printer', 2, '1011 AC', 2, 3);
-    $needSeeder->addNeed('Zelfrijdende robot', 1, '1011 AC', 3, 3);
-    echo 'Needs added' . PHP_EOL;
-    
-    // wrong postcode input test
-    $needSeeder->addNeed('Zelfrijdende robot', 1, '1011AC', 3, 3);
-} catch(Exception $e) {
-    echo PHP_EOL . '[WARNING]: '. $e->getMessage() . PHP_EOL;
-}
-
-// add matches
-$matchSeeder = new MatchSeeder($db->connect());
-$matchSeeder->truncate('matches');
-$matchSeeder->addMatch(1, 1, 3);
-echo 'Matches added' . PHP_EOL;
-
-// add history logs
-$historyLogsSeeder = new HistoryLogsSeeder($db->connect());
-$historyLogsSeeder->truncate('history_logs');
-$historyLogsSeeder->addHistoryLog("Ik heb de status van deze match van \'nieuw\' naar \'gematched\' gewijzigd", 4, 1);
-echo 'Statuses added' . PHP_EOL;

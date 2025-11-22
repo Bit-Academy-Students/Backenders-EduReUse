@@ -12,7 +12,7 @@ class MatchSeeder extends Seeder
      * @param int|null $statusId
      * @return void
      */
-    public function addMatch(int $needId, int $offerId, ?int $statusId = 1): void
+    public function add(int $needId, int $offerId, ?int $statusId = 1): void
     {
         $now = $this->now();
 
