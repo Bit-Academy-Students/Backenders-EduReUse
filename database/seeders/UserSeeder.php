@@ -2,8 +2,6 @@
 
 namespace Database\seeders;
 
-use SQLite3;
-
 class UserSeeder extends Seeder
 {
     /**
@@ -15,13 +13,13 @@ class UserSeeder extends Seeder
      * @param int $is_admin
      * @return void
      */
-    public function addUser(string $name, string $email, string $pass, int $is_admin = 0): void
+    public function add(string $name, string $email, string $pass, ?int $is_admin = 0): void
     {
-        $now = date('Y-m-d G:i:s');
+        $now = $this->now();
 
         $this->db->exec(
             "INSERT INTO users (naam, email, wachtwoord, date_created, is_admin)
-        VALUES ('$name', '$email', '$pass', '$now', $is_admin)"
+            VALUES ('$name', '$email', '$pass', '" . $this->now() . "', $is_admin)"
         );
     }
 }

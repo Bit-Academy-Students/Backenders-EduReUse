@@ -2,19 +2,35 @@
 
 namespace Database;
 
-use SQLite3;
+use PDO;
 
 class Database
 {
-    protected SQLite3 $database;
+    protected PDO $database;
+    protected string $dbName;
 
-    public function __construct()
+    public function __construct(string $dbName)
     {
-        $this->database = new SQLite3('/Users/giorgio/Documents/nexed/externe-projecten/Backenders-EduReUse/database/database.sqlite');
+        $this->database = new PDO('mysql:host=localhost;', 'bit_academy', 'bit_academy');
+        $this->dbName = $dbName;
     }
 
-    public function getConnection(): SQLite3
+    public function getDbName(): string
+    {
+        return $this->dbName;
+    }
+
+    public function connect(): PDO
     {
         return $this->database;
+    }
+
+    public function databaseExists(string $dbName): bool
+    {
+        $stmt = $this->database->prepare("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :dbName");
+        $stmt->bindParam(':dbName', $dbName);
+        $stmt->execute();
+
+        return $stmt->fetch() !== false;
     }
 }

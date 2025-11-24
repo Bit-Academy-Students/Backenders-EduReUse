@@ -10,7 +10,7 @@ class TypeSeeder extends Seeder
      * @param string $type
      * @return void
      */
-    public function addType(string $type): void
+    public function add(string $type): void
     {
         $this->db->exec(
             "INSERT INTO types (type)

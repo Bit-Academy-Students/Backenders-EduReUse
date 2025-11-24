@@ -4,11 +4,31 @@ use Database\Database;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$db = new Database()->getConnection();
+$db = new Database('edureuse');
 
-// remove existing sqlite file
-unlink(__DIR__ . '/database.sqlite');
+$db->connect()->query("DROP DATABASE IF EXISTS edureuse");
 
-// run migrations in migrations/
-include __DIR__ . '/migrations/2025_11_19_0001_create_users_table.php';
-include __DIR__ . '/migrations/2025_11_19_0002_create_types_table.php';
+if (!$db->databaseExists('edureuse')) {
+    $db->connect()->query("CREATE DATABASE edureuse");
+}
+
+$db->connect()->query("USE edureuse");
+
+// run migrations in migrations folder
+$folder = '/migrations';
+$dir = new DirectoryIterator(__DIR__ . $folder);
+
+// sort migrations on filename
+$migrations = [];
+foreach ($dir as $file) {
+    if ($file->isFile()) {
+        $migrations[] = $file->getPathname();
+    }
+}
+sort($migrations);
+
+// include migration files
+foreach ($migrations as $migration) {
+    include $migration;
+    echo 'Add ..................... ' . basename($migration) . PHP_EOL;
+}

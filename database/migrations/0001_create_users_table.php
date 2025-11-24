@@ -2,13 +2,12 @@
 
 use Database\Database;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+$db = new Database('edureuse');
 
-$db = new Database()->getConnection();
-
-$db->exec(
-    "CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+$db->connect()->query("USE edureuse");
+$db->connect()->exec(
+    "CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
     naam varchar(50) NOT NULL,
     email varchar(50) UNIQUE NOT NULL,
     wachtwoord varchar(255) NOT NULL,
