@@ -8,7 +8,7 @@ $db->connect()->query("USE edureuse");
 $db->connect()->exec(
     "CREATE TABLE IF NOT EXISTS needs (
     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    model varchar(100) NOT NULL,
+    titel varchar(100) NOT NULL,
     hoeveelheid INT NOT NULL,
     postcode varchar(7) NOT NULL,
     deadline DATE NULL,

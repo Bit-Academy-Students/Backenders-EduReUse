@@ -9,7 +9,7 @@ class NeedSeeder extends Seeder
     /**
      * Adds a Need to the database
      * 
-     * @param string $model Short summary/title of product
+     * @param string $title Short summary/title of product
      * @param int $hoeveelheid Product amount needed
      * @param string $postcode
      * @param string $deadline
@@ -18,7 +18,7 @@ class NeedSeeder extends Seeder
      * @return void
      */
     public function add(
-        string $model,
+        string $title,
         int $hoeveelheid,
         string $postcode,
         string $deadline,
@@ -36,8 +36,8 @@ class NeedSeeder extends Seeder
         }
 
         $this->db->exec(
-            "INSERT INTO needs (model, hoeveelheid, postcode, deadline, type_id, user_id)
-            VALUES ('$model', $hoeveelheid, '$postcode', '$deadline', $typeId, $userId)"
+            "INSERT INTO needs (titel, hoeveelheid, postcode, deadline, type_id, user_id)
+            VALUES ('$title', $hoeveelheid, '$postcode', '$deadline', $typeId, $userId)"
         );
     }
 }

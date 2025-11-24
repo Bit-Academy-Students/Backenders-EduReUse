@@ -1,26 +1,81 @@
 <?php
 
-$donatie = null;
-if (isset($_POST['submit'])) {
-    $donatie = [
-        'type' => $_POST['type'],
-        'aantal' => $_POST['aantal'],
-        'staat' => $_POST['staat'],
-        'postcode' => $_POST['postcode']
-    ];
+require_once __DIR__ . '/../vendor/autoload.php';
 
-    $donatie = [
-        'type' => $_POST['type'],
-        'aantal' => $_POST['aantal'],
-        'staat' => $_POST['staat'],
-        'postcode' => $_POST['postcode']
-    ];
+use Database\Database;
+
+$db = new Database('edureuse');
+$conn = $db->connect();
+$conn->query("USE edureuse");
+
+// product states
+$sql = "SELECT * FROM `product_states`";
+$states = $conn->query($sql);
+
+// product types
+$sql = "SELECT * FROM `types`";
+$types = $conn->query($sql);
+
+try {
+    $donatie = null;
+    if (isset($_POST['submit'])) {
+        if (!($_POST['titel'])) {
+            throw new Exception('Geen titel meegegeven');
+        }
+        if (!($_POST['type'])) {
+            throw new Exception('Geen product type meegegeven');
+        }
+        if (!($_POST['aantal'])) {
+            throw new Exception('Geen hoeveelheid meegegeven');
+        }
+        if (!($_POST['staat'])) {
+            throw new Exception('Geen product staat meegegeven');
+        }
+        if (!($_POST['postcode'])) {
+            throw new Exception('Geen postcode meegegeven');
+        }
+
+        $titel = $_POST['titel'];
+        $type = $_POST['type'];
+        $aantal = $_POST['aantal'];
+        $beschrijving = $_POST['beschrijving'];
+        $staat = $_POST['staat'];
+        $postcode = $_POST['postcode'];
+
+        $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, type_id, user_id)
+            VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :typeId, :userId)";
+
+        $exec = $conn->prepare($sql);
+        $exec->execute([
+            'titel' => $titel,
+            'staatId' => $staat,
+            'hoeveelheid' => $aantal,
+            'beschrijving' => $beschrijving,
+            'postcode' => $postcode,
+            'typeId' => $type,
+            'userId' => 1,
+        ]);
+
+        header('location: adminPage.php');
+        exit();
+    }
+} catch (Exception $e) {
+    echo $e->getmessage();
+} catch (PDOException $ex) {
+    echo $ex->getMessage();
 }
+
 ?>
 
-<html>
+
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doneer</title>
+
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -30,35 +85,47 @@ if (isset($_POST['submit'])) {
             <h1>Donatie Formulier</h1>
         </div>
         <div id="content">
-            <form action="formulier.php" method="post">
-                Type:<br />
-                <select name="type">
-                    <option value="Laptop ">Laptop</option>
-                    <option value="Robots ">Robots</option>
-                    <option value="3D-printers ">3D-printers</option>
-                </select><br /><br />
-                Aantal:<br /> <input type="number" name="aantal"><br /><br />
-                Staat:<br />
-                <select name="staat">
-                    <option value="Nieuw">Nieuw</option>
-                    <option value="Gebruikt">Gebruikt</option>
-                </select><br /><br />
-                Postcode:<br /> <input type="text" name="postcode"><br /><br />
+            <form method="post">
+                <div>
+                    <label for="titel">Titel:</label>
+                    <input type="text" name="titel" id="titel">
+                </div>
+
+                <div>
+                    <label for="type">Type:</label>
+                    <select name="type" id="type">
+                        <?php foreach ($types as $type) { ?>
+                            <option value="<?= $type['id'] ?>"><?= $type['type'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="aantal">Aantal:</label>
+                    <input type="number" name="aantal" id="aantal">
+                </div>
+
+                <div>
+                    <label for="beschrijving">Beschrijving:</label>
+                    <textarea name="beschrijving" id="beschrijving"></textarea>
+                </div>
+
+                <div>
+                    <label for="staat">Staat:</label>
+                    <select name="staat" id="staat">
+                        <?php foreach ($states as $state) { ?>
+                            <option value="<?php echo $state['id'] ?>"><?php echo $state['label'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="postcode">Postcode:</label>
+                    <input type="text" name="postcode" id="postcode">
+                </div>
+
                 <input type="submit" name="submit" value="Doneer">
             </form>
-
-            <?php if ($donatie): ?>
-                <div class="donatie-card">Bedankt voor uw donatie!</div>
-                <h2>Donatie Details</h2>
-                <div class="donatie-info"></div>
-
-                <ul>
-                    <li>Type: <?php echo htmlspecialchars($donatie['type']); ?></li>
-                    <li>Aantal: <?php echo htmlspecialchars($donatie['aantal']); ?></li>
-                    <li>Staat: <?php echo htmlspecialchars($donatie['staat']); ?></li>
-                    <li>Postcode: <?php echo htmlspecialchars($donatie['postcode']); ?></li>
-                </ul>
-            <?php endif; ?>
         </div>
     </div>
 </body>
