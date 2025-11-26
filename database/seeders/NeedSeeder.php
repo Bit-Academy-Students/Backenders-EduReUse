@@ -35,9 +35,10 @@ class NeedSeeder extends Seeder
             throw new Exception("Verkeerde deadline '$deadline' ingevoerd, houdt het format 'YYYY-MM-DD' aan." . PHP_EOL);
         }
 
+        $now = $this->now();
         $this->db->exec(
-            "INSERT INTO needs (titel, hoeveelheid, postcode, deadline, type_id, user_id)
-            VALUES ('$title', $hoeveelheid, '$postcode', '$deadline', $typeId, $userId)"
+            "INSERT INTO needs (titel, hoeveelheid, postcode, deadline, date_created, date_modified, type_id, user_id)
+            VALUES ('$title', $hoeveelheid, '$postcode', '$deadline', '$now', '$now', $typeId, $userId)"
         );
     }
 }

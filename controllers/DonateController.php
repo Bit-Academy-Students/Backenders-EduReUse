@@ -3,17 +3,18 @@
 namespace Controllers;
 
 use Database\Database;
+use Database\seeders\Seeder;
 use Exception;
 
-class DonateController
+class DonateController extends Seeder
 {
-    private Database $db;
+    private Database $database;
     private $conn;
 
     public function __construct()
     {
-        $this->db = new Database();
-        $this->conn = $this->db->connect();
+        $this->database = new Database();
+        $this->conn = $this->database->connect();
     }
 
     public function post()
@@ -22,7 +23,7 @@ class DonateController
             unset($_SESSION['error']);
         }
 
-        $this->conn->query("USE " . $this->db->getDbName());
+        $this->conn->query("USE " . $this->database->getDbName());
 
         if (!($_POST['titel'])) {
             throw new Exception('Geen titel meegegeven');
@@ -47,9 +48,10 @@ class DonateController
         $staat = $_POST['staat'];
         $postcode = $_POST['postcode'];
 
-        $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, type_id, user_id)
-            VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :typeId, :userId)";
+        $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, type_id, user_id)
+            VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :dateCreated, :dateModified, :typeId, :userId)";
 
+        $now = $this->now();
         $exec = $this->conn->prepare($sql);
         $exec->execute([
             'titel' => $titel,
@@ -57,6 +59,8 @@ class DonateController
             'hoeveelheid' => $aantal,
             'beschrijving' => $beschrijving,
             'postcode' => $postcode,
+            'dateCreated' => $now,
+            'dateModified' => $now,
             'typeId' => $type,
             'userId' => 1,
         ]);

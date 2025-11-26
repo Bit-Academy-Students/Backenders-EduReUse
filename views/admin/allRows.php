@@ -1,12 +1,12 @@
 <?php
 
-        use Database\Database;
+use Database\Database;
 
 $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
 
-// product states
+// offers
 $sql = "SELECT offers.titel, product_states.label, offers.hoeveelheid, offers.beschrijving, offers.postcode, types.type, users.naam
 FROM `offers`
 INNER JOIN product_states

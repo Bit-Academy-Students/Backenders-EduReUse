@@ -13,6 +13,8 @@ $db->connect()->exec(
     hoeveelheid INT NOT NULL,
     beschrijving TEXT NULL,
     postcode varchar(7) NOT NULL,
+    date_created DATETIME NOT NULL,
+    date_modified DATETIME NOT NULL,
     type_id INT NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (staat_id) REFERENCES product_states(id),
