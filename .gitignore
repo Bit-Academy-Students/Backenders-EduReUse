@@ -253,3 +253,5 @@ _NCrunch*
 **/.vs/
 **/obj/
 *.sqlite
+*.vscode
+launch.json

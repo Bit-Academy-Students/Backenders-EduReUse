@@ -6,7 +6,7 @@ use Database\Database;
 
 $db = new Database();
 $conn = $db->connect();
-$conn->query("USE edureuse");
+$conn->query("USE " . $db->getDbName());
 
 // product states
 $sql = "SELECT * FROM `product_states`";

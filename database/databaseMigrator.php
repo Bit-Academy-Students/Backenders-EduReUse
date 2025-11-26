@@ -1,18 +1,22 @@
 <?php
 
 use Database\Database;
+use Dotenv\Dotenv;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// load env variables
+$dotenv = Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
+
 $db = new Database();
+$db->connect()->query("DROP DATABASE IF EXISTS " . $_ENV['DB_NAME']);
 
-$db->connect()->query("DROP DATABASE IF EXISTS edureuse");
-
-if (!$db->databaseExists('edureuse')) {
-    $db->connect()->query("CREATE DATABASE edureuse");
+if (!$db->databaseExists($_ENV['DB_NAME'])) {
+    $db->connect()->query("CREATE DATABASE " . $_ENV['DB_NAME']);
 }
 
-$db->connect()->query("USE edureuse");
+$db->connect()->query("USE " . $db->getDbName());
 
 // run migrations in migrations folder
 $folder = '/migrations';
