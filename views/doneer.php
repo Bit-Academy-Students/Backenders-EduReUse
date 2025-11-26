@@ -78,10 +78,13 @@ try {
 </head>
 
 <body>
+    <?php require_once __DIR__ . '/components/header.php' ?>
+
     <div class="container">
         <div id="header">
             <h1>Donatie Formulier</h1>
         </div>
+
         <div id="content">
             <form method="post">
                 <div>

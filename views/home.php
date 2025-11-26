@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <?php require_once __DIR__ . '/components/header.php' ?>
     <h1>Homepage</h1>
 </body>
 
