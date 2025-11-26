@@ -2,7 +2,8 @@
     "name": "backenders/edu-re-use",
     "autoload": {
         "psr-4": {
-            "Database\\": "database/"
+            "Database\\": "database/",
+            "Controllers\\": "controllers/"
         }
     },
     "require": {

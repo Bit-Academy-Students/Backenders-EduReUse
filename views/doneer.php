@@ -1,6 +1,7 @@
 <?php
 
-                        use Database\Database;
+use Database\Database;
+
 $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
@@ -124,6 +125,10 @@ try {
 
                 <input type="submit" name="submit" value="Doneer">
             </form>
+
+            <?php if (!empty($_SESSION['error'])) { ?>
+                <?= $_SESSION['error'] ?>
+            <?php } ?>
         </div>
     </div>
 </body>

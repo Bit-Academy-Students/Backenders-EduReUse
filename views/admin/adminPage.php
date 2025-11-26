@@ -14,7 +14,8 @@ ON offers.staat_id = product_states.id
 INNER JOIN types
 ON offers.type_id = types.id
 INNER JOIN users
-ON offers.user_id = users.id";
+ON offers.user_id = users.id
+ORDER BY offers.id DESC";
 $offers = $conn->query($sql);
 
 
