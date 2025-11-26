@@ -1,8 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-
-use Database\Database;
+        use Database\Database;
 
 $db = new Database();
 $conn = $db->connect();
