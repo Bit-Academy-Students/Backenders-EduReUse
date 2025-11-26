@@ -11,6 +11,21 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 3. Ons als facilitator (Wailsalutem Foundation) **tussenzetten** voor verificatie, matching, ophalen en herverdeling,
 4. Informatie vinden over **duurzaam hergebruik** en **e-waste-bewustwording**.
 
+
+## Tech stack
+### Frontend
+ - **Frontend framework:** [tailwind css](https://tailwindcss.com/)
+
+### Backend
+ - **Plain PHP** voor het grootste gedeelte
+ - **PHP-PDO** databaseconnectie, zelfgeschreven seeders en migrations
+ - **MySQL** database
+
+### Libraries
+ - **Environment variabelen:** [PHPDotEnv](https://github.com/vlucas/phpdotenv)
+ - **Simpele routing:** [PHP ROUTER](https://phprouter.com/)
+
+
 ## Requirements
 1. Zorg dat je [composer](https://getcomposer.org/download/) geinstalleerd hebt
 2. Zorg dat je een server als [XAMPP](https://www.apachefriends.org/download.html) geinstalleerd hebt OF apache en MySQL apart hebt runnen
@@ -31,7 +46,10 @@ composer install
 **3. Set up database:**
 1. Voer de database migrations en seeder uit:
 ```
-php database/databaseMigrator.php && php database/databaseSeeder.php
+php database/databaseMigrator.php
+```
+```
+php database/databaseSeeder.php
 ```
 
 ## Usage

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Database\Database;
 
-$db = new Database('edureuse');
+$db = new Database();
 $conn = $db->connect();
 $conn->query("USE edureuse");
 
@@ -56,7 +56,7 @@ try {
             'userId' => 1,
         ]);
 
-        header('location: adminPage.php');
+        header('location: /adminPage');
         exit();
     }
 } catch (Exception $e) {
@@ -66,8 +66,6 @@ try {
 }
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,7 +74,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doneer</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="resources/style.css">
 </head>
 
 <body>

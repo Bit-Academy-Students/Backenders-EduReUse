@@ -4,7 +4,7 @@ use Database\Database;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$db = new Database('edureuse');
+$db = new Database();
 
 $db->connect()->query("DROP DATABASE IF EXISTS edureuse");
 

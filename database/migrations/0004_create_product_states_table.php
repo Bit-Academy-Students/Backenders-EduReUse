@@ -2,7 +2,7 @@
 
 use Database\Database;
 
-$db = new Database('edureuse');
+$db = new Database();
 
 $db->connect()->query("USE edureuse");
 $db->connect()->exec(
