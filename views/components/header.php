@@ -43,6 +43,6 @@ if (isset($user) && $user['is_admin'] === 1) {
     <?php } ?>
 
     <?php if ($loggedInUser) { ?>
-        <a href="/logout">Afmelden</a>
+        <a href="/logout">afmelden</a>
     <?php } ?>
 </header>

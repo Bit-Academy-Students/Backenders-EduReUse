@@ -54,11 +54,8 @@ post('/register', 'views/register.php');
 // logout
 get('/logout', 'views/logout.php');
 
-// 
+// user's posts
 get('/school-posts', 'views/schoolPosts.php');
-
-
-
 
 // error pagina's
 any('/404', 'views/404.php');

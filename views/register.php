@@ -17,12 +17,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $hashed_password = password_hash($wachtwoord, PASSWORD_BCRYPT);
 
-        $stmt = $conn->prepare('INSERT INTO users (naam, email, wachtwoord, date_created) VALUES (:naam, :email, :wachtwoord, :date_created)');
+        $stmt = $conn->prepare('INSERT INTO users (naam, email, wachtwoord, date_created, is_admin) VALUES (:naam, :email, :wachtwoord, :date_created, :is_admin)');
         $stmt->execute([
             'naam' => $naam,
             'email' => $email,
             'wachtwoord' => $hashed_password,
-            'date_created' => $date_creared
+            'date_created' => $date_creared,
+            'is_admin' => 0,
         ]);
 
         header("Location: /login");
@@ -47,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="container">
         <h2>Registreren</h2>
-        <form action="register.php" method="post">
+        <form method="post">
             <div class="form-group">
                 <label for="naam">School</label>
                 <input type="text" id="naam" name="naam" required>
