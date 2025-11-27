@@ -2,6 +2,10 @@
 
 use Database\Database;
 
+if (!isset($_SESSION['id'])) {
+    header('location: /login');
+    exit();
+}
 $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
@@ -57,6 +61,9 @@ $matches = $conn->query($sql);
                 <button type="button">Filters</button>
                 <input id="search" type="text" placeholder="Search">
             </div>
+
+
+            <?= var_dump($_SESSION) ?>
 
             <div id="container">
                 <table>
