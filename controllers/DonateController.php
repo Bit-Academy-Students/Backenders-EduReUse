@@ -19,9 +19,7 @@ class DonateController extends Seeder
 
     public function post()
     {
-        if ($_SESSION['error']) {
-            unset($_SESSION['error']);
-        }
+        $this->unsetSessionError('error');
 
         $this->conn->query("USE " . $this->database->getDbName());
 

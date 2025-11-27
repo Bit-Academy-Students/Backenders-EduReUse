@@ -28,4 +28,11 @@ abstract class Seeder
     {
         return date('Y-m-d G:i:s');
     }
+
+    protected function unsetSessionError($sessionVariable): void
+    {
+        if (isset($SESSION[$sessionVariable])) {
+            unset($_SESSION[$sessionVariable]);
+        }
+    }
 }

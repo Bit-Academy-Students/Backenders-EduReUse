@@ -8,14 +8,14 @@ $conn->query("USE " . $db->getDbName());
 
 // offers & needs
 $sql = "SELECT 
-    'Offer' AS type, -- Geeft aan dat het een offer is
+    'Offer' AS type,
     offers.id,
     offers.titel,
     product_states.label AS staat,
     offers.hoeveelheid,
     offers.beschrijving,
     offers.postcode,
-    NULL AS deadline, -- Placeholder voor de deadline van Needs
+    NULL AS deadline,
     offers.date_created,
     offers.date_modified,
     types.type AS product_type,
@@ -28,12 +28,12 @@ INNER JOIN users ON offers.user_id = users.id
 UNION ALL
 
 SELECT 
-    'Need' AS type, -- Geeft aan dat het een need is
-    needs.id AS id, -- Placeholder voor de ID van Offers
+    'Need' AS type,
+    needs.id AS id,
     needs.titel,
-    NULL AS staat, -- Placeholder voor de staat van Offers
+    NULL AS staat,
     needs.hoeveelheid,
-    NULL AS beschrijving, -- Placeholder voor de beschrijving van Offers
+    NULL AS beschrijving,
     needs.postcode,
     needs.deadline,
     needs.date_created,
@@ -82,6 +82,7 @@ $rows = $conn->query($sql);
                         <th>Type</th>
                         <th>ID</th>
                         <th>Titel</th>
+                        <th>Product Type</th>
                         <th>Staat</th>
                         <th>Hoeveelheid</th>
                         <th>Beschrijving</th>
@@ -89,16 +90,16 @@ $rows = $conn->query($sql);
                         <th>Deadline</th>
                         <th>Datum Gecreëerd</th>
                         <th>Datum Gewijzigd</th>
-                        <th>Product Type</th>
                         <th>Gebruiker</th>
                     </tr>
 
                     <?php if ($rows) { ?>
-                        <?php foreach ($rows as $row) { ?>
+                        <? foreach ($rows as $row) { ?>
                             <tr>
                                 <td><?= $row['type'] ?></td>
                                 <td><?= $row['id'] ?? '-' ?></td>
                                 <td><?= $row['titel'] ?></td>
+                                <td><?= $row['product_type'] ?></td>
                                 <td><?= $row['staat'] ?? '-' ?></td>
                                 <td><?= $row['hoeveelheid'] ?></td>
                                 <td><?= $row['beschrijving'] ?? '-' ?></td>
@@ -106,7 +107,6 @@ $rows = $conn->query($sql);
                                 <td><?= $row['deadline'] ?? '-' ?></td>
                                 <td><?= explode(' ', $row['date_created'])[0] ?></td>
                                 <td><?= explode(' ', $row['date_modified'])[0] ?></td>
-                                <td><?= $row['product_type'] ?></td>
                                 <td><?= $row['user_name'] ?></td>
                             </tr>
                         <?php } ?>

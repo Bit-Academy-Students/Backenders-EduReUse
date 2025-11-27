@@ -62,14 +62,14 @@ $matches = $conn->query($sql);
                 <table>
                     <tr>
                         <th></th>
-                        <th>Aanvraag (school)naam</th>
-                        <th>Doneer (school)naam</th>
+                        <th>Aanvraag naam</th>
+                        <th>Doneer naam</th>
                         <th>Leveringsstatus</th>
                         <th>Product type</th>
                         <th>Ophaal postcode</th>
                         <th>Aflever postcode</th>
                         <th>Datum toegevoegd</th>
-                        <td>Datum gewijzigd</th>
+                        <th>Datum gewijzigd</th>
                     </tr>
 
                     <?php if ($matches) { ?>
