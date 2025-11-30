@@ -62,9 +62,6 @@ $matches = $conn->query($sql);
                 <input id="search" type="text" placeholder="Search">
             </div>
 
-
-            <?= var_dump($_SESSION) ?>
-
             <div id="container">
                 <table>
                     <tr>
