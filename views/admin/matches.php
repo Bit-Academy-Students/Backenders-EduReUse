@@ -2,6 +2,11 @@
 
 use Database\Database;
 
+if (!isset($_SESSION['id'])) {
+    header('location: /login');
+    exit();
+}
+
 $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
@@ -39,7 +44,7 @@ $matches = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin page</title>
 
-    <link rel="stylesheet" href="/../resources/style.css">
+    <link rel="stylesheet" href="/../src/style.css">
 </head>
 
 <body>
@@ -63,7 +68,7 @@ $matches = $conn->query($sql);
                     <tr>
                         <th></th>
                         <th>Aanvraag naam</th>
-                        <th>Doneer naam</th>
+                        <th>Donor naam</th>
                         <th>Leveringsstatus</th>
                         <th>Product type</th>
                         <th>Ophaal postcode</th>

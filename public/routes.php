@@ -6,7 +6,21 @@ use Controllers\NeedController;
 require_once __DIR__ . '/router.php';
 
 // homepage
-get('/', 'views/home.php');
+get('/', 'views/homepage.php');
+
+// login
+get('/login', 'views/login.php');
+post('/login', 'views/login.php');
+
+// register
+get('/register', 'views/register.php');
+post('/register', 'views/register.php');
+
+// logout
+get('/logout', 'views/logout.php');
+
+// user's posts
+get('/school-posts', 'views/schoolPosts.php');
 
 // donaties
 get('/doneer', 'views/doneer.php');
@@ -41,10 +55,13 @@ get('/admin/aanbiedingen', 'views/admin/offers.php');
 get('/admin/aanvragen', 'views/admin/needs.php');
 get('/admin/matches', 'views/admin/matches.php');
 
-// TODO: verwijder hieronder
-get('/admin/list', 'views/admin/allRows.php');
+// jenebi aanbod
+get('/aanbod', 'views/aanbod.php');
 
+// dymo formulieren
 get('/formulier-donor', 'views/formulier-donor.php');
 get('/formulier-need', 'views/formulier-need.php');
+post('/formulier-need', 'views/formulier-need.php');
+
 // error pagina's
 any('/404', 'views/404.php');
