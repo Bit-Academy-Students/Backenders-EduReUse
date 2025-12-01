@@ -27,7 +27,8 @@ get('/doneer', 'views/doneer.php');
 post('/doneer', function () {
     try {
         // voeg donatie toe aan database
-        new DonateController()->post();
+        $controller = new DonateController();
+        $controller->post();
     } catch (Exception $e) {
         $_SESSION['error'] =  $e->getMessage();
         header('location: /doneer');
@@ -39,7 +40,8 @@ post('/doneer', function () {
 get('/aanvraag', 'views/aanvraag.php');
 post('/aanvraag', function () {
     try {
-        new NeedController()->post();
+        $contoller = new NeedController();
+        $contoller->post();
     } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();
         header('location: /aanvraag');
@@ -52,6 +54,9 @@ get('/admin', 'views/admin/adminList.php');
 get('/admin/aanbiedingen', 'views/admin/offers.php');
 get('/admin/aanvragen', 'views/admin/needs.php');
 get('/admin/matches', 'views/admin/matches.php');
+
+
+get('/aanbod', 'views/aanbod.php');
 
 // error pagina's
 any('/404', 'views/404.php');

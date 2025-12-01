@@ -98,7 +98,7 @@ $rows = $conn->query($sql);
                     </tr>
 
                     <?php if ($rows) { ?>
-                        <? foreach ($rows as $row) { ?>
+                        <?php foreach ($rows as $row) { ?>
                             <tr>
                                 <td><?= $row['type'] ?></td>
                                 <td><?= $row['id'] ?? '-' ?></td>

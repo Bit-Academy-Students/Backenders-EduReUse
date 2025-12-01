@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <title>Login</title>
 
+    <link rel="stylesheet" href="src/output.css">
     <link rel="stylesheet" href="resources/style.css">
 </head>
 
@@ -51,6 +52,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <a href="/register">Nog geen account? klik hier om te registreren</a>
     </div>
+
+    <!-- <header class="bg-sky-300 p-6">
+        <div>
+            <div class="flex flex-row items-center">
+                <a href="/">LOGO</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex justify-center items-center bg-sky-100 h-screen">
+
+        <div class="w-96 p-6 shadow-lg bg-white rounded-lg h-100">
+
+            <div class="flex justify-center items-center">
+                <h2 class="text-sky-600 font-bold text-3xl mb-10">Login</h2>
+            </div>
+            <form method="post" class="space-y-6">
+                <div>
+                    <label for="email">email</label>
+                    <div class="bg-slate-100 mt-2 rounded-md shadow-xs">
+                        <input class="block w-full rounded-md py-1.5 px-3" type="email" id="email" name="email">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="wachtwoord">wachtwoord</label>
+                    <div class="mt-2  mb-10  bg-slate-100 rounded-md shadow-xs">
+                        <input class="block w-full rounded-md py-1.5 px-3" type="password" id="wachtwoord" name="wachtwoord">
+                    </div>
+                </div>
+                <button class="flex w-full justify-center rounded-md bg-sky-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500" type="submit" id="login" name="login" value="Login">Login</button>
+            </form>
+            <div>
+                <a href="/register">Nog geen account? klik hier om te registreren</a>
+            </div>
+        </div>
+    </div> -->
+
 </body>
 
 </html>
