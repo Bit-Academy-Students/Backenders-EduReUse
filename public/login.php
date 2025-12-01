@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute(['email' => $email]);
         $loggedInUser = $stmt->fetch();
 
-        if ($loggedInUser && password_verify($wachtwoord, $loggedInUser['wachtwoord'])) {
+        if ($loggedInUser && (($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord']))) {
             $_SESSION["id"] = $loggedInUser["id"];
             header("Location: SchoolPosts.php");
             exit();
@@ -34,24 +34,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="css/login.css">
 
 </head>
-<body>
-    
-    <div class="container">
-    <h1>Login</h1>
-    <form method="post">
-        <label for="email">email</label><br>
-        <input class="field" type="email" id="email" name="email"><br>
-        <label for="wachtwoord">wachtwoord</label><br>
-        <input class="field" type="password" id="wachtwoord" name="wachtwoord"><br>
-        <input class="loginButton" type="submit" id="login" name="login" value="Login">
-    </form>
 
-    <a href="register.php">Nog geen account? klik hier om te registreren</a>
+<body>
+
+    <div class="container">
+        <h1>Login</h1>
+        <form method="post">
+            <label for="email">email</label><br>
+            <input class="field" type="text" id="email" name="email"><br>
+            <label for="wachtwoord">wachtwoord</label><br>
+            <input class="field" type="password" id="wachtwoord" name="wachtwoord"><br>
+            <input class="loginButton" type="submit" id="login" name="login" value="Login">
+        </form>
+
+        <a href="register.php">Nog geen account? klik hier om te registreren</a>
     </div>
 </body>
+
 </html>

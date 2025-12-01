@@ -1,12 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Database\Database;
 
-$db = new Database('edureuse');
+$db = new Database();
 $conn = $db->connect();
-$conn->query("USE edureuse");
+$conn->query("USE " . $db->getDbName());
 
 // product states
 $sql = "SELECT * FROM `product_states`";
@@ -56,7 +54,7 @@ try {
             'userId' => 1,
         ]);
 
-        header('location: adminPage.php');
+        header('location: /adminPage');
         exit();
     }
 } catch (Exception $e) {
@@ -66,8 +64,6 @@ try {
 }
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,14 +72,17 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doneer</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="resources/style.css">
 </head>
 
 <body>
+    <?php require_once __DIR__ . '/components/header.php' ?>
+
     <div class="container">
         <div id="header">
             <h1>Donatie Formulier</h1>
         </div>
+
         <div id="content">
             <form method="post">
                 <div>
@@ -126,6 +125,11 @@ try {
 
                 <input type="submit" name="submit" value="Doneer">
             </form>
+
+            <?php if (isset($_SESSION['error'])) { ?>
+                <?= $_SESSION['error'] ?>
+                <?php unset($_SESSION['error']) ?>
+            <?php } ?>
         </div>
     </div>
 </body>

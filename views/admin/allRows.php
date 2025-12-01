@@ -1,14 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Database\Database;
 
-$db = new Database('edureuse');
+$db = new Database();
 $conn = $db->connect();
-$conn->query("USE edureuse");
+$conn->query("USE " . $db->getDbName());
 
-// product states
+// offers
 $sql = "SELECT offers.titel, product_states.label, offers.hoeveelheid, offers.beschrijving, offers.postcode, types.type, users.naam
 FROM `offers`
 INNER JOIN product_states
@@ -16,7 +14,8 @@ ON offers.staat_id = product_states.id
 INNER JOIN types
 ON offers.type_id = types.id
 INNER JOIN users
-ON offers.user_id = users.id";
+ON offers.user_id = users.id
+ORDER BY offers.id DESC";
 $offers = $conn->query($sql);
 
 
@@ -34,10 +33,13 @@ $offers = $conn->query($sql);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="resources/style.css">
 </head>
 
 <body>
+    <?php require_once  __DIR__ . '/../components/header.php' ?>
+
     <h1>Admin pagina</h1>
 
     <div>

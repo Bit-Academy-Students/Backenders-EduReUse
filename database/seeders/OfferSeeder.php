@@ -32,9 +32,10 @@ class OfferSeeder extends Seeder
             throw new Exception("Verkeerde postcode '$postcode' ingevoerd, houdt het format '1234 AB' aan." . PHP_EOL);
         }
 
+        $now = $this->now();
         $this->db->exec(
-            "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, type_id, user_id)
-            VALUES ('$title', $staatId, $hoeveelheid, '$beschrijving', '$postcode', $typeId, $userId)"
+            "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, type_id, user_id)
+            VALUES ('$title', $staatId, $hoeveelheid, '$beschrijving', '$postcode', '$now', '$now', $typeId, $userId)"
         );
     }
 }
