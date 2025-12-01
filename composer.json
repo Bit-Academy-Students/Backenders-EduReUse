@@ -1,0 +1,12 @@
+{
+    "name": "backenders/edu-re-use",
+    "autoload": {
+        "psr-4": {
+            "Database\\": "database/",
+            "Controllers\\": "controllers/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
