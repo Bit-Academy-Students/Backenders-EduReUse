@@ -51,8 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Registreren</h2>
         <form method="post">
             <div class="form-group">
-                <label for="naam">School</label>
-                <input type="text" id="naam" name="naam" required>
+                <!-- <label for="naam">School</label>
+                <input type="text" id="naam" name="naam" required> -->
                 <div>
                     <label for="naam">School</label>
                     <div class="bg-slate-100 mt-2 rounded-md shadow-xs">

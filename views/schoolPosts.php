@@ -31,4 +31,9 @@ $user = $stmt->fetch();
 
 <body class="home-body">
     <?php require_once 'components/header.php' ?>
+
+    <div class="container">
+        <h2>Mijn aanbiedingen</h2>
+        <h2>Mijn aanvragen</h2>
+    </div>
 </body>

@@ -40,8 +40,8 @@ post('/doneer', function () {
 get('/aanvraag', 'views/aanvraag.php');
 post('/aanvraag', function () {
     try {
-        $contoller = new NeedController();
-        $contoller->post();
+        $controller = new NeedController();
+        $controller->post();
     } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();
         header('location: /aanvraag');
@@ -55,8 +55,13 @@ get('/admin/aanbiedingen', 'views/admin/offers.php');
 get('/admin/aanvragen', 'views/admin/needs.php');
 get('/admin/matches', 'views/admin/matches.php');
 
-
+// jenebi aanbod
 get('/aanbod', 'views/aanbod.php');
+
+// dymo formulieren
+get('/formulier-donor', 'views/formulier-donor.php');
+get('/formulier-need', 'views/formulier-need.php');
+post('/formulier-need', 'views/formulier-need.php');
 
 // error pagina's
 any('/404', 'views/404.php');
