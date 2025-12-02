@@ -37,7 +37,7 @@ session_start();
             <div class="bg-sky-100 h-screen">
                 <div class="w-96 p-6 shadow-lg bg-white rounded-lg h-100">
                     <img src="#" alt="apparaat afbeelding">
-
+                    
                     <p>Status</p>
                 </div>
 
