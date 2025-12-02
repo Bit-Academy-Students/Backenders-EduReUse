@@ -60,7 +60,7 @@ class DonateController extends Seeder
             'dateCreated' => $now,
             'dateModified' => $now,
             'typeId' => $type,
-            'userId' => 1,
+            'userId' => $_SESSION['id'],
         ]);
 
         header('location: /admin');

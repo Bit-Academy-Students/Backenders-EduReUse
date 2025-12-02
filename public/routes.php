@@ -38,30 +38,22 @@ post('/doneer', function () {
 
 // aanvragen
 get('/aanvraag', 'views/aanvraag.php');
-post('/aanvraag', function () {
-    try {
-        $controller = new NeedController();
-        $controller->post();
-    } catch (Exception $e) {
-        $_SESSION['error'] = $e->getMessage();
-        header('location: /aanvraag');
-        exit();
-    }
-});
+post('/aanvraag', 'views/aanvraag.php');
 
 // admin pagina's
-get('/admin', 'views/admin/adminList.php');
+// TODO: fix deze lelijke redirect/middleware
+if ($_SERVER['REQUEST_URI'] === '/admin') {
+    header('location: /admin/alles');
+    exit();
+}
+
+get('/admin/alles', 'views/admin/adminList.php');
 get('/admin/aanbiedingen', 'views/admin/offers.php');
 get('/admin/aanvragen', 'views/admin/needs.php');
 get('/admin/matches', 'views/admin/matches.php');
 
 // jenebi aanbod
 get('/aanbod', 'views/aanbod.php');
-
-// dymo formulieren
-get('/formulier-donor', 'views/formulier-donor.php');
-get('/formulier-need', 'views/formulier-need.php');
-post('/formulier-need', 'views/formulier-need.php');
 
 // error pagina's
 any('/404', 'views/404.php');

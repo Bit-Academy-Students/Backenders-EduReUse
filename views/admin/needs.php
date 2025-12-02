@@ -10,6 +10,20 @@ $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
 
+// check if user is admin
+$sql = "SELECT * FROM users WHERE id = :id";
+$stmt = $conn->prepare($sql);
+$stmt->execute([
+    'id' => $_SESSION['id'],
+]);
+
+$user = $stmt->fetch();
+if (!$user['is_admin']) {
+    http_response_code(403);
+    header('location: /404');
+    exit();
+}
+
 // needs
 $sql = "SELECT needs.id, needs.titel, needs.hoeveelheid, needs.postcode, needs.deadline, needs.date_created, needs.date_modified, types.type, users.naam
 FROM `needs`
@@ -23,30 +37,31 @@ $needs = $conn->query($sql);
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin page</title>
 
-    <link rel="stylesheet" href="/../src/style.css">
+    <link rel="stylesheet" href="/../src/output.css">
 </head>
 
-<body>
+<body class="bg-gray-100">
     <?php require_once __DIR__ . '/../components/header.php' ?>
 
-    <div style="display: flex;">
-        <aside>
-            <?php require_once __DIR__ . '/../components/leftSidebar.php' ?>
-        </aside>
+    <div class="flex">
+        <?php require_once __DIR__ . '/../components/leftSidebar.php' ?>
 
-        <div style="background-color: white;">
-            <div>
-                <!-- header -->
-                <button type="button">Delete</button>
-                <button type="button">Filters</button>
-                <input id="search" type="text" placeholder="Search">
+        <div class="bg-white p-4 rounded-lg m-5 shadow-lg">
+            <div class="flex items-center justify-around pb-3 mb-5 border-b-1 border-gray-300">
+                <h1 class="font-bold text-3xl">Alles</h1>
+
+                <div class="flex gap-5 items-baseline">
+                    <button type="button">Delete</button>
+                    <button type="button">Filters</button>
+                    <input id="search" placeholder="Search" type="text" class="bg-slate-100 mt-2 rounded-md shadow-xs rounded-md py-1.5 px-3">
+                </div>
             </div>
 
             <div id="container">
@@ -59,6 +74,7 @@ $needs = $conn->query($sql);
                         <th>Postcode</th>
                         <th>Datum toegevoegd</th>
                         <th>Datum gewijzigd</th>
+                        <td></td>
                     </tr>
 
                     <?php if ($needs) { ?>
@@ -71,6 +87,7 @@ $needs = $conn->query($sql);
                                 <td><?= $need['postcode'] ?></td>
                                 <td><?= explode(' ', $need['date_created'])[0] ?></td>
                                 <td><?= explode(' ', $need['date_modified'])[0] ?></td>
+                                <td><a href="#" class="text-sky-600 font-semibold cursor-pointer hover:underline">Match</a></td>
                             </tr>
                         <?php } ?>
                     <?php } ?>

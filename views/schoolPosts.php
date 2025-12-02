@@ -7,9 +7,9 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-$db = new Database('edureuse');
+$db = new Database();
 $conn = $db->connect();
-$conn->query("USE edureuse");
+$conn->query("USE ". $db->getDbName());
 
 $sql = "SELECT * FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);
@@ -19,21 +19,21 @@ $user = $stmt->fetch();
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="src/output.css">
 </head>
 
-<body class="home-body">
+<body class="bg-gray-100">
     <?php require_once 'components/header.php' ?>
 
-    <div class="container">
-        <h2>Mijn aanbiedingen</h2>
-        <h2>Mijn aanvragen</h2>
+    <div class="flex flex-col bg-white rounded-lg p-6 my-15 justify-self-center w-[90%] shadow-lg">
+        <h1 class="font-bold text-2xl">Mijn aanbiedingen</h1>
+        <h1 class="font-bold text-2xl">Mijn aanvragen</h1>
     </div>
 </body>

@@ -17,6 +17,7 @@ $db->connect()->exec(
     date_modified DATETIME NOT NULL,
     type_id INT NOT NULL,
     user_id INT NOT NULL,
+    product_url TEXT NULL,
     FOREIGN KEY (staat_id) REFERENCES product_states(id),
     FOREIGN KEY (type_id) REFERENCES types(id),
     FOREIGN KEY (user_id) REFERENCES users(id))"
