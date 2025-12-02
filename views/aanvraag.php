@@ -1,16 +1,15 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Database\Database;
 
-$db = new Database('edureuse');
-$conn = $db->connect();
-$conn->query("USE edureuse");
+if (!isset($_SESSION['id'])) {
+    header('location: /login');
+    exit();
+}
 
-// product states
-$sql = "SELECT * FROM `product_states`";
-$states = $conn->query($sql);
+$db = new Database();
+$conn = $db->connect();
+$conn->query("USE " . $db->getDbName());
 
 // product types
 $sql = "SELECT * FROM `types`";
@@ -56,7 +55,7 @@ try {
             'userId' => 1,
         ]);
 
-        header('location: adminPage.php');
+        header('location: /adminPage');
         exit();
     }
 } catch (Exception $e) {
@@ -66,29 +65,30 @@ try {
 }
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doneer</title>
+    <title>Aanvraag</title>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="src/style.css">
 </head>
 
 <body>
+    <?php require_once __DIR__ . '/components/header.php' ?>
+
     <div class="container">
         <div id="header">
-            <h1>Donatie Formulier</h1>
+            <h1>Aanvraag Formulier</h1>
         </div>
+
         <div id="content">
             <form method="post">
                 <div>
-                    <label for="titel">Titel:</label>
-                    <input type="text" name="titel" id="titel">
+                    <label for="omschrijving">Omschrijving:</label>
+                    <input type="text" name="omschrijving" id="omschrijving">
                 </div>
 
                 <div>
@@ -103,20 +103,6 @@ try {
                 <div>
                     <label for="aantal">Aantal:</label>
                     <input type="number" name="aantal" id="aantal">
-                </div>
-
-                <div>
-                    <label for="beschrijving">Beschrijving:</label>
-                    <textarea name="beschrijving" id="beschrijving"></textarea>
-                </div>
-
-                <div>
-                    <label for="staat">Staat:</label>
-                    <select name="staat" id="staat">
-                        <?php foreach ($states as $state) { ?>
-                            <option value="<?php echo $state['id'] ?>"><?php echo $state['label'] ?></option>
-                        <?php } ?>
-                    </select>
                 </div>
 
                 <div>

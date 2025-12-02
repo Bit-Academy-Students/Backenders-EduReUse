@@ -2,6 +2,7 @@
 
 namespace Database\seeders;
 
+use Dotenv\Dotenv;
 use PDO;
 
 abstract class Seeder
@@ -15,12 +16,23 @@ abstract class Seeder
 
     public function truncate(string $table): void
     {
-        $this->db->query("USE edureuse");
+        // load env variables
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
+        $dotenv->load();
+
+        $this->db->query("USE " . $_ENV['DB_NAME']);
         $this->db->exec("DELETE FROM $table");
     }
 
     protected function now()
     {
         return date('Y-m-d G:i:s');
+    }
+
+    protected function unsetSessionError($sessionVariable): void
+    {
+        if (isset($SESSION[$sessionVariable])) {
+            unset($_SESSION[$sessionVariable]);
+        }
     }
 }

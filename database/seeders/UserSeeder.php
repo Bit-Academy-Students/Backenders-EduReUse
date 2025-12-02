@@ -15,8 +15,6 @@ class UserSeeder extends Seeder
      */
     public function add(string $name, string $email, string $pass, ?int $is_admin = 0): void
     {
-        $now = $this->now();
-
         $this->db->exec(
             "INSERT INTO users (naam, email, wachtwoord, date_created, is_admin)
             VALUES ('$name', '$email', '$pass', '" . $this->now() . "', $is_admin)"

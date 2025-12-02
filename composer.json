@@ -1,9 +1,12 @@
 {
-    "name": "giorgio/backenders-edu-re-use",
+    "name": "backenders/edu-re-use",
     "autoload": {
         "psr-4": {
-            "Database\\": "database/"
+            "Database\\": "database/",
+            "Controllers\\": "controllers/"
         }
     },
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
 }
