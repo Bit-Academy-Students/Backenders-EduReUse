@@ -30,25 +30,22 @@ if (isset($user) && $user['is_admin'] === 1) {
         </a>
     </div>
 
-    <div class="flex gap-10">
+    <div class="flex gap-8">
         <?php if ($loggedInUser) { ?>
-            <a href="/aanvraag" class="text-white">Aanvragen</a>
-            <a href="/doneer" class="text-white">Donaties</a>
-            <a href="/school-posts" class="text-white">SchoolPosts</a>
+            <a href="/school-posts" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-envelopes-bulk"></i></a>
         <?php } ?>
 
         <?php if (!$loggedInUser) { ?>
-            <a href="/login" class="text-white">Login</a>
-            <a href="/register" class="text-white">Register</a>
+            <a href="/login" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-user"></i></a>
         <?php } ?>
 
 
         <?php if ($userIsAdmin) { ?>
-            <a href="/admin" class="text-white">Admin</a>
+            <a href="/admin" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-brands fa-black-tie"></i></a>
         <?php } ?>
 
         <?php if ($loggedInUser) { ?>
-            <a href="/logout" class="text-white">Afmelden</a>
+            <a href="/logout" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-right-from-bracket"></i></a>
         <?php } ?>
     </div>
 </header>

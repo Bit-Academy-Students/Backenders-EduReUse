@@ -15,6 +15,7 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 ## Tech stack
 ### Frontend
  - **Frontend framework:** [tailwind css](https://tailwindcss.com/)
+ - **Icon library:** [FontAwesome](https://fontawesome.com/)
 
 ### Backend
  - **Plain PHP** voor het grootste gedeelte
@@ -42,6 +43,10 @@ In je terminal:
 ```
 composer install
 ```
+en:
+```
+npm install
+```
 
 **3. Set up environment variables:**
 1. Voer deze command uit om een `.env` te genereren:
@@ -64,7 +69,19 @@ php database/databaseSeeder.php
 
 ## Usage
 1. Zorg dat je via XAMPP MySQL runt of lokaal
-2. Start de server:
+2. Stel een vhost in of start de server:
 ```
 php -S localhost:8000 -t public
+```
+3. Open de applicatie in je browser: [localhost:8000](localhost:8000)
+
+## Development
+Als je verder wilt werken aan dit project, zijn er enkele dingen waar je op moet letten:
+1. Als je de **frontend** wil *aanpassen*, maar je ziet dat er niks veranderd, zorg dan dat je de **`Tailwindcss`-watcher** aan het runnen bent:
+```bash
+npx @tailwindcss/cli -i ./public/src/input.css -o ./public/src/output.css --watch
+```
+***P.S.*** *Mocht bovenstaande command een error geven, run dan het volgende:*
+```bash
+npm install
 ```

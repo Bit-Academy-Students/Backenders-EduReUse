@@ -27,13 +27,34 @@ $user = $stmt->fetch();
     <title>Home</title>
 
     <link rel="stylesheet" href="src/output.css">
+    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
 </head>
 
 <body class="bg-gray-100">
     <?php require_once 'components/header.php' ?>
 
-    <div class="flex flex-col bg-white rounded-lg p-6 my-15 justify-self-center w-[90%] shadow-lg">
-        <h1 class="font-bold text-2xl">Mijn aanbiedingen</h1>
-        <h1 class="font-bold text-2xl">Mijn aanvragen</h1>
+    <div class="flex flex-col bg-white rounded-lg p-6 my-15 justify-self-center w-[60%] shadow-lg gap-10">
+        <div class="flex flex-col gap-2">
+            <h1 class="font-bold text-2xl">Mijn aanbiedingen</h1>
+            <div class="flex flex-row items-center gap-4">
+                <p class="font-semibold text-slate-500">Je hebt nog geen aanbiedingen geplaatst...</p>
+                <a href="/doneer"
+                class="rounded-md bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white w-26 cursor-pointer hover:bg-sky-500 transition">
+                Doneer hier
+                </a>
+            </div>
+        </div>
+        
+        <div class="flex flex-col gap-2">
+            <h1 class="font-bold text-2xl">Mijn aanvragen</h1>
+            <div class="flex flex-row items-center gap-4">
+                <p class="font-semibold text-slate-500">Je hebt nog geen aanvragen geplaatst...</p>
+                <a href="/aanvraag"
+                    class="rounded-md bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white w-45 cursor-pointer hover:bg-sky-500 transition">
+                    Vraag een product aan
+                </a>
+            </div>
+        </div>
     </div>
+
 </body>

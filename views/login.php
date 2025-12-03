@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Login</title>
 
     <link rel="stylesheet" href="src/output.css">
+    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
 </head>
 
 <body class="justify-center bg-gray-100">

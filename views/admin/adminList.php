@@ -81,8 +81,8 @@ $matches = [];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin page</title>
 
-    <!-- <link rel="stylesheet" href="/../src/style.css"> -->
     <link rel="stylesheet" href="/../src/output.css">
+    <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
 </head>
 
 <body class="bg-gray-100">

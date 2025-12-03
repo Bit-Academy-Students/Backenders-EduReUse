@@ -63,7 +63,7 @@ class DonateController extends Seeder
             'userId' => $_SESSION['id'],
         ]);
 
-        header('location: /admin');
+        header('location: /school-posts');
         exit();
     }
 }

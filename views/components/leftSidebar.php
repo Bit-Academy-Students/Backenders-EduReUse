@@ -3,7 +3,7 @@
 <?php $page = $e[1]; ?>
 
 <aside class="flex flex-col gap-4 my-10 ml-4 ">
-    <a href="/admin">
+    <a href="/admin/alles">
         <h2 class="text-2xl hover:font-bold <?= ($page === 'alles') ? 'font-bold' : '' ?>">
             Alles
         </h2>
@@ -29,7 +29,7 @@
 
     <a href="/admin/planning">
         <h2 class="text-2xl hover:font-bold <?= ($page === 'planning') ? 'font-bold' : '' ?>">
-            Ophaal/levering planning
+            Planning
         </h2>
     </a>
 </aside>

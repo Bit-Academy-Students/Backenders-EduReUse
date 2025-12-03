@@ -16,6 +16,7 @@ $conn->query("USE " . $db->getDbName());
     <title>Home</title>
 
     <link rel="stylesheet" href="src/output.css">
+    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
 </head>
 
 <body class="bg-gray-100">

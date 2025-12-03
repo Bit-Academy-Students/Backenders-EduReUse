@@ -45,6 +45,7 @@ $needs = $conn->query($sql);
     <title>Admin page</title>
 
     <link rel="stylesheet" href="/../src/output.css">
+    <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
 </head>
 
 <body class="bg-gray-100">
@@ -55,7 +56,7 @@ $needs = $conn->query($sql);
 
         <div class="bg-white p-4 rounded-lg m-5 shadow-lg">
             <div class="flex items-center justify-around pb-3 mb-5 border-b-1 border-gray-300">
-                <h1 class="font-bold text-3xl">Alles</h1>
+                <h1 class="font-bold text-3xl">Aanvragen</h1>
 
                 <div class="flex gap-5 items-baseline">
                     <button type="button">Delete</button>
