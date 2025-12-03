@@ -1,25 +1,28 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Database\Database;
 
 $db = new Database('edureuse');
 $conn = $db->connect();
 $conn->query("USE edureuse");
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $wachtwoord = $_POST["wachtwoord"];
 
     if (!empty($email) && !empty($wachtwoord)) {
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $conn->prepare($sql);
+        $sql1 = "SELECT * FROM users WHERE email = :email";
+        $stmt = $conn->prepare($sql1);
         $stmt->execute(['email' => $email]);
         $loggedInUser = $stmt->fetch();
     }
 
     if ($loggedInUser && (($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord']))) {
         $_SESSION["id"] = $loggedInUser["id"];
-        header("Location: /school-posts");
+        header("Location: aanbod.php?id=" . $_SESSION['id']);
         exit();
     } else {
         echo 'Invalid email and/or wachtwoord';
@@ -33,33 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <title>Login</title>
 
-    <link rel="stylesheet" href="src/output.css">
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="../public/src/output.css">
 </head>
 
 <body>
-    <?php require_once 'components/header.php' ?>
-
-    <div class="container">
-        <h1>Login</h1>
-        <form method="post">
-            <label for="email">email</label><br>
-            <input class="field" type="text" id="email" name="email"><br>
-            <label for="wachtwoord">wachtwoord</label><br>
-            <input class="field" type="password" id="wachtwoord" name="wachtwoord"><br>
-            <input class="loginButton" type="submit" id="login" name="login" value="Login">
-        </form>
-
-        <a href="/register">Nog geen account? klik hier om te registreren</a>
-    </div>
-
-    <!-- <header class="bg-sky-300 p-6">
-        <div>
-            <div class="flex flex-row items-center">
-                <a href="/">LOGO</a>
-            </div>
-        </div>
-    </header>
+    <?php /*require_once 'components/header.php'*/ ?>
 
     <div class="flex justify-center items-center bg-sky-100 h-screen">
 
@@ -88,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a href="/register">Nog geen account? klik hier om te registreren</a>
             </div>
         </div>
-    </div> -->
+    </div> 
 
 </body>
 

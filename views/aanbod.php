@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use Database\Database;
@@ -7,6 +7,16 @@ use Database\Database;
 $db = new Database('edureuse');
 $conn = $db->connect();
 $conn->query("USE edureuse");
+
+$id = (int) $_GET['id'];
+
+$sql = "SELECT * FROM users WHERE id = :id";
+$stmt = $conn->prepare($sql);
+$recordset = $stmt->execute(['id' => $id]);
+
+$sql2 = "SELECT * FROM offers WHERE user_id = :user_id";
+$stmt2 = $conn->prepare($sql2);
+$recordset2 = $stmt2->execute(['user_id' => $id]);
 
 
 ?>
@@ -17,7 +27,7 @@ $conn->query("USE edureuse");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aanbod</title>
-    <link rel="stylesheet" href="src/output.css">
+    <link rel="stylesheet" href="../public/src/output.css">
 </head>
 
 <body>
@@ -27,18 +37,23 @@ $conn->query("USE edureuse");
                 <p>LOGO</p>
             </div>
             <nav class="flex flex-row-reverse">
-                <a class="flex bg-white rounded-lg w-30 justify-center items-center" href="/logout">afmelden</a>
-                <a class="flex justify-center items-center" href="#">Mijn aanvragen</a>
-                <a class="flex justify-center items-center" href="#">Mijn aanbod</a>
+                <a class="flex bg-white rounded-lg w-30 justify-center items-center" href="logout.php">afmelden</a>
+                <a class="flex justify-center items-center" href="../views/aanvraag.php?id=<?=$_SESSION['id'];?>"> Mijn aanvragen</a>
+                <a class="flex justify-center items-center" href="../views/aanbod.php?id=<?=$_SESSION['id'];?>"> Mijn aanbod</a>
             </nav>
         </div>
     </header>
 
-    <div class="bg-sky-100 h-screen">
-        <div class="w-96 p-6 shadow-lg bg-white rounded-lg h-100">
-            <img src="#" alt="apparaat afbeelding">
+    <div class="bg-sky-100 h-screen w-full flex">
 
+        <a href="formulier-donor.php">Nieuw apparaat aanbieden</a>
+
+        <?php while ($offer = $stmt2->fetch()) : ?>
+        <div class="mt-10 w-96 p-6 shadow-lg bg-white rounded-lg h-100">
+            <img src="#" alt="apparaat afbeelding" class="w-40">
+            <h2 class="font-bold text-2xl"><?= $offer['model'] ?></h2>
             <p>Status</p>
         </div>
+         <?php endwhile; ?>
 
     </div>

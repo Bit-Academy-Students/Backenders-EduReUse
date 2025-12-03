@@ -1,68 +1,23 @@
 <?php
+session_start();
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Database\Database;
 
-if (!isset($_SESSION['id'])) {
-    header('location: /login');
-    exit();
-}
-
-$db = new Database();
+$db = new Database('edureuse');
 $conn = $db->connect();
-$conn->query("USE " . $db->getDbName());
+$conn->query("USE edureuse");
 
-// product types
-$sql = "SELECT * FROM `types`";
-$types = $conn->query($sql);
+$id = (int) $_GET['id'];
 
-try {
-    $donatie = null;
-    if (isset($_POST['submit'])) {
-        if (!($_POST['titel'])) {
-            throw new Exception('Geen titel meegegeven');
-        }
-        if (!($_POST['type'])) {
-            throw new Exception('Geen product type meegegeven');
-        }
-        if (!($_POST['aantal'])) {
-            throw new Exception('Geen hoeveelheid meegegeven');
-        }
-        if (!($_POST['staat'])) {
-            throw new Exception('Geen product staat meegegeven');
-        }
-        if (!($_POST['postcode'])) {
-            throw new Exception('Geen postcode meegegeven');
-        }
+$sql = "SELECT * FROM users WHERE id = :id";
+$stmt = $conn->prepare($sql);
+$recordset = $stmt->execute(['id' => $id]);
 
-        $titel = $_POST['titel'];
-        $type = $_POST['type'];
-        $aantal = $_POST['aantal'];
-        $beschrijving = $_POST['beschrijving'];
-        $staat = $_POST['staat'];
-        $postcode = $_POST['postcode'];
+$sql2 = "SELECT * FROM needs WHERE user_id = :user_id";
+$stmt2 = $conn->prepare($sql2);
+$recordset2 = $stmt2->execute(['user_id' => $id]);
 
-        $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, type_id, user_id)
-            VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :typeId, :userId)";
-
-        $exec = $conn->prepare($sql);
-        $exec->execute([
-            'titel' => $titel,
-            'staatId' => $staat,
-            'hoeveelheid' => $aantal,
-            'beschrijving' => $beschrijving,
-            'postcode' => $postcode,
-            'typeId' => $type,
-            'userId' => 1,
-        ]);
-
-        header('location: /adminPage');
-        exit();
-    }
-} catch (Exception $e) {
-    echo $e->getmessage();
-} catch (PDOException $ex) {
-    echo $ex->getMessage();
-}
 
 ?>
 <!DOCTYPE html>
@@ -71,49 +26,51 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aanvraag</title>
-
-    <link rel="stylesheet" href="src/style.css">
+    <title>Aanbod</title>
+    <link rel="stylesheet" href="../public/src/output.css">
 </head>
 
 <body>
-    <?php require_once __DIR__ . '/components/header.php' ?>
-
-    <div class="container">
-        <div id="header">
-            <h1>Aanvraag Formulier</h1>
+    <header class="bg-sky-300 p-3">
+        <div>
+            <div class="flex flex-row-end">
+                <p>LOGO</p>
+            </div>
+            <nav class="flex flex-row-reverse">
+                <a class="flex bg-white rounded-lg w-30 justify-center items-center" href="logout.php">afmelden</a>
+                <a class="flex justify-center items-center" href="../views/aanvraag.php?id=<?=$_SESSION['id'];?>"> Mijn aanvragen</a>
+                <a class="flex justify-center items-center" href="../views/aanbod.php?id=<?= $_SESSION['id'];?>"> Mijn aanbod</a>
+            </nav>
         </div>
+    </header>
 
-        <div id="content">
-            <form method="post">
-                <div>
-                    <label for="omschrijving">Omschrijving:</label>
-                    <input type="text" name="omschrijving" id="omschrijving">
-                </div>
+        
+        <div class="flex justify-center items-center  pt-10">
 
-                <div>
-                    <label for="type">Type:</label>
-                    <select name="type" id="type">
-                        <?php foreach ($types as $type) { ?>
-                            <option value="<?= $type['id'] ?>"><?= $type['type'] ?></option>
-                        <?php } ?>
-                    </select>
-                </div>
+            <a href="formulier-need.php">Nieuw apparaat aanvragen</a>
 
-                <div>
-                    <label for="aantal">Aantal:</label>
-                    <input type="number" name="aantal" id="aantal">
-                </div>
+             <table class="w-100">
+                <caption class="caption-top mb-10">
+                    Mijn aanvragen
+                </caption>
 
-                <div>
-                    <label for="postcode">Postcode:</label>
-                    <input type="text" name="postcode" id="postcode">
-                </div>
+                <thead class="bg-sky-100 border-b-2 border-sky-700">
+                <tr class="">
+                    <th class="w-50 p-3 text-sm font-semibold tracking-wide ">Model</th>
+                    <th class="w-10 p-3 text-sm font-semibold tracking-wide ">Hoeveelheid</th>
+                    <th class="w-30 p-3 text-sm font-semibold tracking-wide ">status</th>
+                </tr>
+                </thead>
 
-                <input type="submit" name="submit" value="Doneer">
-            </form>
+                <tbody>
+                <?php while ($need = $stmt2->fetch()) : ?>
+                <tr class=" "> 
+                    <td class="p-3 text-sm"> <?=$need['model']?> </td>
+                    <td class="p-3 text-sm"> <?=$need['hoeveelheid']?> </td>
+                    <td class="p-3 text-sm">In afwachting</td>
+                </tr>
+                <?php endwhile; ?>
+                </tbody>
+            </table>
         </div>
-    </div>
-</body>
-
-</html>
+         
