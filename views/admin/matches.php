@@ -68,8 +68,8 @@ $matches = $conn->query($sql);
     <div class="flex">
         <?php require_once __DIR__ . '/../components/leftSidebar.php' ?>
 
-        <div class="bg-white p-4 rounded-lg m-5 shadow-lg">
-            <div class="flex items-center justify-around pb-3 mb-5 border-b-1 border-gray-300">
+        <div class="bg-white p-4 rounded-lg m-5 shadow-lg w-full">
+            <div class="flex items-center justify-around mb-5 border-gray-300">
                 <h1 class="font-bold text-3xl">Matches</h1>
 
                 <div class="flex gap-5 items-baseline">
@@ -79,37 +79,40 @@ $matches = $conn->query($sql);
                 </div>
             </div>
 
-            <div id="container">
-                <table>
-                    <tr>
-                        <th></th>
-                        <th>Aanvraag naam</th>
-                        <th>Donor naam</th>
-                        <th>Leveringsstatus</th>
-                        <th>Product type</th>
-                        <th>Ophaal postcode</th>
-                        <th>Aflever postcode</th>
-                        <th>Datum toegevoegd</th>
-                        <th>Datum gewijzigd</th>
-                    </tr>
+            <table>
+                <tr class="*:p-2">
+                    <th></th>
+                    <th>Aanvrager naam</th>
+                    <th>Donor naam</th>
+                    <th>Leveringsstatus</th>
+                    <th>Product type</th>
+                    <th>Ophaal postcode</th>
+                    <th>Aflever postcode</th>
+                    <th>Datum toegevoegd</th>
+                    <th>Datum gewijzigd</th>
+                </tr>
 
-                    <?php if ($matches) { ?>
-                        <?php foreach ($matches as $match) { ?>
-                            <tr>
-                                <td><a href="/admin/matches/<?= $match['id'] ?>">></a></td>
-                                <td><?= $match['needschool_naam'] ?></td>
-                                <td><?= $match['offerschool_naam'] ?></td>
-                                <td><?= $match['status_label'] ?></td>
-                                <td><?= $match['type'] ?></td>
-                                <td><?= $match['ophaal_postcode'] ?></td>
-                                <td><?= $match['aflever_postcode'] ?></td>
-                                <td><?= explode(' ', $match['date_created'])[0] ?></td>
-                                <td><?= explode(' ', $match['date_modified'])[0] ?></td>
-                            </tr>
-                        <?php } ?>
+                <?php if ($matches) { ?>
+                    <?php foreach ($matches as $match) { ?>
+                        <tr class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center">
+                            <td>
+                                <a href="/admin/matches/<?= $match['id'] ?>"
+                                    class="text-sky-600 font-semibold">
+                                    <i class="fa-solid fa-angles-right"></i>
+                                </a>
+                            </td>
+                            <td><?= $match['needschool_naam'] ?></td>
+                            <td><?= $match['offerschool_naam'] ?></td>
+                            <td><?= $match['status_label'] ?></td>
+                            <td><?= $match['type'] ?></td>
+                            <td><?= $match['ophaal_postcode'] ?></td>
+                            <td><?= $match['aflever_postcode'] ?></td>
+                            <td><?= explode(' ', $match['date_created'])[0] ?></td>
+                            <td><?= explode(' ', $match['date_modified'])[0] ?></td>
+                        </tr>
                     <?php } ?>
-                </table>
-            </div>
+                <?php } ?>
+            </table>
         </div>
     </div>
 </body>

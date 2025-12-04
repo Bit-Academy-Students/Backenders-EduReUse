@@ -1,23 +1,18 @@
 <?php
 
 use Controllers\DonateController;
-use Controllers\NeedController;
 
 require_once __DIR__ . '/router.php';
 
 // homepage
 get('/', 'views/homepage.php');
 
-// login
+// login/register/logout
 get('/login', 'views/login.php');
 post('/login', 'views/login.php');
-
-// register
+get('/logout', 'views/logout.php');
 get('/register', 'views/register.php');
 post('/register', 'views/register.php');
-
-// logout
-get('/logout', 'views/logout.php');
 
 // user's posts
 get('/school-posts', 'views/schoolPosts.php');
@@ -41,14 +36,20 @@ get('/aanvraag', 'views/aanvraag.php');
 post('/aanvraag', 'views/aanvraag.php');
 
 // admin pagina's
-if ($_SERVER['REQUEST_URI'] === '/admin') {
-    header('location: /admin/alles');
-    exit();
-}
 get('/admin/alles', 'views/admin/adminList.php');
 get('/admin/aanbiedingen', 'views/admin/offers.php');
 get('/admin/aanvragen', 'views/admin/needs.php');
 get('/admin/matches', 'views/admin/matches.php');
+get('/admin/ready-to-match/$needId/$typeLabel', 'views/admin/readyToMatch.php');
+post('/admin/match', 'views/admin/officialMatch.php');
+if ($_SERVER['REQUEST_URI'] === '/admin/ready-to-match' || $_SERVER['REQUEST_URI'] === '/admin/ready-to-match/') {
+    header('location: /admin/aanvragen');
+    exit();
+}
+if ($_SERVER['REQUEST_URI'] === '/admin') {
+    header('location: /admin/alles');
+    exit();
+}
 
 // jenebi aanbod
 get('/aanbod', 'views/aanbod.php');

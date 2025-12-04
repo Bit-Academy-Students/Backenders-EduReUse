@@ -2,18 +2,18 @@
 <?php $e = explode('/admin/', $uri) ?>
 <?php $page = $e[1]; ?>
 
-<aside class="flex flex-col gap-4 my-10 ml-4 ">
+<aside class="flex flex-col gap-4 my-10 ml-4 w-1/10">
     <a href="/admin/alles">
         <h2 class="text-2xl hover:font-bold <?= ($page === 'alles') ? 'font-bold' : '' ?>">
             Alles
         </h2>
     </a>
 
-    <a href="/admin/aanbiedingen">
+    <!-- <a href="/admin/aanbiedingen">
         <h2 class="text-2xl hover:font-bold <?= ($page === 'aanbiedingen') ? 'font-bold' : '' ?>">
             Aanbiedingen
         </h2>
-    </a>
+    </a> -->
 
     <a href="/admin/aanvragen">
         <h2 class="text-2xl hover:font-bold <?= ($page === 'aanvragen') ? 'font-bold' : '' ?>">

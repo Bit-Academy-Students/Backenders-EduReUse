@@ -30,11 +30,22 @@ try {
             throw new Exception('Geen postcode meegegeven');
         }
 
+
         $omschrijving = $_POST['omschrijving'];
         $type = $_POST['type'];
         $hoeveelheid = $_POST['hoeveelheid'];
-        $postcode = $_POST['postcode'];
         $deadline = !empty($_POST['deadline']) ? $_POST['deadline'] : null;
+
+        // regular expression for postcode
+        $postcode = strtoupper($_POST['postcode']);
+        $pattern = '/^(?<letters>\d{4})\s?(?<nummers>[a-zA-Z]{2})$/';
+        if (!preg_match($pattern, $postcode)) {
+            throw new Exception("Ongeldige postcode ingevoerd<br>Houdt het format '1234 AB' of '1234AB' aan." . PHP_EOL);
+        };
+
+        if (strlen($postcode) === 6) {
+            $postcode = substr($postcode, 0, 4) . ' ' . substr($postcode, 4, 6);
+        }
 
         $sql = "INSERT INTO needs (titel, type_id, hoeveelheid, postcode, deadline, user_id, date_created, date_modified)
             VALUES (:titel, :typeId, :hoeveelheid, :postcode, :deadline, :userId, :dateCreated, :dateModified)";

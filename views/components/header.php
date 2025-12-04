@@ -22,11 +22,11 @@ if (isset($user) && $user['is_admin'] === 1) {
 }
 
 ?>
-<header class="bg-[#5481B7] px-30 flex justify-between items-center">
+<header class="bg-[#5481B7] px-26 flex justify-between items-center">
     <div>
         <a href="/" class="text-white">
             <img src="/uploads/header-banner-foundation.png" alt="Foundation logo"
-                class="h-22">
+                class="w-90 h-auto">
         </a>
     </div>
 
@@ -41,7 +41,7 @@ if (isset($user) && $user['is_admin'] === 1) {
 
 
         <?php if ($userIsAdmin) { ?>
-            <a href="/admin" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-brands fa-black-tie"></i></a>
+            <a href="/admin/aanvragen" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-brands fa-black-tie"></i></a>
         <?php } ?>
 
         <?php if ($loggedInUser) { ?>

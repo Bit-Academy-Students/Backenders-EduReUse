@@ -55,7 +55,7 @@ $needs = $conn->query($sql);
         <?php require_once __DIR__ . '/../components/leftSidebar.php' ?>
 
         <div class="bg-white p-4 rounded-lg m-5 shadow-lg">
-            <div class="flex items-center justify-around pb-3 mb-5 border-b-1 border-gray-300">
+            <div class="flex items-center justify-around pb-3 mb-5 border-gray-300">
                 <h1 class="font-bold text-3xl">Aanvragen</h1>
 
                 <div class="flex gap-5 items-baseline">
@@ -65,35 +65,47 @@ $needs = $conn->query($sql);
                 </div>
             </div>
 
-            <div id="container">
-                <table>
-                    <tr>
-                        <th></th>
-                        <th>(school)naam</th>
-                        <th>Product type</th>
-                        <th>Omschrijving</th>
-                        <th>Postcode</th>
-                        <th>Datum toegevoegd</th>
-                        <th>Datum gewijzigd</th>
-                        <td></td>
-                    </tr>
+            <table>
+                <tr class="*:pb-4">
+                    <th></th>
+                    <th>(school)naam</th>
+                    <th>Product type</th>
+                    <th>Hoeveelheid</th>
+                    <th>Omschrijving</th>
+                    <th>Postcode</th>
+                    <th>Deadline</th>
+                    <!-- <th>Datum gewijzigd</th> -->
+                    <td></td>
+                </tr>
 
-                    <?php if ($needs) { ?>
-                        <?php foreach ($needs as $need) { ?>
-                            <tr>
-                                <td><a href="/admin/needs/<?= $need['id'] ?>">></a></td>
-                                <td><?= $need['naam'] ?></td>
-                                <td><?= $need['type'] ?></td>
-                                <td><?= $need['titel'] ?></td>
-                                <td><?= $need['postcode'] ?></td>
-                                <td><?= explode(' ', $need['date_created'])[0] ?></td>
-                                <td><?= explode(' ', $need['date_modified'])[0] ?></td>
-                                <td><a href="#" class="text-sky-600 font-semibold cursor-pointer hover:underline">Match</a></td>
-                            </tr>
-                        <?php } ?>
+                <?php if ($needs) { ?>
+                    <?php foreach ($needs as $need) { ?>
+                        <tr class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center">
+                            <td>
+                                <a href="/admin/needs/<?= $need['id'] ?>"
+                                    class="text-sky-600 font-semibold">
+                                    <i class="fa-solid fa-angles-right"></i>
+                                </a>
+                            </td>
+                            <td class="text-left"><?= $need['naam'] ?></td>
+                            <td><?= $need['type'] ?></td>
+                            <td><?= $need['hoeveelheid'] ?></td>
+                            <td><?= $need['titel'] ?></td>
+                            <td><?= $need['postcode'] ?></td>
+                            <!-- <td><?= explode(' ', $need['date_created'])[0] ?></td> -->
+                            <!-- <td><?= explode(' ', $need['date_modified'])[0] ?></td> -->
+                            <td><?= $need['deadline'] ?></td>
+                            <td>
+                                <a href="/admin/ready-to-match/<?= $need['id'] ?>/<?= lcfirst($need['type']) ?>"
+                                    class="text-sky-600 font-semibold cursor-pointer hover:underline">
+                                    Match
+                                </a>
+                            </td>
+                            <!-- <td><a href="/ready-to-match/?key1=value&key2=value" class="text-sky-600 font-semibold cursor-pointer hover:underline">Match</a></td> -->
+                        </tr>
                     <?php } ?>
-                </table>
-            </div>
+                <?php } ?>
+            </table>
         </div>
     </div>
 </body>

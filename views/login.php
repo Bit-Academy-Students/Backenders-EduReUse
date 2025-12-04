@@ -2,6 +2,10 @@
 
 use Database\Database;
 
+if (isset($_SESSION['id'])) {
+    header('Location: /school-posts');
+    exit();
+}
 $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());

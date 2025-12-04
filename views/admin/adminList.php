@@ -91,8 +91,8 @@ $matches = [];
     <div class="flex">
         <?php require_once __DIR__ . '/../components/leftSidebar.php' ?>
 
-        <div class="bg-white p-4 rounded-lg m-5 shadow-lg">
-            <div class="flex items-center justify-around pb-3 mb-5 border-b-1 border-gray-300">
+        <div class="bg-white p-4 rounded-lg m-5 shadow-lg w-5/5">
+            <div class="flex items-center justify-around pb-3 mb-5 border-gray-300">
                 <!-- header -->
                 <h1 class="font-bold text-3xl">Alles</h1>
 
@@ -108,63 +108,61 @@ $matches = [];
                 <div></div>
             </div>
 
-            <div id="container">
-                <table>
-                    <tr>
-                        <th>Type</th>
-                        <th>ID</th>
-                        <th>Titel</th>
-                        <th>Product Type</th>
-                        <th>Staat</th>
-                        <th>Hoeveelheid</th>
-                        <th>Beschrijving</th>
-                        <th>Postcode</th>
-                        <th>Deadline</th>
-                        <th>Datum Gecreëerd</th>
-                        <th>Datum Gewijzigd</th>
-                        <th>Gebruiker</th>
-                        <th>URL</th>
-                    </tr>
+            <table>
+                <tr class="*:border-b-1 *:border-slate-300 *:pb-4">
+                    <th>Type</th>
+                    <th>ID</th>
+                    <th>Titel</th>
+                    <th>Product Type</th>
+                    <th>Staat</th>
+                    <th>Hoeveelheid</th>
+                    <th>Beschrijving</th>
+                    <th>Postcode</th>
+                    <th>Deadline</th>
+                    <th>Datum Gecreëerd</th>
+                    <th>Datum Gewijzigd</th>
+                    <th>Gebruiker</th>
+                    <th>URL</th>
+                </tr>
 
-                    <?php if ($rows) { ?>
-                        <?php foreach ($rows as $row) { ?>
-                            <tr>
-                                <td><?= $row['type'] ?></td>
-                                <td>
-                                    <a href="
+                <?php if ($rows) { ?>
+                    <?php foreach ($rows as $row) { ?>
+                        <tr class="*:border-t-1 *:border-slate-300 *:text-center">
+                            <td><?= $row['type'] ?></td>
+                            <td>
+                                <a href="
                                     <?php if ($row['type'] === 'Need') { ?>
                                         /admin/need/<?= $row['id'] ?>">
-                                    <?php } elseif ($row['type'] === 'Offer') { ?>
-                                        /admin/offer/<?= $row['id'] ?>">
-                                    <?php } ?>
-                                    <?= $row['id'] ?? '-' ?>
+                                <?php } elseif ($row['type'] === 'Offer') { ?>
+                                    /admin/offer/<?= $row['id'] ?>">
+                                <?php } ?>
+                                <?= $row['id'] ?? '-' ?>
+                                </a>
+                            </td>
+                            <td><?= $row['titel'] ?></td>
+                            <td><?= $row['product_type'] ?></td>
+                            <td><?= $row['staat'] ?? '-' ?></td>
+                            <td><?= $row['hoeveelheid'] ?></td>
+                            <td><?= $row['beschrijving'] ?? '-' ?></td>
+                            <td><?= $row['postcode'] ?></td>
+                            <td><?= $row['deadline'] ?? '-' ?></td>
+                            <td><?= explode(' ', $row['date_created'])[0] ?></td>
+                            <td><?= explode(' ', $row['date_modified'])[0] ?></td>
+                            <td><?= $row['user_name'] ?></td>
+                            <td>
+                                <?php if (isset($row['product_url'])) :
+                                    preg_match($pattern, $row['product_url'], $matches); ?>
+                                    <a href="<?= $row['product_url'] ?>"
+                                        target="_blank"
+                                        class="text-blue-500 hover:underline">
+                                        <?= $matches['domain'] ?>
                                     </a>
-                                </td>
-                                <td><?= $row['titel'] ?></td>
-                                <td><?= $row['product_type'] ?></td>
-                                <td><?= $row['staat'] ?? '-' ?></td>
-                                <td><?= $row['hoeveelheid'] ?></td>
-                                <td><?= $row['beschrijving'] ?? '-' ?></td>
-                                <td><?= $row['postcode'] ?></td>
-                                <td><?= $row['deadline'] ?? '-' ?></td>
-                                <td><?= explode(' ', $row['date_created'])[0] ?></td>
-                                <td><?= explode(' ', $row['date_modified'])[0] ?></td>
-                                <td><?= $row['user_name'] ?></td>
-                                <td>
-                                    <?php if (isset($row['product_url'])) :
-                                        preg_match($pattern, $row['product_url'], $matches); ?>
-                                        <a href="<?= $row['product_url'] ?>"
-                                            target="_blank"
-                                            class="text-blue-500 hover:underline">
-                                            <?= $matches['domain'] . '/...' ?>
-                                        </a>
-                                    <?php endif ?>
-                                </td>
-                            </tr>
-                        <?php } ?>
+                                <?php endif ?>
+                            </td>
+                        </tr>
                     <?php } ?>
-                </table>
-            </div>
+                <?php } ?>
+            </table>
         </div>
     </div>
 </body>
