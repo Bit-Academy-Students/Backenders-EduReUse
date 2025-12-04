@@ -8,6 +8,13 @@ $db = new Database('edureuse');
 $conn = $db->connect();
 $conn->query("USE edureuse");
 
+$id = (int) $_GET['id'];
+
+$sql = "SELECT * FROM users WHERE id = :id";
+$stmt = $conn->prepare($sql);
+$recordset = $stmt->execute(['id' => $id]);
+
+
 $sql = "SELECT * FROM `types`";
 $types = $conn->query($sql);
 
@@ -42,12 +49,12 @@ try {
             'hoeveelheid' => $hoeveelheid,
             'postcode' => $postcode,
             'deadline' => $deadline,
-            'userId' => 1,
+            'userId' => $id,
             'dateCreated' => date('Y-m-d G:i:s'),
             'dateModified' => date('Y-m-d G:i:s'),
         ]);
 
-        header('location: /admin');
+        header('location: ../views/aanbod.php?id=' . $id);
         exit();
     }
 } catch (Exception $e) {
