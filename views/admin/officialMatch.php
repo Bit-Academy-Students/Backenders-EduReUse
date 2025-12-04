@@ -7,10 +7,6 @@ if (!isset($_SESSION['id'])) {
     exit();
 }
 
-if (empty($_POST['selected_offers'])) {
-    // stuur terug
-}
-
 $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
@@ -30,6 +26,10 @@ WHERE needs.id = :need_id";
 $stmt = $conn->prepare($sql);
 $stmt->execute(['need_id' => $_POST['need_id']]);
 $need = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!isset($_POST['selected_offers'])) {
+    sendBack($need);
+}
 
 // get offers with correct type from database
 $sql = "SELECT offers.id, offers.titel, product_states.label, offers.hoeveelheid, offers.beschrijving, offers.postcode, offers.date_created, offers.date_modified, types.type, users.naam
@@ -53,14 +53,27 @@ if (is_array($_POST['selected_offers'])) {
     $offers = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+// if no offers are selected, send user back
 $i = 0;
 foreach ($offers as $offer) {
     $i += $offer['hoeveelheid'];
+    if ($i > $need['hoeveelheid'] || $i == 0) {
+        sendBack($need, 'De hoeveelheid van de gekozen aanbiedingen is meer dan de gevraagde hoeveelheid');
+    }
 }
 
-if ($i > $need['hoeveelheid'] || $i == 0) {
-    $_SESSION['error'] = 'De hoeveelheid van de gekozen aanbiedingen is meer dan de gevraagde hoeveelheid';
-    header('location: /admin/need');
+/**
+ * Sends user back to previous page
+ * @param array $need from the database
+ * @param ?string|null $errorMessage
+ */
+function sendBack(array $need, ?string $errorMessage = null)
+{
+    if ($errorMessage) {
+        $_SESSION['error'] = $errorMessage;
+    }
+
+    header('location: /admin/ready-to-match/' . $need['id'] . '/' . $need['type']);
     exit();
 }
 

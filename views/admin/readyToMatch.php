@@ -42,15 +42,6 @@ if ($type) {
 
 $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// echo '<pre>';
-// echo 'type';
-// print_r($type);
-// echo 'need';
-// print_r($need);
-// echo 'offers';
-// print_r($offers);
-// echo '</pre>';
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -121,15 +112,18 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <i class="fa-solid fa-backward"></i>
                 Terug
             </a>
-            <button type="submit" class="bg-sky-500 font-semibold text-white p-4 hover:bg-sky-600 rounded-md transition">
+            <button type="submit"
+                id="submit"
+                disabled
+                class="bg-sky-500 font-semibold text-white p-4 hover:bg-sky-600 rounded-md transition disabled:bg-slate-400 disabled:hover:bg-slate-500 disabled:text-white">
                 Match
             </button>
         </div>
 
-        <?php if (isset($_SESSION['error'])) {
-            echo $_SESSION['error'];
-            unset($_SESSION['error']);
-        } ?>
+        <?php if (isset($_SESSION['error'])) { ?>
+            <p class="font-bold text-xl justify-self-center p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
+            <?php unset($_SESSION['error']); ?>
+        <?php } ?>
 
     </form>
 

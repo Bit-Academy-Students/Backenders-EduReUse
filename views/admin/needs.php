@@ -94,7 +94,7 @@ $needs = $conn->query($sql);
                             <td><?= $need['postcode'] ?></td>
                             <!-- <td><?= explode(' ', $need['date_created'])[0] ?></td> -->
                             <!-- <td><?= explode(' ', $need['date_modified'])[0] ?></td> -->
-                            <td><?= $need['deadline'] ?></td>
+                            <td><?= $need['deadline'] ? $need['deadline'] : '-' ?></td>
                             <td>
                                 <a href="/admin/ready-to-match/<?= $need['id'] ?>/<?= lcfirst($need['type']) ?>"
                                     class="text-sky-600 font-semibold cursor-pointer hover:underline">
