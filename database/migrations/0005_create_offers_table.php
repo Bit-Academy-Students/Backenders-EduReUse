@@ -15,6 +15,7 @@ $db->connect()->exec(
     postcode varchar(7) NOT NULL,
     date_created DATETIME NOT NULL,
     date_modified DATETIME NOT NULL,
+    image_url VARCHAR(100) NULL,
     type_id INT NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (staat_id) REFERENCES product_states(id),
