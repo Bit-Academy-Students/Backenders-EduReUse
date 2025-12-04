@@ -38,8 +38,8 @@ $recordset2 = $stmt2->execute(['user_id' => $id]);
             </div>
             <nav class="flex flex-row-reverse">
                 <a class="flex bg-white rounded-lg w-30 justify-center items-center" href="logout.php">afmelden</a>
-                <a class="flex justify-center items-center" href="../views/aanvraag.php?id=<?=$_SESSION['id'];?>"> Mijn aanvragen</a>
-                <a class="flex justify-center items-center" href="../views/aanbod.php?id=<?= $_SESSION['id'];?>"> Mijn aanbod</a>
+                <a class="flex justify-center items-center" href="../views/aanvraag.php?id=<?=$id;?>"> Mijn aanvragen</a>
+                <a class="flex justify-center items-center" href="../views/aanbod.php?id=<?= $id;?>"> Mijn aanbod</a>
             </nav>
         </div>
     </header>
@@ -47,7 +47,7 @@ $recordset2 = $stmt2->execute(['user_id' => $id]);
         
         <div class="flex justify-center items-center  pt-10">
 
-            <a href="formulier-need.php">Nieuw apparaat aanvragen</a>
+            <a href="formulier-need.php?id=<?= $id;?>">Nieuw apparaat aanvragen</a>
 
              <table class="w-100">
                 <caption class="caption-top mb-10">
@@ -65,9 +65,9 @@ $recordset2 = $stmt2->execute(['user_id' => $id]);
                 <tbody>
                 <?php while ($need = $stmt2->fetch()) : ?>
                 <tr class=" "> 
-                    <td class="p-3 text-sm"> <?=$need['model']?> </td>
+                    <td class="p-3 text-sm"> <?=$need['titel']?> </td>
                     <td class="p-3 text-sm"> <?=$need['hoeveelheid']?> </td>
-                    <td class="p-3 text-sm">In afwachting</td>
+                    <td class="p-3 text-sm">Open</td>
                 </tr>
                 <?php endwhile; ?>
                 </tbody>

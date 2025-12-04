@@ -38,20 +38,20 @@ $recordset2 = $stmt2->execute(['user_id' => $id]);
             </div>
             <nav class="flex flex-row-reverse">
                 <a class="flex bg-white rounded-lg w-30 justify-center items-center" href="logout.php">afmelden</a>
-                <a class="flex justify-center items-center" href="../views/aanvraag.php?id=<?=$_SESSION['id'];?>"> Mijn aanvragen</a>
-                <a class="flex justify-center items-center" href="../views/aanbod.php?id=<?=$_SESSION['id'];?>"> Mijn aanbod</a>
+                <a class="flex justify-center items-center" href="../views/aanvraag.php?id=<?=$id;?>"> Mijn aanvragen</a>
+                <a class="flex justify-center items-center" href="../views/aanbod.php?id=<?=$id;?>"> Mijn aanbod</a>
             </nav>
         </div>
     </header>
 
     <div class="bg-sky-100 h-screen w-full flex">
 
-        <a href="formulier-donor.php">Nieuw apparaat aanbieden</a>
+        <a href="formulier-donor.php?id=<?=$id?>">Nieuw apparaat aanbieden</a>
 
         <?php while ($offer = $stmt2->fetch()) : ?>
         <div class="mt-10 w-96 p-6 shadow-lg bg-white rounded-lg h-100">
-            <img src="#" alt="apparaat afbeelding" class="w-40">
-            <h2 class="font-bold text-2xl"><?= $offer['model'] ?></h2>
+            <img src="<?= $offer['image_url'] ?>" alt="apparaat afbeelding" class="w-40">
+            <h2 class="font-bold text-2xl"><?= $offer['titel'] ?></h2>
             <p>Status</p>
         </div>
          <?php endwhile; ?>
