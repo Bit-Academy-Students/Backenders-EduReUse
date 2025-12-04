@@ -69,8 +69,17 @@ ORDER BY date_created DESC";
 
 $rows = $conn->query($sql);
 
-$pattern = '/^(?:(?<protocol>[a-z]{2,6})\:\/\/|)?(?<domain>\w.*\.[a-z]{2,})?(?<path>\/(|\w.*))?$/';
-$matches = [];
+$needs = [];
+$offers = [];
+if ($rows) {
+    foreach ($rows as $row) {
+        if (($row['type'] ?? '') === 'Need') {
+            $needs[] = $row;
+        } elseif (($row['type'] ?? '') === 'Offer') {
+            $offers[] = $row;
+        }
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -91,78 +100,74 @@ $matches = [];
     <div class="flex">
         <?php require_once __DIR__ . '/../components/leftSidebar.php' ?>
 
-        <div class="bg-white p-4 rounded-lg m-5 shadow-lg w-5/5">
-            <div class="flex items-center justify-around pb-3 mb-5 border-gray-300">
+        <div class="bg-white p-4 rounded-lg m-5 shadow-lg w-full">
+            <div class="flex items-center justify-between pb-3 mb-5 border-b border-gray-300">
                 <!-- header -->
                 <h1 class="font-bold text-3xl">Alles</h1>
 
-                <div class="flex gap-5 items-baseline">
-                    <button type="button">Delete</button>
-                    <button type="button">Filters</button>
-                    <input id="search"
-                        placeholder="Search"
-                        type="text"
-                        class="bg-slate-100 mt-2 rounded-md shadow-xs rounded-md py-1.5 px-3">
+                <div class="flex gap-4 items-center">
+                    <button type="button" class="px-3 py-1 bg-red-100 rounded hover:bg-red-200">Delete</button>
+                    <button type="button" class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200">Filters</button>
+                    <input id="search" placeholder="Search" type="text" class="bg-slate-100 rounded-md shadow-xs py-1.5 px-3">
                 </div>
-
-                <div></div>
             </div>
 
-            <table>
-                <tr class="*:border-b-1 *:border-slate-300 *:pb-4">
-                    <th>Type</th>
-                    <th>ID</th>
-                    <th>Titel</th>
-                    <th>Product Type</th>
-                    <th>Staat</th>
-                    <th>Hoeveelheid</th>
-                    <th>Beschrijving</th>
-                    <th>Postcode</th>
-                    <th>Deadline</th>
-                    <th>Datum Gecreëerd</th>
-                    <th>Datum Gewijzigd</th>
-                    <th>Gebruiker</th>
-                    <th>URL</th>
-                </tr>
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- Needs column -->
+                <div class="w-full lg:w-1/2">
+                    <h2 class="font-semibold text-xl mb-3 text-black-600">Aanvragen</h2>
+                    <div class="space-y-4">
+                        <?php if (!empty($needs)) : ?>
+                            <?php foreach ($needs as $need) : ?>
+                                <a href="/admin/need/<?= htmlspecialchars($need['id']) ?>" class="block">
+                                    <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md hover:border-black-400 cursor-pointer transition-all">
+                                        <h3 class="text-lg font-medium text-gray-800 mb-2">
+                                            <?= htmlspecialchars($need['titel'] ?? '-') ?>
+                                        </h3>
 
-                <?php if ($rows) { ?>
-                    <?php foreach ($rows as $row) { ?>
-                        <tr class="*:border-t-1 *:border-slate-300 *:text-center">
-                            <td><?= $row['type'] ?></td>
-                            <td>
-                                <a href="
-                                    <?php if ($row['type'] === 'Need') { ?>
-                                        /admin/need/<?= $row['id'] ?>">
-                                <?php } elseif ($row['type'] === 'Offer') { ?>
-                                    /admin/offer/<?= $row['id'] ?>">
-                                <?php } ?>
-                                <?= $row['id'] ?? '-' ?>
+                                        <div class="space-y-1 text-sm text-gray-600">
+                                            <div><strong>Gebruiker:</strong> <?= htmlspecialchars($need['user_name'] ?? '-') ?></div>
+                                            <div><strong>Postcode:</strong> <?= htmlspecialchars($need['postcode'] ?? '-') ?></div>
+                                            <div><strong>Type:</strong> <?= htmlspecialchars($need['product_type'] ?? '-') ?></div>
+                                            <div><strong>Datum gecreëerd:</strong> <?= htmlspecialchars(explode(' ', $need['date_created'])[0] ?? '-') ?></div>
+                                        </div>
+                                    </div>
                                 </a>
-                            </td>
-                            <td><?= $row['titel'] ?></td>
-                            <td><?= $row['product_type'] ?></td>
-                            <td><?= $row['staat'] ?? '-' ?></td>
-                            <td><?= $row['hoeveelheid'] ?></td>
-                            <td><?= $row['beschrijving'] ?? '-' ?></td>
-                            <td><?= $row['postcode'] ?></td>
-                            <td><?= $row['deadline'] ?? '-' ?></td>
-                            <td><?= explode(' ', $row['date_created'])[0] ?></td>
-                            <td><?= explode(' ', $row['date_modified'])[0] ?></td>
-                            <td><?= $row['user_name'] ?></td>
-                            <td>
-                                <?php if (isset($row['product_url'])) :
-                                    preg_match($pattern, $row['product_url'], $matches); ?>
-                                    <a href="<?= $row['product_url'] ?>"
-                                        target="_blank"
-                                        class="text-blue-500 hover:underline">
-                                        <?= $matches['domain'] ?>
-                                    </a>
-                                <?php endif ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                <?php } ?>
-            </table>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <p class="text-gray-600">Geen aanvragen gevonden.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Offers column -->
+                <div class="w-full lg:w-1/2">
+                    <h2 class="font-semibold text-xl mb-3 text-black-600">Offers</h2>
+                    <div class="space-y-4">
+                        <?php if (!empty($offers)) : ?>
+                            <?php foreach ($offers as $offer) : ?>
+                                <a href="/admin/offer/<?= htmlspecialchars($offer['id']) ?>" class="block">
+                                    <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md hover:border-black-400 cursor-pointer transition-all">
+                                        <h3 class="text-lg font-medium text-gray-800 mb-2">
+                                            <?= htmlspecialchars($offer['titel'] ?? '-') ?>
+                                        </h3>
+
+                                        <div class="space-y-1 text-sm text-gray-600">
+                                            <div><strong>Gebruiker:</strong> <?= htmlspecialchars($offer['user_name'] ?? '-') ?></div>
+                                            <div><strong>Postcode:</strong> <?= htmlspecialchars($offer['postcode'] ?? '-') ?></div>
+                                            <div><strong>Type:</strong> <?= htmlspecialchars($offer['product_type'] ?? '-') ?></div>
+                                            <div><strong>Datum gecreëerd:</strong> <?= htmlspecialchars(explode(' ', $offer['date_created'])[0] ?? '-') ?></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <p class="text-gray-600">Geen offers gevonden.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>
