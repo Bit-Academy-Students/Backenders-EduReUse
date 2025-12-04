@@ -51,6 +51,9 @@ if ($_SERVER['REQUEST_URI'] === '/admin') {
     exit();
 }
 
+// TODO: DELETE ROUTE
+// post('/admin/matches', 'views/admin/matches.php');
+
 // jenebi aanbod
 get('/aanbod', 'views/aanbod.php');
 

@@ -74,7 +74,6 @@ $needs = $conn->query($sql);
                     <th>Omschrijving</th>
                     <th>Postcode</th>
                     <th>Deadline</th>
-                    <!-- <th>Datum gewijzigd</th> -->
                     <td></td>
                 </tr>
 
@@ -101,7 +100,6 @@ $needs = $conn->query($sql);
                                     Match
                                 </a>
                             </td>
-                            <!-- <td><a href="/ready-to-match/?key1=value&key2=value" class="text-sky-600 font-semibold cursor-pointer hover:underline">Match</a></td> -->
                         </tr>
                     <?php } ?>
                 <?php } ?>
