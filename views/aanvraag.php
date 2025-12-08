@@ -47,8 +47,8 @@ try {
             $postcode = substr($postcode, 0, 4) . ' ' . substr($postcode, 4, 6);
         }
 
-        $sql = "INSERT INTO needs (titel, type_id, hoeveelheid, postcode, deadline, user_id, date_created, date_modified)
-            VALUES (:titel, :typeId, :hoeveelheid, :postcode, :deadline, :userId, :dateCreated, :dateModified)";
+        $sql = "INSERT INTO needs (titel, type_id, hoeveelheid, postcode, deadline, user_id, date_created, date_modified, is_completed)
+            VALUES (:titel, :typeId, :hoeveelheid, :postcode, :deadline, :userId, :dateCreated, :dateModified, :isCompleted)";
 
         $exec = $conn->prepare($sql);
         $exec->execute([
@@ -60,6 +60,7 @@ try {
             'userId' => $_SESSION['id'],
             'dateCreated' => date('Y-m-d G:i:s'),
             'dateModified' => date('Y-m-d G:i:s'),
+            'isCompleted' => 0,
         ]);
 
         header('location: /school-posts');

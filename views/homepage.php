@@ -46,7 +46,7 @@ $conn->query("USE " . $db->getDbName());
                     illum vitae, laboriosam id iusto odio. Consequatur dolores quae culpa sequi earum officiis eveniet
                     ullam dolor accusantium?
                 </p>
-                <a href="<?= $_SESSION['id'] ? '/school-posts' : '/register' ?>" class="bg-sky-500 text-white rounded-md p-1.5 w-30 mt-5 hover:bg-sky-600 transition">
+                <a href="<?= isset($_SESSION['id']) ? '/school-posts' : '/register' ?>" class="bg-sky-500 text-white rounded-md p-1.5 w-30 mt-5 hover:bg-sky-600 transition">
                     Meld je nu aan
                 </a>
             </div>

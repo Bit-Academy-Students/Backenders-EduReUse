@@ -9,6 +9,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
+// connect to, drop and add database
 $db = new Database();
 $db->connect()->query("DROP DATABASE IF EXISTS " . $_ENV['DB_NAME']);
 
@@ -19,8 +20,7 @@ if (!$db->databaseExists($_ENV['DB_NAME'])) {
 $db->connect()->query("USE " . $db->getDbName());
 
 // run migrations in migrations folder
-$folder = '/migrations';
-$dir = new DirectoryIterator(__DIR__ . $folder);
+$dir = new DirectoryIterator(__DIR__ . '/migrations');
 
 // sort migrations on filename
 $migrations = [];

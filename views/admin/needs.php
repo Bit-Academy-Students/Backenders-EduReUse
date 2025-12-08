@@ -25,15 +25,16 @@ if (!$user['is_admin']) {
 }
 
 // needs
-$sql = "SELECT needs.id, needs.titel, needs.hoeveelheid, needs.postcode, needs.deadline, needs.date_created, needs.date_modified, types.type, users.naam
+$sql = "SELECT needs.id, needs.titel, needs.hoeveelheid, needs.postcode, needs.deadline, needs.date_created, needs.date_modified, types.type, users.naam, needs.is_completed
 FROM `needs`
 
 INNER JOIN types ON needs.type_id = types.id
 INNER JOIN users ON needs.user_id = users.id
-
 ORDER BY needs.id DESC";
 
-$needs = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -79,28 +80,31 @@ $needs = $conn->query($sql);
 
                 <?php if ($needs) { ?>
                     <?php foreach ($needs as $need) { ?>
-                        <tr class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center">
-                            <td>
-                                <a href="/admin/needs/<?= $need['id'] ?>"
-                                    class="text-sky-600 font-semibold">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                </a>
-                            </td>
-                            <td class="text-left"><?= $need['naam'] ?></td>
-                            <td><?= $need['type'] ?></td>
-                            <td><?= $need['hoeveelheid'] ?></td>
-                            <td><?= $need['titel'] ?></td>
-                            <td><?= $need['postcode'] ?></td>
-                            <!-- <td><?= explode(' ', $need['date_created'])[0] ?></td> -->
-                            <!-- <td><?= explode(' ', $need['date_modified'])[0] ?></td> -->
-                            <td><?= $need['deadline'] ? $need['deadline'] : '-' ?></td>
-                            <td>
-                                <a href="/admin/ready-to-match/<?= $need['id'] ?>/<?= lcfirst($need['type']) ?>"
-                                    class="text-sky-600 font-semibold cursor-pointer hover:underline">
-                                    Match
-                                </a>
-                            </td>
-                        </tr>
+                        <?php if (!$need['is_completed']) { // only display need if admin hasn't handled the needs
+                        ?>
+                            <tr class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center">
+                                <td>
+                                    <a href="/admin/needs/<?= $need['id'] ?>"
+                                        class="text-sky-600 font-semibold">
+                                        <i class="fa-solid fa-angles-right"></i>
+                                    </a>
+                                </td>
+                                <td class="text-left"><?= $need['naam'] ?></td>
+                                <td><?= $need['type'] ?></td>
+                                <td><?= $need['hoeveelheid'] ?></td>
+                                <td><?= $need['titel'] ?></td>
+                                <td><?= $need['postcode'] ?></td>
+                                <!-- <td><?= explode(' ', $need['date_created'])[0] ?></td> -->
+                                <!-- <td><?= explode(' ', $need['date_modified'])[0] ?></td> -->
+                                <td><?= $need['deadline'] ? $need['deadline'] : '-' ?></td>
+                                <td>
+                                    <a href="/admin/ready-to-match/<?= $need['id'] ?>/<?= lcfirst($need['type']) ?>"
+                                        class="text-sky-600 font-semibold cursor-pointer hover:underline">
+                                        Match
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
                     <?php } ?>
                 <?php } ?>
             </table>

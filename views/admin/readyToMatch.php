@@ -66,8 +66,8 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
 
-    <form action="/admin/match" method="POST">
-        <div class="flex flex-col bg-white rounded-lg shadow-lg justify-self-center w-[90%] mb-10 p-6">
+    <form action="/admin/match" method="GET">
+        <div class="flex flex-col bg-white rounded-lg shadow-lg justify-self-center w-[90%] p-6">
             <?php if (empty($need)) { ?>
                 <h1 class="text-center text-2xl font-bold">Geen aanvraag met id '<?= $needId ?>' gevonden..</h1>
                 <?php exit(); ?>
@@ -94,13 +94,13 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
 
                 <?php foreach ($offers as $offer) { ?>
-                    <tr class="*:border-t *:border-gray-200 *:text-center *:m-2 *:py-2 hover:bg-slate-50 transition">
+                    <tr class="*:border-t *:border-gray-200 *:text-center *:m-2 *:py-2 hover:bg-slate-50 cursor-pointer transition">
                         <td class="rounded-tl-lg rounded-bl-lg"><?= isset($offer['foto']) ? $offer['foto'] : '(leeg)' ?></td>
                         <td><?= $offer['naam'] ?></td>
                         <td><?= $offer['titel'] ?></td>
                         <td><?= $offer['type'] ?></td>
                         <td><?= $offer['label'] ?></td>
-                        <td><?= $offer['hoeveelheid'] ?></td>
+                        <td id="amount"><?= $offer['hoeveelheid'] ?></td>
                         <td class="rounded-tr-lg rounded-br-lg">
                             <input type="checkbox" name="selected_offers[]" value="<?= $offer['id'] ?>" class="w-4 h-4">
                         </td>
@@ -110,6 +110,14 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <input type="hidden" name="need_id" value="<?= $needId ?>">
             <input type="hidden" name="type_id" value="<?= $type['id'] ?>">
+        </div>
+
+        <!-- TODO: count van totaal geselecteerde items weergeven met javascript -->
+        <div class="w-[95%] mb-3 mt-4">
+            <div id="totalDiv" class="flex gap-2 justify-self-end p-4 bg-white rounded-lg shadow-md" hidden>
+                <p id="total"></p>
+                <span class="text-slate-500">(max <?= $need['hoeveelheid'] ?>)</span>
+            </div>
         </div>
 
         <div class="flex gap-5 items-center justify-center fixed bottom-0 bg-slate-200 w-full p-2">

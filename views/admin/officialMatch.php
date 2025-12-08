@@ -14,7 +14,7 @@ $conn->query("USE " . $db->getDbName());
 // get type from database
 $sql = "SELECT * FROM types WHERE id = :typeId";
 $stmt = $conn->prepare($sql);
-$stmt->execute(['typeId' => $_POST['type_id']]);
+$stmt->execute(['typeId' => $_GET['type_id']]);
 
 $type = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -25,13 +25,13 @@ INNER JOIN types ON needs.type_id = types.id
 INNER JOIN users ON needs.user_id = users.id
 WHERE needs.id = :need_id";
 $stmt = $conn->prepare($sql);
-$stmt->execute(['need_id' => $_POST['need_id']]);
+$stmt->execute(['need_id' => $_GET['need_id']]);
 
 $need = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // send user back if no offers are selected
-if (!isset($_POST['selected_offers'])) {
-    sendBack($need);
+if (!isset($_GET['selected_offers'])) {
+    sendBackWithSessionError($need);
 }
 
 // get offers with correct type from database
@@ -46,14 +46,20 @@ $stmt = $conn->prepare($sql);
 
 // store offer(s)
 $offers = [];
-if (!is_array($_POST['selected_offers'])) {
-    $stmt->execute(['offerId' => $_POST['selected_offers']]);
+
+$amount = 0;
+if (!is_array($_GET['selected_offers'])) {
+    $stmt->execute(['offerId' => $_GET['selected_offers']]);
     $offers = $stmt->fetch(PDO::FETCH_ASSOC);
+    $amount = $offers['hoeveelheid'];
 } else {
     $offers = [];
-    foreach ($_POST['selected_offers'] as $offerId) {
+    foreach ($_GET['selected_offers'] as $offerId) {
         $stmt->execute(['offerId' => $offerId]);
         $offers[] = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    foreach ($offers as $offer) {
+        $amount += $offer['hoeveelheid'];
     }
 }
 
@@ -62,7 +68,7 @@ $i = 0;
 foreach ($offers as $offer) {
     $i += $offer['hoeveelheid'];
     if ($i > $need['hoeveelheid'] || $i == 0) {
-        sendBack($need, 'Het aantal gekozen aanbiedingen is meer dan de gevraagde hoeveelheid');
+        sendBackWithSessionError($need, 'Het aantal gekozen aanbiedingen is meer dan de gevraagde hoeveelheid');
     }
 }
 
@@ -72,14 +78,20 @@ $stmt = $conn->query($sql);
 
 $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$isFulfilled = 0;
+if ($need['hoeveelheid'] === $amount) {
+    $isFulfilled = 1;
+}
+
+
 /**
  * Sends user back to previous page
  * @param array $need from the database
  * @param ?string|null $errorMessage
  */
-function sendBack(array $need, ?string $errorMessage = null)
+function sendBackWithSessionError(array $need, ?string $errorMessage = null)
 {
-    if ($errorMessage) {
+    if (!empty($errorMessage)) {
         $_SESSION['error'] = $errorMessage;
     }
 
@@ -113,7 +125,7 @@ function sendBack(array $need, ?string $errorMessage = null)
         Verifieer en bevestig match
     </h1>
 
-    <form action="/admin/matches" method="post">
+    <form method="post">
         <div class="grid grid-cols-1 md:grid-cols-11 justify-self-center w-9/10 gap-4">
             <div class="flex flex-col bg-white rounded-lg shadow-md justify-self-center w-full my-10 px-6 pt-6 md:col-span-5">
                 <h1 class="font-bold text-3xl text-center mb-4">
@@ -122,11 +134,12 @@ function sendBack(array $need, ?string $errorMessage = null)
                 <div class="flex flex-col *:text-lg">
                     <?php foreach ($offers as $offer) { ?>
                         <div class="border-t-1 border-gray-200 py-4 *:my">
-                            <p><b>Gebruiker</b> <?= $offer['naam'] ?></p>
-                            <p><b>Titel</b> <?= $offer['titel'] ?></p>
+                            <p class="text-center text-2xl font-semibold"><?= $offer['titel'] ?></p>
                             <p><b>Aantal</b> <?= $offer['hoeveelheid'] ?></p>
                             <p><b>Staat</b> <?= $offer['label'] ?></p>
+                            <p><b>Aanbieder</b> <?= $offer['naam'] ?></p>
                             <p><b>Ophaalpostcode</b> <?= $offer['postcode'] ?></p>
+                            <input type="hidden" name="offers[]" value="<?= $offer['id'] ?>">
                         </div>
                     <?php } ?>
                 </div>
@@ -138,10 +151,11 @@ function sendBack(array $need, ?string $errorMessage = null)
                 <h1 class="font-bold text-3xl text-center mb-4">
                     Aanvraag
                 </h1>
-                <div class="flex flex-col border-t-1 border-gray-200 pt-4 *:my *:text-lg">
-                    <p><b>Type</b> <?= $need['type'] ?></p>
-                    <p><b>Aantal nodig</b> <?= $need['hoeveelheid'] ?></p>
-                    <p><b>Aflever postcode</b> <?= $need['postcode'] ?></p>
+                <div class="flex flex-col border-t-1 border-gray-200 pt-4 *:my">
+                    <p class="text-center text-2xl font-semibold"><?= $need['titel'] ?></p>
+                    <p class="text-lg"><b>Type</b> <?= $need['type'] ?></p>
+                    <p class="text-lg"><b>Aantal nodig</b> <?= $need['hoeveelheid'] ?></p>
+                    <p class="text-lg"><b>Aflever postcode</b> <?= $need['postcode'] ?></p>
                 </div>
             </div>
         </div>
@@ -181,6 +195,10 @@ function sendBack(array $need, ?string $errorMessage = null)
                 </label>
                 <input type="checkbox" name="confirmed" id="confirmed" class="w-4 h-4">
             </div>
+            <?php if (isset($_SESSION['error'])) { ?>
+                <p class="font-bold text-xl p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
+                <?php unset($_SESSION['error']); ?>
+            <?php } ?>
         </div>
 
         <!-- match button footer -->
@@ -190,6 +208,10 @@ function sendBack(array $need, ?string $errorMessage = null)
                 <i class="fa-solid fa-backward"></i>
                 Terug
             </a>
+
+            <input type="hidden" name="need_id" value="<?= $need['id'] ?>">
+            <input type="hidden" name="previous-url" value="<?= $_SERVER['REQUEST_URI'] ?>">
+            <input type="hidden" name="need-fulfilled" value="<?= $isFulfilled ?>">
             <button type="submit"
                 id="submit"
                 disabled

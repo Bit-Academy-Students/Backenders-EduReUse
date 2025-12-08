@@ -14,6 +14,7 @@ $db->connect()->exec(
     deadline DATE NULL,
     date_created DATETIME NOT NULL,
     date_modified DATETIME NOT NULL,
+    is_completed TINYINT NOT NULL,
     type_id INT NOT NULL,
     user_id INT NOT NULL,
     FOREIGN KEY (type_id) REFERENCES types(id),

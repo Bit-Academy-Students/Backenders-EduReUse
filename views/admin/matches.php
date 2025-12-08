@@ -89,7 +89,6 @@ $matches = $conn->query($sql);
                     <th>Ophaal postcode</th>
                     <th>Aflever postcode</th>
                     <th>Datum toegevoegd</th>
-                    <th>Datum gewijzigd</th>
                 </tr>
 
                 <?php if ($matches) { ?>
@@ -108,7 +107,6 @@ $matches = $conn->query($sql);
                             <td><?= $match['ophaal_postcode'] ?></td>
                             <td><?= $match['aflever_postcode'] ?></td>
                             <td><?= explode(' ', $match['date_created'])[0] ?></td>
-                            <td><?= explode(' ', $match['date_modified'])[0] ?></td>
                         </tr>
                     <?php } ?>
                 <?php } ?>

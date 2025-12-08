@@ -45,6 +45,7 @@ if (isset($user) && $user['is_admin'] === 1) {
         <?php } ?>
 
         <?php if ($loggedInUser) { ?>
+            <a href="/user/profiel" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-user"></i></a>
             <a href="/logout" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-right-from-bracket"></i></a>
         <?php } ?>
     </div>
