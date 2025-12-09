@@ -27,8 +27,8 @@ class OfferSeeder extends Seeder
         string $postcode,
         int $typeId,
         int $userId,
-        ?string $image_url = NULL,
-        string $productUrl
+        string $productUrl,
+        ?string $image_url = NULL
     ): void {
         $pattern = '/(?<letters>\d{4}) (?<nummers>[a-zA-Z]{2})/';
         if (!preg_match($pattern, $postcode)) {
