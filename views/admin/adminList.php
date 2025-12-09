@@ -109,7 +109,7 @@ if ($rows) {
 
                 <div class="flex gap-4 items-center">
                     <label for="hide-handled">Verberg afgehandeld</label>
-                    <input type="checkbox" name="hide-handled" id="hide-handled" checked>
+                    <input type="checkbox" name="hide-handled" id="hide-handled">
                     <button type="button" class="px-3 py-1 bg-red-100 rounded hover:bg-red-200">Delete</button>
                     <button type="button" class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200">Filters</button>
                     <input id="search" placeholder="Search" type="text" class="bg-slate-100 rounded-md shadow-xs py-1.5 px-3">

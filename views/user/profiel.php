@@ -28,13 +28,24 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <body class="bg-gray-100">
     <?php require_once __DIR__ . '/../components/header.php' ?>
 
-    <div class="flex flex-col bg-white justify-self-center shadow-lg w-[90%] md:w-[80%] lg:w-[70%] gap-3 rounded-lg p-6 my-15 mx-auto">
-        <h1 class="font-bold text-3xl text-center">Profiel</h1>
+    <div class="flex flex-col bg-white justify-self-center shadow-lg w-[90%] md:w-[80%] gap-6 rounded-lg p-8 my-10">
+        <h1 class="font-bold text-4xl text-center text-[#5481B7] border-b-1 border-gray-300 pb-4">Profiel</h1>
 
-        <div class="flex flex-col">
-            <p><b>Email</b> <?= $user['email'] ?></p>
-            <p><b>Gebruikersnaam</b> <?= $user['naam'] ?></p>
-            <p class="text-gray-500"><b class="text-black">Aangemaakt op</b> <?= $user['date_created'] ?></p>
+        <div class="flex flex-col gap-4 text-lg">
+            <p><b class="text-gray-700">Email:</b> <span class="text-black"><?= $user['email'] ?></span></p>
+            <p><b class="text-gray-700">Gebruikersnaam:</b> <span class="text-black"><?= $user['naam'] ?></span></p>
+            <p class="text-gray-500"><b class="text-gray-700">Aangemaakt op:</b> <span class="text-black"><?= $user['date_created'] ?></span></p>
+        </div>
+
+        <div class="flex flex-row gap-5 justify-center">
+            <a href="/user/edit-profile"
+                class="bg-sky-500 text-white rounded-md p-1.5 w-fit hover:bg-sky-600 transition">
+                Edit profile
+            </a>
+            <a href="/user/change-password"
+                class="bg-sky-500 text-white rounded-md p-1.5 w-fit hover:bg-sky-600 transition">
+                Change password
+            </a>
         </div>
     </div>
 </body>

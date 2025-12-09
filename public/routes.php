@@ -2,6 +2,7 @@
 
 use Controllers\DonateController;
 use Controllers\MatchController;
+use Controllers\UserController;
 
 require_once __DIR__ . '/router.php';
 
@@ -18,6 +19,20 @@ post('/register', 'views/register.php');
 // user + posts
 get('/user/profiel', 'views/user/profiel.php');
 get('/user/posts', 'views/schoolPosts.php');
+get('/user/edit-profile', 'views/user/editUser.php');
+post('/user/edit-profile', function () {
+    // 
+});
+
+get('/user/change-password', 'views/user/editPassword.php');
+post('/user/change-password', function () {
+    $controller = new UserController();
+    $controller->editPass();
+});
+if ($_SERVER['REQUEST_URI'] === '/user') {
+    header('location: /user/profiel');
+    exit();
+}
 
 // donaties
 get('/doneer', 'views/aanbod-formulier.php');
