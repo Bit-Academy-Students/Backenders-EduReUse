@@ -44,10 +44,11 @@ class DonateController extends Seeder
         $aantal = $_POST['aantal'];
         $beschrijving = $_POST['beschrijving'];
         $staat = $_POST['staat'];
-        $postcode = $_POST['postcode'];
+        $postcode = strtoupper($_POST['postcode']);
+        $url = $_POST['url'];
 
-        $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, type_id, user_id)
-            VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :dateCreated, :dateModified, :typeId, :userId)";
+        $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, type_id, user_id, product_url, is_completed)
+            VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :dateCreated, :dateModified, :typeId, :userId, :productUrl, :isCompleted)";
 
         $now = $this->now();
         $exec = $this->conn->prepare($sql);
@@ -61,9 +62,11 @@ class DonateController extends Seeder
             'dateModified' => $now,
             'typeId' => $type,
             'userId' => $_SESSION['id'],
+            'productUrl' => $url,
+            'isCompleted' => 0,
         ]);
 
-        header('location: /school-posts');
+        header('location: /user/posts');
         exit();
     }
 }

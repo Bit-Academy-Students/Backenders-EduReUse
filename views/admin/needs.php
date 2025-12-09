@@ -55,7 +55,7 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="flex">
         <?php require_once __DIR__ . '/../components/leftSidebar.php' ?>
 
-        <div class="bg-white p-4 rounded-lg m-5 shadow-lg">
+        <div class="bg-white p-4 rounded-lg m-5 shadow-lg w-full">
             <div class="flex items-center justify-around pb-3 mb-5 border-gray-300">
                 <h1 class="font-bold text-3xl">Aanvragen</h1>
 
@@ -66,7 +66,7 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
 
-            <table>
+            <table class="w-full">
                 <tr class="*:pb-4">
                     <th></th>
                     <th>(school)naam</th>

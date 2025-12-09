@@ -13,6 +13,7 @@ $db->connect()->exec(
     hoeveelheid INT NOT NULL,
     beschrijving TEXT NULL,
     postcode varchar(7) NOT NULL,
+    is_completed TINYINT NOT NULL,
     date_created DATETIME NOT NULL,
     date_modified DATETIME NOT NULL,
     type_id INT NOT NULL,

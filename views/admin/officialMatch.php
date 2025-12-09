@@ -75,14 +75,10 @@ foreach ($offers as $offer) {
 // get statuses from database
 $sql = "SELECT * FROM statuses";
 $stmt = $conn->query($sql);
-
 $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$isFulfilled = 0;
-if ($need['hoeveelheid'] === $amount) {
-    $isFulfilled = 1;
-}
-
+// check if need is completely fulfilled
+$isFulfilled = ($need['hoeveelheid'] === $amount) ? 1 : 0;
 
 /**
  * Sends user back to previous page
@@ -157,6 +153,13 @@ function sendBackWithSessionError(array $need, ?string $errorMessage = null)
                     <p class="text-lg"><b>Aantal nodig</b> <?= $need['hoeveelheid'] ?></p>
                     <p class="text-lg"><b>Aflever postcode</b> <?= $need['postcode'] ?></p>
                 </div>
+                <?php if ($amount !== $need['hoeveelheid']) { ?>
+                    <div class="border-t-1 border-gray-200 pt-2 mt-2">
+                        <p class="text-gray-400">
+                            Na de match heeft <?= $need['naam'] ?> <b class="text-gray-600">nog <?= $need['hoeveelheid'] - $amount ?> <?= $need['type'] ?></b> nodig
+                        </p>
+                    </div>
+                <?php } ?>
             </div>
         </div>
 

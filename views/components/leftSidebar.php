@@ -2,7 +2,7 @@
 <?php $e = explode('/admin/', $uri) ?>
 <?php $page = $e[1]; ?>
 
-<aside class="flex flex-col gap-4 my-10 ml-4 w-1/10">
+<aside class="flex flex-col gap-4 my-10 ml-4 w-1/10 p-2">
     <a href="/admin/alles">
         <h2 class="text-2xl hover:font-bold <?= ($page === 'alles') ? 'font-bold' : '' ?>">
             Alles

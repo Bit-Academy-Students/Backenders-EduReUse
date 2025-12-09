@@ -15,11 +15,12 @@ get('/logout', 'views/logout.php');
 get('/register', 'views/register.php');
 post('/register', 'views/register.php');
 
-// user's posts
-get('/school-posts', 'views/schoolPosts.php');
+// user + posts
+get('/user/profiel', 'views/user/profiel.php');
+get('/user/posts', 'views/schoolPosts.php');
 
 // donaties
-get('/doneer', 'views/doneer.php');
+get('/doneer', 'views/aanbod-formulier.php');
 post('/doneer', function () {
     try {
         // voeg donatie toe aan database
@@ -44,18 +45,6 @@ get('/admin/matches', 'views/admin/matches.php');
 get('/admin/ready-to-match/$needId/$typeLabel', 'views/admin/readyToMatch.php');
 get('/admin/match', 'views/admin/officialMatch.php');
 post('/admin/match', function () {
-    if (!isset($_SESSION['id'])) {
-        header('location: /login');
-        exit();
-    }
-
-    if (!isset($_POST['offers']) || !isset($_POST['status']) || !isset($_POST['need_id'])) {
-        $_SESSION['error'] = 'Er is iets fout gegaan...';
-        header('location: ' . $_POST['previous-url']);
-        exit();
-    }
-
-    // TODO: Store in the database!!!!
     $controller = new MatchController();
     $controller->post($_POST);
 });
@@ -68,12 +57,6 @@ if ($_SERVER['REQUEST_URI'] === '/admin') {
     header('location: /admin/alles');
     exit();
 }
-
-// user
-get('/user/profiel', 'views/user/profiel.php');
-
-// jenebi aanbod
-get('/aanbod', 'views/aanbod-formulier.php');
 
 // error pagina's
 any('/404', 'views/404.php');

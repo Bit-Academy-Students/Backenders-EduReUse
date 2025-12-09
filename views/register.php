@@ -3,7 +3,7 @@
 use Database\Database;
 
 if (isset($_SESSION['id'])) {
-    header('Location: /school-posts');
+    header('Location: /user/posts');
     exit();
 }
 $db = new Database();
@@ -94,6 +94,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Heb je al een account? Klik hier om in te loggen
         </a>
     </div>
+
+    <script>
+        const input = document.getElementById('naam');
+        input.focus();
+        input.select();
+    </script>
 </body>
 
 </html>

@@ -32,7 +32,7 @@ if (isset($user) && $user['is_admin'] === 1) {
 
     <div class="flex gap-8">
         <?php if ($loggedInUser) { ?>
-            <a href="/school-posts" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-envelopes-bulk"></i></a>
+            <a href="/user/posts" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-envelopes-bulk"></i></a>
         <?php } ?>
 
         <?php if (!$loggedInUser) { ?>

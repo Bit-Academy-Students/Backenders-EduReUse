@@ -63,7 +63,7 @@ try {
             'isCompleted' => 0,
         ]);
 
-        header('location: /school-posts');
+        header('location: /user/posts');
         exit();
     }
 } catch (Exception $e) {
@@ -158,6 +158,12 @@ try {
             <p class="font-bold text-center rounded-md bg-red-300 text-red-600"><?= $error ?></p>
         <?php } ?>
     </div>
+
+    <script>
+        const input = document.getElementById('omschrijving');
+        input.focus();
+        input.select();
+    </script>
 </body>
 
 </html>

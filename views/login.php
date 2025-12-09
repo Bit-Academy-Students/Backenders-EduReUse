@@ -3,7 +3,7 @@
 use Database\Database;
 
 if (isset($_SESSION['id'])) {
-    header('Location: /school-posts');
+    header('Location: /user/posts');
     exit();
 }
 $db = new Database();
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($loggedInUser && (($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord']))) {
         $_SESSION["id"] = $loggedInUser["id"];
-        header("Location: /school-posts");
+        header("Location: /user/posts");
         exit();
     } else {
         echo 'Invalid email and/or wachtwoord';
@@ -81,7 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </a>
         </div>
     </div>
-
 </body>
 
 </html>

@@ -27,7 +27,7 @@ $stmt->execute(['need_id' => $needId]);
 $need = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // get offers with correct type from database
-$sql = "SELECT offers.id, offers.titel, product_states.label, offers.hoeveelheid, offers.beschrijving, offers.postcode, offers.date_created, offers.date_modified, types.type, users.naam
+$sql = "SELECT offers.id, offers.titel, product_states.label, offers.hoeveelheid, offers.beschrijving, offers.postcode, offers.date_created, offers.date_modified, types.type, users.naam, offers.is_completed
 FROM `offers`
 INNER JOIN product_states ON offers.staat_id = product_states.id
 INNER JOIN types ON offers.type_id = types.id
@@ -94,17 +94,20 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tr>
 
                 <?php foreach ($offers as $offer) { ?>
-                    <tr class="*:border-t *:border-gray-200 *:text-center *:m-2 *:py-2 hover:bg-slate-50 cursor-pointer transition">
-                        <td class="rounded-tl-lg rounded-bl-lg"><?= isset($offer['foto']) ? $offer['foto'] : '(leeg)' ?></td>
-                        <td><?= $offer['naam'] ?></td>
-                        <td><?= $offer['titel'] ?></td>
-                        <td><?= $offer['type'] ?></td>
-                        <td><?= $offer['label'] ?></td>
-                        <td id="amount"><?= $offer['hoeveelheid'] ?></td>
-                        <td class="rounded-tr-lg rounded-br-lg">
-                            <input type="checkbox" name="selected_offers[]" value="<?= $offer['id'] ?>" class="w-4 h-4">
-                        </td>
-                    </tr>
+                    <?php if (!$offer['is_completed']) { // only display need if admin hasn't handled the needs
+                    ?>
+                        <tr class="*:border-t *:border-gray-200 *:text-center *:m-2 *:py-2 hover:bg-slate-50 cursor-pointer transition">
+                            <td class="rounded-tl-lg rounded-bl-lg"><?= isset($offer['foto']) ? $offer['foto'] : '(leeg)' ?></td>
+                            <td><?= $offer['naam'] ?></td>
+                            <td><?= $offer['titel'] ?></td>
+                            <td><?= $offer['type'] ?></td>
+                            <td><?= $offer['label'] ?></td>
+                            <td id="amount"><?= $offer['hoeveelheid'] ?></td>
+                            <td class="rounded-tr-lg rounded-br-lg">
+                                <input type="checkbox" name="selected_offers[]" value="<?= $offer['id'] ?>" class="w-4 h-4">
+                            </td>
+                        </tr>
+                    <?php } ?>
                 <?php } ?>
             </table>
 
@@ -112,7 +115,7 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <input type="hidden" name="type_id" value="<?= $type['id'] ?>">
         </div>
 
-        <!-- TODO: count van totaal geselecteerde items weergeven met javascript -->
+        <!-- count of total selected items -->
         <div class="w-[95%] mb-3 mt-4">
             <div id="totalDiv" class="flex gap-2 justify-self-end p-4 bg-white rounded-lg shadow-md" hidden>
                 <p id="total"></p>

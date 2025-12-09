@@ -27,7 +27,8 @@ class OfferSeeder extends Seeder
         string $postcode,
         int $typeId,
         int $userId,
-        string $productUrl
+        string $productUrl,
+        ?int $isCompleted = 0,
     ): void {
         $pattern = '/(?<letters>\d{4}) (?<nummers>[a-zA-Z]{2})/';
         if (!preg_match($pattern, $postcode)) {
@@ -36,8 +37,8 @@ class OfferSeeder extends Seeder
 
         $now = $this->now();
         $this->db->exec(
-            "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, type_id, user_id, product_url)
-            VALUES ('$title', $staatId, $hoeveelheid, '$beschrijving', '$postcode', '$now', '$now', $typeId, $userId, '$productUrl')"
+            "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, type_id, user_id, product_url, is_completed)
+            VALUES ('$title', $staatId, $hoeveelheid, '$beschrijving', '$postcode', '$now', '$now', $typeId, $userId, '$productUrl', $isCompleted)"
         );
     }
 }
