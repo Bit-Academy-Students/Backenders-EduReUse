@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($loggedInUser && (($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord']))) {
         $_SESSION["id"] = $loggedInUser["id"];
-        header("Location: aanbod.php?id=" . $_SESSION['id']);
+        header("Location: /school-posts?id=" . $_SESSION['id']);
         exit();
     } else {
         echo 'Invalid email and/or wachtwoord';

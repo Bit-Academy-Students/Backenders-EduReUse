@@ -33,8 +33,8 @@ post('/doneer', function () {
 });
 
 // aanvragen
-get('/aanvraag', 'views/aanvraag-formulier.php');
-post('/aanvraag', 'views/aanvraag-formulier.php');
+get('/aanvraag', 'views/aanvraag.php');
+post('/aanvraag', 'views/aanvraag.php');
 
 // admin pagina's
 get('/admin/alles', 'views/admin/adminList.php');
@@ -71,9 +71,6 @@ if ($_SERVER['REQUEST_URI'] === '/admin') {
 
 // user
 get('/user/profiel', 'views/user/profiel.php');
-
-// jenebi aanbod
-get('/aanbod', 'views/aanbod-formulier.php');
 
 // error pagina's
 any('/404', 'views/404.php');
