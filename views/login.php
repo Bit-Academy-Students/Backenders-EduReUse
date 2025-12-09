@@ -14,14 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $wachtwoord = $_POST["wachtwoord"];
 
-    if (!empty($email) && !empty($wachtwoord)) {
+    if (isset($email) && isset($wachtwoord) && !empty($email) && !empty($wachtwoord)) {
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $conn->prepare($sql);
         $stmt->execute(['email' => $email]);
         $loggedInUser = $stmt->fetch();
     }
 
-    if ($loggedInUser && (($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord']))) {
+    if (isset($loggedInUser) && (($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord']))) {
         $_SESSION["id"] = $loggedInUser["id"];
         header("Location: /user/posts");
         exit();

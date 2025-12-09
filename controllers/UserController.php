@@ -26,7 +26,7 @@ class UserController extends Seeder
 
     public function editPass()
     {
-        if (!isset($_POST['current-pass']) || !isset($_POST['new-pass']) || !isset($_POST['repeat-pass'])) {
+        if (empty($_POST['current-pass']) || empty($_POST['new-pass']) || empty($_POST['repeat-pass'])) {
             throw new Exception("Niet alle velden zijn ingevuld");
         }
 

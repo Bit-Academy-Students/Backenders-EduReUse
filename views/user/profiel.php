@@ -34,7 +34,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         <div class="flex flex-col gap-4 text-lg">
             <p><b class="text-gray-700">Email:</b> <span class="text-black"><?= $user['email'] ?></span></p>
             <p><b class="text-gray-700">Gebruikersnaam:</b> <span class="text-black"><?= $user['naam'] ?></span></p>
-            <p class="text-gray-500"><b class="text-gray-700">Aangemaakt op:</b> <span class="text-black"><?= $user['date_created'] ?></span></p>
+            <p class="text-gray-500"><b class="text-gray-700">Aangemaakt op:</b> <span class="text-black"><?= explode(' ', $user['date_created'])[0] ?></span></p>
         </div>
 
         <div class="flex flex-row gap-5 justify-center">

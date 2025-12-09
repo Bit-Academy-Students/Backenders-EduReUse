@@ -26,8 +26,14 @@ post('/user/edit-profile', function () {
 
 get('/user/change-password', 'views/user/editPassword.php');
 post('/user/change-password', function () {
+    try {
     $controller = new UserController();
     $controller->editPass();
+    } catch (Exception $e) {
+        $_SESSION['error'] =  $e->getMessage();
+        header('location: /user/change-password');
+        exit();
+    }
 });
 if ($_SERVER['REQUEST_URI'] === '/user') {
     header('location: /user/profiel');

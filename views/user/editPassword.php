@@ -59,6 +59,10 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
             </div>
         </form>
     </div>
+    <?php if (isset($_SESSION['error'])) { ?>
+        <p class="font-bold text-xl justify-self-center p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
+        <?php unset($_SESSION['error']); ?>
+    <?php } ?>
 </body>
 
 </html>
