@@ -52,4 +52,9 @@ class UserController extends Seeder
         header('location: /logout');
         exit();
     }
+
+    public function editUser()
+    {
+        // 
+    }
 }

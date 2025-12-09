@@ -21,7 +21,14 @@ get('/user/profiel', 'views/user/profiel.php');
 get('/user/posts', 'views/schoolPosts.php');
 get('/user/edit-profile', 'views/user/editUser.php');
 post('/user/edit-profile', function () {
-    // 
+    try {
+        $controller = new UserController();
+        $controller->editUser();
+    } catch (Exception $e) {
+        $_SESSION['error'] =  $e->getMessage();
+        header('location: /user/edit-profile');
+        exit();
+    }
 });
 
 get('/user/change-password', 'views/user/editPassword.php');
