@@ -19,123 +19,114 @@ $states = $conn->query($sql);
 $sql = "SELECT * FROM `types`";
 $types = $conn->query($sql);
 
-try {
-    $donatie = null;
-    if (isset($_POST['submit'])) {
-        if (!($_POST['titel'])) {
-            throw new Exception('Geen titel meegegeven');
-        }
-        if (!($_POST['type'])) {
-            throw new Exception('Geen product type meegegeven');
-        }
-        if (!($_POST['aantal'])) {
-            throw new Exception('Geen hoeveelheid meegegeven');
-        }
-        if (!($_POST['staat'])) {
-            throw new Exception('Geen product staat meegegeven');
-        }
-        if (!($_POST['postcode'])) {
-            throw new Exception('Geen postcode meegegeven');
-        }
-
-        $titel = $_POST['titel'];
-        $type = $_POST['type'];
-        $aantal = $_POST['aantal'];
-        $beschrijving = $_POST['beschrijving'];
-        $staat = $_POST['staat'];
-        $postcode = $_POST['postcode'];
-
-        $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, type_id, user_id)
-            VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :typeId, :userId)";
-
-        $exec = $conn->prepare($sql);
-        $exec->execute([
-            'titel' => $titel,
-            'staatId' => $staat,
-            'hoeveelheid' => $aantal,
-            'beschrijving' => $beschrijving,
-            'postcode' => $postcode,
-            'typeId' => $type,
-            'userId' => 1,
-        ]);
-
-        header('location: /adminPage');
-        exit();
-    }
-} catch (Exception $e) {
-    echo $e->getmessage();
-} catch (PDOException $ex) {
-    echo $ex->getMessage();
-}
-
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doneer</title>
 
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="src/output.css">
+    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
 </head>
 
-<body>
+<body class="bg-gray-100">
     <?php require_once __DIR__ . '/components/header.php' ?>
 
-    <div class="container">
-        <div id="header">
-            <h1>Donatie Formulier</h1>
+    <div class="flex flex-col bg-white justify-self-center shadow-lg w-[40%] gap-3 rounded-lg p-6 my-7">
+        <div>
+            <h1 class="font-bold text-3xl text-center">Donatie Formulier</h1>
         </div>
 
-        <div id="content">
-            <form method="post">
-                <div>
-                    <label for="titel">Titel:</label>
-                    <input type="text" name="titel" id="titel">
+        <div>
+            <form method="post" class="space-y-3">
+                <div class="flex items-baseline gap-2">
+                    <label for="titel" class="cursor-pointer text-lg">
+                        Titel
+                    </label>
+                    <input type="text"
+                        name="titel" id="titel"
+                        placeholder="Bijvoorbeeld: 'een mooie nieuwe laptop'"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
 
-                <div>
-                    <label for="type">Type:</label>
-                    <select name="type" id="type">
+                <div class="flex items-baseline gap-2">
+                    <label for="type" class="cursor-pointer text-lg">
+                        Type
+                    </label>
+                    <select name="type"
+                        id="type"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                         <?php foreach ($types as $type) { ?>
                             <option value="<?= $type['id'] ?>"><?= $type['type'] ?></option>
                         <?php } ?>
                     </select>
                 </div>
 
-                <div>
-                    <label for="aantal">Aantal:</label>
-                    <input type="number" name="aantal" id="aantal">
+                <div class="flex items-baseline gap-2">
+                    <label for="aantal" class="cursor-pointer text-lg">
+                        Aantal
+                    </label>
+                    <input type="number"
+                        name="aantal" id="aantal"
+                        value="1"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
 
-                <div>
-                    <label for="beschrijving">Beschrijving:</label>
-                    <textarea name="beschrijving" id="beschrijving"></textarea>
+                <div class="flex items-baseline gap-2">
+                    <label for="beschrijving" class="cursor-pointer text-lg">
+                        Beschrijving
+                    </label>
+                    <textarea name="beschrijving" id="beschrijving"
+                        placeholder="Bijvoorbeeld: 'Een laptop in goede staat'"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block h-9 w-full rounded-md py-1.5 px-3"></textarea>
                 </div>
 
-                <div>
-                    <label for="staat">Staat:</label>
-                    <select name="staat" id="staat">
+                <div class="flex items-baseline gap-2">
+                    <label for="staat" class="cursor-pointer text-lg">
+                        Staat
+                    </label>
+                    <select name="staat"
+                        id="staat"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                         <?php foreach ($states as $state) { ?>
-                            <option value="<?php echo $state['id'] ?>"><?php echo $state['label'] ?></option>
+                            <option value="<?= $state['id'] ?>"><?= $state['label'] ?></option>
                         <?php } ?>
                     </select>
                 </div>
 
-                <div>
-                    <label for="postcode">Postcode:</label>
-                    <input type="text" name="postcode" id="postcode">
+                <div class="flex items-baseline gap-2">
+                    <label for="postcode" class="cursor-pointer text-lg">
+                        Ophaalpostcode
+                    </label>
+                    <input type="text"
+                        name="postcode" id="postcode"
+                        placeholder="1234 AB"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
 
-                <input type="submit" name="submit" value="Doneer">
-            </form>
+                <div class="">
+                    <label for="url" class="cursor-pointer text-lg">
+                        Url naar product:
+                    </label>
+                    <span class="text-gray-500">(optioneel)</span>
+                    <input type="text"
+                        name="url" id="url"
+                        placeholder="Bijvoorbeeld: 'bol.com/productnaam'"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
+                </div>
 
-            <?php if (isset($_SESSION['error'])) { ?>
-                <?= $_SESSION['error'] ?>
-                <?php unset($_SESSION['error']) ?>
-            <?php } ?>
+                <input type="submit"
+                    name="submit" value="Doneer"
+                    class="flex w-full justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white cursor-pointer hover:bg-sky-500 transition">
+            </form>
         </div>
+        <?php if (isset($_SESSION['error'])) { ?>
+            <p class="font-bold text-center rounded-md bg-red-300 text-red-600"><?= $_SESSION['error'] ?></p>
+            <?php unset($_SESSION['error']) ?>
+        <?php } ?>
     </div>
 </body>
 

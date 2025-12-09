@@ -4,9 +4,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Database\Database;
 
-$db = new Database('edureuse');
+$db = new Database();
 $conn = $db->connect();
-$conn->query("USE edureuse");
+$conn->query("USE " . $db->getDbName());
 
 $id = (int) $_GET['id'];
 
@@ -21,13 +21,14 @@ $recordset2 = $stmt2->execute(['user_id' => $id]);
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aanbod</title>
-    <link rel="stylesheet" href="../public/src/output.css">
+    <link rel="stylesheet" href="src/output.css">
+    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
 </head>
 
 <body>

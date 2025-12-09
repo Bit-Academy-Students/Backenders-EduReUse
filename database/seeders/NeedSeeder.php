@@ -15,6 +15,7 @@ class NeedSeeder extends Seeder
      * @param string $deadline
      * @param int $typeId
      * @param int $userId
+     * @param ?int $isCompleted
      * @return void
      */
     public function add(
@@ -24,6 +25,7 @@ class NeedSeeder extends Seeder
         string $deadline,
         int $typeId,
         int $userId,
+        ?int $isCompleted = 0
     ): void {
         $pattern = '/(?<letters>\d{4}) (?<nummers>[a-zA-Z]{2})/';
         if (!preg_match($pattern, $postcode)) {
@@ -37,8 +39,8 @@ class NeedSeeder extends Seeder
 
         $now = $this->now();
         $this->db->exec(
-            "INSERT INTO needs (titel, hoeveelheid, postcode, deadline, date_created, date_modified, type_id, user_id)
-            VALUES ('$title', $hoeveelheid, '$postcode', '$deadline', '$now', '$now', $typeId, $userId)"
+            "INSERT INTO needs (titel, hoeveelheid, postcode, deadline, date_created, date_modified, type_id, user_id, is_completed)
+            VALUES ('$title', $hoeveelheid, '$postcode', '$deadline', '$now', '$now', $typeId, $userId, $isCompleted)"
         );
     }
 }

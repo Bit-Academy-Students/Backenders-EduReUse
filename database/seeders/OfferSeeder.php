@@ -13,6 +13,7 @@ class OfferSeeder extends Seeder
      * @param int $staat 'nieuw' / 'gebruikt' / 'beschadigd' / 'niet-werkend'
      * @param int $hoeveelheid Product amount
      * @param string $beschrijving Detailed description
+     * @param string $productUrl Link to official product
      * @param string $postcode
      * @param int $typeId
      * @param int $userId
@@ -26,7 +27,8 @@ class OfferSeeder extends Seeder
         string $postcode,
         int $typeId,
         int $userId,
-        ?string $image_url = NULL
+        ?string $image_url = NULL,
+        string $productUrl
     ): void {
         $pattern = '/(?<letters>\d{4}) (?<nummers>[a-zA-Z]{2})/';
         if (!preg_match($pattern, $postcode)) {
@@ -35,8 +37,8 @@ class OfferSeeder extends Seeder
 
         $now = $this->now();
         $this->db->exec(
-            "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, image_url, type_id, user_id)
-            VALUES ('$title', $staatId, $hoeveelheid, '$beschrijving', '$postcode', '$now', '$now', '$image_url', $typeId, $userId)"
+            "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, image_url, type_id, user_id, product_url)
+            VALUES ('$title', $staatId, $hoeveelheid, '$beschrijving', '$postcode', '$now', '$now', '$image_url', $typeId, $userId, '$productUrl')"
         );
     }
 }

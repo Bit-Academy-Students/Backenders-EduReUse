@@ -1,23 +1,19 @@
 <?php
 
 use Controllers\DonateController;
-use Controllers\NeedController;
+use Controllers\MatchController;
 
 require_once __DIR__ . '/router.php';
 
 // homepage
 get('/', 'views/homepage.php');
 
-// login
+// login/register/logout
 get('/login', 'views/login.php');
 post('/login', 'views/login.php');
-
-// register
+get('/logout', 'views/logout.php');
 get('/register', 'views/register.php');
 post('/register', 'views/register.php');
-
-// logout
-get('/logout', 'views/logout.php');
 
 // user's posts
 get('/school-posts', 'views/schoolPosts.php');
@@ -37,31 +33,47 @@ post('/doneer', function () {
 });
 
 // aanvragen
-get('/aanvraag', 'views/aanvraag.php');
-post('/aanvraag', function () {
-    try {
-        $controller = new NeedController();
-        $controller->post();
-    } catch (Exception $e) {
-        $_SESSION['error'] = $e->getMessage();
-        header('location: /aanvraag');
-        exit();
-    }
-});
+get('/aanvraag', 'views/aanvraag-formulier.php');
+post('/aanvraag', 'views/aanvraag-formulier.php');
 
 // admin pagina's
-get('/admin', 'views/admin/adminList.php');
+get('/admin/alles', 'views/admin/adminList.php');
 get('/admin/aanbiedingen', 'views/admin/offers.php');
 get('/admin/aanvragen', 'views/admin/needs.php');
 get('/admin/matches', 'views/admin/matches.php');
+get('/admin/ready-to-match/$needId/$typeLabel', 'views/admin/readyToMatch.php');
+get('/admin/match', 'views/admin/officialMatch.php');
+post('/admin/match', function () {
+    if (!isset($_SESSION['id'])) {
+        header('location: /login');
+        exit();
+    }
+
+    if (!isset($_POST['offers']) || !isset($_POST['status']) || !isset($_POST['need_id'])) {
+        $_SESSION['error'] = 'Er is iets fout gegaan...';
+        header('location: ' . $_POST['previous-url']);
+        exit();
+    }
+
+    // TODO: Store in the database!!!!
+    $controller = new MatchController();
+    $controller->post($_POST);
+});
+
+if ($_SERVER['REQUEST_URI'] === '/admin/ready-to-match' || $_SERVER['REQUEST_URI'] === '/admin/ready-to-match/') {
+    header('location: /admin/aanvragen');
+    exit();
+}
+if ($_SERVER['REQUEST_URI'] === '/admin') {
+    header('location: /admin/alles');
+    exit();
+}
+
+// user
+get('/user/profiel', 'views/user/profiel.php');
 
 // jenebi aanbod
-get('/aanbod', 'views/aanbod.php');
-
-// dymo formulieren
-get('/formulier-donor', 'views/formulier-donor.php');
-get('/formulier-need', 'views/formulier-need.php');
-post('/formulier-need', 'views/formulier-need.php');
+get('/aanbod', 'views/aanbod-formulier.php');
 
 // error pagina's
 any('/404', 'views/404.php');

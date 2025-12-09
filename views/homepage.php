@@ -2,62 +2,61 @@
 
 use Database\Database;
 
-$db = new Database('edureuse');
+$db = new Database();
 $conn = $db->connect();
-$conn->query("USE edureuse");
+$conn->query("USE " . $db->getDbName());
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
 
-    <link rel="stylesheet" href="src/style.css">
+    <link rel="stylesheet" href="src/output.css">
+    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
 </head>
 
-<body class="home-body">
+<body class="bg-gray-100">
     <?php require_once 'components/header.php' ?>
 
-    <div class="banner">
-        <div class="wrapper">
-            <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit.</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, nostrum. Nemo ipsa omnis
-                illum vitae, laboriosam id iusto odio. Consequatur dolores quae culpa sequi earum officiis eveniet
-                ullam dolor accusantium?</p>
+    <div class="flex flex-col justify-self-center w-[90%] max-w-300">
+        <div class="flex flex-wrap justify-center items-center gap-10 my-10">
+            <div class="flex flex-col w-full md:w-6/10 space-y-3 bg-white p-6 rounded-lg shadow-lg">
+                <h1 class="text-3xl font-bold">
+                    Wat doen wij?
+                </h1>
+                <p>
+                    Technologie en kunst toegankelijk maken voor alle jongeren. Samen bouwen we aan een toekomst waarin elk kind, ongeacht achtergrond, de kans krijgt om te leren, te groeien en te inspireren.
+                </p>
+                <p>
+                    Toen ik mijn eerste bedrijf begon, was ik nog maar een jongen met een idee en een missie: technologie maken die mensen helpt. Wat mij het meest raakte, was niet het succes of de media-aandacht, maar de mensen die belangeloos hielpen.
+                </p>
+                <p>
+                    Zonder er iets voor terug te vragen, gaven zij hun tijd, kennis en vertrouwen. Dit inzicht leidde tot de <b>WailSalutem Foundation</b>, een stichting geboren uit dankbaarheid.
+                </p>
+            </div>
 
-            <a href="/register">Meld je nu aan</a>
+            <div class="flex flex-col w-full md:w-3/10 bg-white p-6 rounded-lg gap-3 shadow-lg">
+                <h1 class="font-bold text-2xl">Een steentje bijdragen?</h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, nostrum. Nemo ipsa omnis
+                    illum vitae, laboriosam id iusto odio. Consequatur dolores quae culpa sequi earum officiis eveniet
+                    ullam dolor accusantium?
+                </p>
+                <a href="<?= isset($_SESSION['id']) ? '/school-posts' : '/register' ?>" class="bg-sky-500 text-white rounded-md p-1.5 w-30 mt-5 hover:bg-sky-600 transition">
+                    Meld je nu aan
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <h1 class="font-bold text-3xl">Onze missie</h1>
         </div>
     </div>
 
-    <!-- <header class="bg-sky-300 p-3">
-                <div >
-                    <div class="flex flex-row-end">
-                        <a href="/">LOGO</a>
-                    </div>
-                    <nav class="flex flex-row-reverse">
-                        <a class="flex bg-white rounded-lg w-30 justify-center items-center" href="/login">Login</a>
-                    </nav>
-                </div>
-            </header>
-
-            <div class="flex flex-row-end">
-                <div class="flex flex-col p-20">
-                    <h1 class="text-3xl font-bold">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h1>
-                    <p class="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, nostrum. Nemo ipsa omnis 
-                        illum vitae, laboriosam id iusto odio. Consequatur dolores quae culpa sequi earum officiis eveniet 
-                        ullam dolor accusantium?</p>
-
-                    <a class="bg-sky-500 text-white rounded-md p-1.5 w-30 mt-5" href="/register">Meld je nu aan</a>
-                </div>
-                <div class="pt-20 pr-20">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, nostrum. Nemo ipsa omnis 
-                        illum vitae, laboriosam id iusto odio. Consequatur dolores quae culpa sequi earum officiis eveniet 
-                        ullam dolor accusantium?</p>
-                </div>
-            </div> -->
 
 </body>
 

@@ -2,9 +2,9 @@
 
 use Database\Database;
 
-$db = new Database('edureuse');
+$db = new Database();
 $conn = $db->connect();
-$conn->query("USE edureuse");
+$conn->query("USE " . $db->getDbName());
 
 $sql = "SELECT * FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);
@@ -22,27 +22,31 @@ if (isset($user) && $user['is_admin'] === 1) {
 }
 
 ?>
-<header>
-    <!-- <a href="/">LOGO</a> -->
-    <a href="/">home</a>
+<header class="bg-[#5481B7] px-26 flex justify-between items-center">
+    <div>
+        <a href="/" class="text-white">
+            <img src="/uploads/header-banner-foundation.png" alt="Foundation logo"
+                class="w-90 h-auto">
+        </a>
+    </div>
 
-    <?php if ($loggedInUser) { ?>
-        <a href="/aanvraag">aanvragen</a>
-        <a href="/doneer">donaties</a>
-        <a href="/school-posts">schoolPosts</a>
-    <?php } ?>
+    <div class="flex gap-8">
+        <?php if ($loggedInUser) { ?>
+            <a href="/school-posts" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-envelopes-bulk"></i></a>
+        <?php } ?>
 
-    <?php if (!$loggedInUser) { ?>
-        <a href="/login">login</a>
-        <a href="/register">register</a>
-    <?php } ?>
+        <?php if (!$loggedInUser) { ?>
+            <a href="/login" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-user"></i></a>
+        <?php } ?>
 
 
-    <?php if ($userIsAdmin) { ?>
-        <a href="/admin">admin</a>
-    <?php } ?>
+        <?php if ($userIsAdmin) { ?>
+            <a href="/admin/aanvragen" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-brands fa-black-tie"></i></a>
+        <?php } ?>
 
-    <?php if ($loggedInUser) { ?>
-        <a href="/logout">afmelden</a>
-    <?php } ?>
+        <?php if ($loggedInUser) { ?>
+            <a href="/user/profiel" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-user"></i></a>
+            <a href="/logout" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-right-from-bracket"></i></a>
+        <?php } ?>
+    </div>
 </header>
