@@ -64,11 +64,11 @@ try {
     <title>Register</title>
 
     <link rel="stylesheet" href="src/output.css">
-    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
+    <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
 </head>
 
 <body class="justify-center bg-gray-100">
-    <?php require_once 'components/header.php' ?>
+    <?php require_once __DIR__ . '/../components/header.php' ?>
 
     <?php if (isset($_SESSION['error'])) { ?>
         <p class="font-bold text-xl justify-self-center p-3 mt-7 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>

@@ -81,11 +81,11 @@ try {
     <title>Aanvraag</title>
 
     <link rel="stylesheet" href="src/output.css">
-    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
+    <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
 </head>
 
 <body class="bg-gray-100">
-    <?php require_once __DIR__ . '/components/header.php' ?>
+    <?php require_once __DIR__ . '/../components/header.php' ?>
 
     <div class="flex flex-col bg-white justify-self-center shadow-lg w-[40%] gap-3 rounded-lg p-6 my-15">
         <div>

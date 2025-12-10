@@ -10,11 +10,11 @@ require_once __DIR__ . '/router.php';
 get('/', 'views/homepage.php');
 
 // login/register/logout
-get('/login', 'views/login.php');
-post('/login', 'views/login.php');
-get('/logout', 'views/logout.php');
-get('/register', 'views/register.php');
-post('/register', 'views/register.php');
+get('/login', 'views/user/login.php');
+post('/login', 'views/user/login.php');
+get('/logout', 'views/user/logout.php');
+get('/register', 'views/user/register.php');
+post('/register', 'views/user/register.php');
 
 // user + posts
 get('/user/profiel', 'views/user/profiel.php');
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_URI'] === '/user') {
 }
 
 // donaties
-get('/doneer', 'views/doneer-formulier.php');
+get('/doneer', 'views/user/doneer-formulier.php');
 post('/doneer', function () {
     try {
         // voeg donatie toe aan database
@@ -62,8 +62,8 @@ post('/doneer', function () {
 });
 
 // aanvragen
-get('/aanvraag', 'views/aanvraag-formulier.php');
-post('/aanvraag', 'views/aanvraag-formulier.php');
+get('/aanvraag', 'views/user/aanvraag-formulier.php');
+post('/aanvraag', 'views/user/aanvraag-formulier.php');
 
 // admin pagina's
 get('/admin/alles', 'views/admin/adminList.php');
