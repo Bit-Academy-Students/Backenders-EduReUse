@@ -39,11 +39,11 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         <div class="flex flex-row gap-6 justify-center">
             <a href="/user/edit-profile"
-                class="bg-sky-500 text-white rounded-md px-6 py-2 hover:bg-sky-600 transition flex items-center justify-center">
+                class="bg-sky-600 text-white rounded-md px-6 py-2 hover:bg-sky-500 transition flex items-center justify-center">
                 Edit profile
             </a>
             <a href="/user/change-password"
-                class="bg-sky-500 text-white rounded-md px-6 py-2 hover:bg-sky-600 transition flex items-center justify-center">
+                class="bg-sky-600 text-white rounded-md px-6 py-2 hover:bg-sky-500 transition flex items-center justify-center">
                 Change password
             </a>
         </div>
