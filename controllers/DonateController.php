@@ -39,12 +39,6 @@ class DonateController extends Seeder
             throw new Exception('Geen postcode meegegeven');
         }
 
-        // only add path to database if an image was uploaded 
-        $image_name = '';
-        if (!empty($_FILES['image']['name'])) {
-            $image_name = $this->storeImg();
-        }
-
         $titel = $_POST['titel'];
         $type = $_POST['type'];
         $aantal = $_POST['aantal'];
@@ -52,6 +46,12 @@ class DonateController extends Seeder
         $staat = $_POST['staat'];
         $postcode = strtoupper($_POST['postcode']);
         $url = $_POST['product_url'];
+
+        // only add image to database if an image was uploaded 
+        $image_name = '';
+        if (!empty($_FILES['image']['name'])) {
+            $image_name = $this->storeImg($titel);
+        }
 
         $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, image_url, type_id, user_id, product_url, is_completed)
             VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :dateCreated, :dateModified, :image_url, :typeId, :userId, :productUrl, :isCompleted)";
@@ -77,42 +77,28 @@ class DonateController extends Seeder
         exit();
     }
 
-    private function storeImg()
+    private function storeImg(string $titel): string
     {
-        $target_dir = "../public/src/uploads/";
-        $image_name = $target_dir . basename($_FILES["image"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+        $img_name = $_FILES['image']['name'];
+        $tmp_name = $_FILES['image']['tmp_name'];
 
-        $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
-            $uploadOk = 0;
-            throw new Exception("Bestand is geen afbeelding.");
+        $error = $_FILES['image']['error'];
+        if ($error !== 0) {
+            throw new Exception($error);
         }
 
-        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-            $uploadOk = 0;
-            throw new Exception("Sorry, alleen JPG, JPEG & PNG bestanden zijn toegestaan.");
+        // check if image is allowed
+        $imgExtension = strtolower(pathinfo($img_name, PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'svg'];
+        if (!in_array(strtolower($imgExtension), $allowedExtensions)) {
+            throw new Exception('Alleen JPG, JPEG & PNG bestanden zijn toegestaan');
         }
 
-        if (file_exists($image_name)) {
-            throw new Exception("Sorry, deze bestandsnaam bestaat al.");
-            $uploadOk = 0;
-        }
+        // move img to uploads folder
+        $newImgName = uniqid($titel) . ".$imgExtension";
+        $imgUploadPath = '../public/src/uploads/' . $newImgName;
+        move_uploaded_file($tmp_name, $imgUploadPath);
 
-        // controleer of uploadOk 0 is door een error
-        if ($uploadOk == 0) {
-            throw new Exception("Sorry, uw bestand is niet geupload.");
-        } else {
-            // TODO: fix image upload
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $image_name)) {
-                // echo "Bestand " . htmlspecialchars(basename($_FILES["image"]["name"])) . " is geupload.";
-                return basename($_FILES['image']['name']);
-            } else {
-                throw new Exception("Sorry, er ging ets mis bij het uploaden van uw bestand.");
-            }
-        }
+        return $newImgName;
     }
 }

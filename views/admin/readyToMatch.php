@@ -42,6 +42,11 @@ if ($type) {
 
 $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$amountIncompleted = 0;
+foreach ($offers as $offer) {
+    $amountIncompleted += $offer['is_completed'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -72,7 +77,8 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <h1 class="text-center text-2xl font-bold">Geen aanvraag met id '<?= $needId ?>' gevonden..</h1>
                 <?php exit(); ?>
             <?php } ?>
-            <?php if (empty($offers)) { ?>
+
+            <?php if (empty($offers) || $amountIncompleted !== 0) { ?>
                 <?php if ($type) { ?>
                     <h1 class="text-center text-2xl font-bold">Niemand heeft nog een donatie met het type '<?= $type['type'] ?>' aangemaakt</h1>
                     <?php exit(); ?>

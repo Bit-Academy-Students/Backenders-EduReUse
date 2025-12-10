@@ -224,6 +224,9 @@
   .mx-auto {
     margin-inline: auto;
   }
+  .my-7 {
+    margin-block: calc(var(--spacing) * 7);
+  }
   .my-10 {
     margin-block: calc(var(--spacing) * 10);
   }
@@ -247,6 +250,9 @@
   }
   .mt-6 {
     margin-top: calc(var(--spacing) * 6);
+  }
+  .mt-7 {
+    margin-top: calc(var(--spacing) * 7);
   }
   .mt-8 {
     margin-top: calc(var(--spacing) * 8);
@@ -845,13 +851,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-sky-600);
-      }
-    }
-  }
-  .hover\:bg-sky-700 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-sky-700);
       }
     }
   }
