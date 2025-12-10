@@ -255,3 +255,4 @@ _NCrunch*
 *.sqlite
 *.vscode
 launch.json
+public/src/uploads/*

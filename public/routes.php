@@ -18,7 +18,7 @@ post('/register', 'views/register.php');
 
 // user + posts
 get('/user/profiel', 'views/user/profiel.php');
-get('/user/posts', 'views/schoolPosts.php');
+get('/user/posts', 'views/user/schoolPosts.php');
 get('/user/edit-profile', 'views/user/editUser.php');
 post('/user/edit-profile', function () {
     try {
@@ -34,8 +34,8 @@ post('/user/edit-profile', function () {
 get('/user/change-password', 'views/user/editPassword.php');
 post('/user/change-password', function () {
     try {
-    $controller = new UserController();
-    $controller->editPass();
+        $controller = new UserController();
+        $controller->editPass();
     } catch (Exception $e) {
         $_SESSION['error'] =  $e->getMessage();
         header('location: /user/change-password');
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_URI'] === '/user') {
 }
 
 // donaties
-get('/doneer', 'views/aanbod-formulier.php');
+get('/doneer', 'views/doneer-formulier.php');
 post('/doneer', function () {
     try {
         // voeg donatie toe aan database

@@ -55,6 +55,40 @@ class UserController extends Seeder
 
     public function editUser()
     {
-        // 
+        if (empty($_POST['new-name']) || empty($_POST['new-email'])) {
+            throw new Exception("Niet alle velden zijn ingevuld");
+        }
+
+        $name = trim($_POST['new-name']);
+        $email = trim($_POST['new-email']);
+
+        if ($name === $this->user['naam'] && $email === $this->user['email']) {
+            throw new Exception("Er zijn geen wijzigingen gedaan...");
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Email is ongeldig");
+        }
+
+        if ($name !== $this->user['naam']) {
+            $sql = "UPDATE users SET naam = :naam WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                'naam' => $name,
+                'id' => $this->user['id']
+            ]);
+        }
+
+        if ($email !== $this->user['email']) {
+            $sql = "UPDATE users SET email = :email WHERE id = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                'email' => $email,
+                'id' => $this->user['id']
+            ]);
+        }
+
+        header('location: /logout');
+        exit();
     }
 }

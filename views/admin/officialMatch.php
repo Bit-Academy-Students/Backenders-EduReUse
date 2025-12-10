@@ -94,13 +94,6 @@ function sendBackWithSessionError(array $need, ?string $errorMessage = null)
     header('location: /admin/ready-to-match/' . $need['id'] . '/' . $need['type']);
     exit();
 }
-
-// echo '<pre>';
-// print_r($offers);
-// print_r($need);
-// print_r($statuses);
-// echo '</pre>';
-
 ?>
 <!DOCTYPE html>
 <html lang="nl">

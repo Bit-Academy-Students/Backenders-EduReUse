@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use Database\Database;
 
 if (isset($_SESSION['id'])) {
@@ -10,24 +12,38 @@ $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $wachtwoord = $_POST["wachtwoord"];
+try {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (!isset($_POST['email'])) {
+            throw new Exception("Geen email meegegeven");
+        }
 
-    if (isset($email) && isset($wachtwoord) && !empty($email) && !empty($wachtwoord)) {
+        if (!isset($_POST['wachtwoord'])) {
+            throw new Exception("Niet alle velden zijn ingevuld");
+        }
+
+        $email = $_POST["email"];
+        $wachtwoord = $_POST["wachtwoord"];
+
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $conn->prepare($sql);
         $stmt->execute(['email' => $email]);
         $loggedInUser = $stmt->fetch();
-    }
 
-    if (isset($loggedInUser) && (($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord']))) {
-        $_SESSION["id"] = $loggedInUser["id"];
-        header("Location: /user/posts");
-        exit();
-    } else {
-        echo 'Invalid email and/or wachtwoord';
+        if (empty($loggedInUser)) {
+            throw new Exception("Verkeerde email en/of wachtwoord");
+        }
+
+        if ($loggedInUser && ($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord'])) {
+            $_SESSION["id"] = $loggedInUser["id"];
+            header("Location: /user/posts");
+            exit();
+        }
+
+        throw new Exception('Invalid email and/or wachtwoord');
     }
+} catch (Exception $e) {
+    $_SESSION['error'] = $e->getMessage();
 }
 
 ?>
@@ -74,6 +90,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 value="Login">
                 Login
             </button>
+            <?php if (isset($_SESSION['error'])) { ?>
+                <p class="font-bold text-xl p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
+                <?php unset($_SESSION['error']); ?>
+            <?php } ?>
         </form>
         <div>
             <a href="/register" class="text-gray-500 hover:text-black">

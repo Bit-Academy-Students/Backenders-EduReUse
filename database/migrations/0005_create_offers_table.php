@@ -16,6 +16,7 @@ $db->connect()->exec(
     is_completed TINYINT NOT NULL,
     date_created DATETIME NOT NULL,
     date_modified DATETIME NOT NULL,
+    image_url VARCHAR(255) NULL,
     type_id INT NOT NULL,
     user_id INT NOT NULL,
     product_url TEXT NULL,

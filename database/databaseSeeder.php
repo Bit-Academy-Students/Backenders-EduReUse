@@ -58,8 +58,8 @@ $seeders = [
     OfferSeeder::class => [
         'table' => 'offers',
         'data' => [
-            ['50x50cm printer', 1, 4, 'Printer werkt zoals verwacht', '1053 VL', 2, 2, 'https://tweakers.net/pricewatch/1033703/canon-pixma-ts5150-zwart.html?utm_source=google&utm_medium=css&utm_campaign=organic'],
-            ['Apple Macbook Air M3', 2, 1, 'mooi ding', '1053 VL', 1, 2, 'https://www.mediamarkt.nl/nl/product/_apple-macbook-air-2024-spacegrijs-136-inch-apple-m3-10-core-gpu-16-gb-512-gb-1875678.html?utm_source=google&utm_medium=cpc&utm_campaign=rt_shopping_generic_nsp_nl-IT-&-Gaming-Laptops&utm_term=&utm_content=TCID21718438714-TAID176149451478&gad_source=1&gad_campaignid=21718438714&gbraid=0AAAAADoGBO6tyLrsf_5qMgRREWR6HuNc2'],
+            ['50x50cm printer', 1, 4, 'Printer werkt zoals verwacht', '2812 VL', 2, 2, 'https://tweakers.net/pricewatch/1033703/canon-pixma-ts5150-zwart.html?utm_source=google&utm_medium=css&utm_campaign=organic'],
+            ['Apple Macbook Air M3', 2, 1, 'mooi ding', '1402 DG', 1, 2, 'https://www.mediamarkt.nl/nl/product/_apple-macbook-air-2024-spacegrijs-136-inch-apple-m3-10-core-gpu-16-gb-512-gb-1875678.html?utm_source=google&utm_medium=cpc&utm_campaign=rt_shopping_generic_nsp_nl-IT-&-Gaming-Laptops&utm_term=&utm_content=TCID21718438714-TAID176149451478&gad_source=1&gad_campaignid=21718438714&gbraid=0AAAAADoGBO6tyLrsf_5qMgRREWR6HuNc2'],
         ],
     ],
     NeedSeeder::class => [

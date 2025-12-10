@@ -31,17 +31,16 @@ if (isset($user) && $user['is_admin'] === 1) {
     </div>
 
     <div class="flex gap-8">
+        <?php if ($userIsAdmin) { ?>
+            <a href="/admin/aanvragen" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-brands fa-black-tie"></i></a>
+        <?php } ?>
+
         <?php if ($loggedInUser) { ?>
             <a href="/user/posts" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-envelopes-bulk"></i></a>
         <?php } ?>
 
         <?php if (!$loggedInUser) { ?>
             <a href="/login" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-solid fa-user"></i></a>
-        <?php } ?>
-
-
-        <?php if ($userIsAdmin) { ?>
-            <a href="/admin/aanvragen" class="text-2xl text-[#DDE6F1] hover:text-white transition"><i class="fa-brands fa-black-tie"></i></a>
         <?php } ?>
 
         <?php if ($loggedInUser) { ?>

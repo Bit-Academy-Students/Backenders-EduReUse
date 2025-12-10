@@ -30,7 +30,6 @@ try {
             throw new Exception('Geen postcode meegegeven');
         }
 
-
         $omschrijving = $_POST['omschrijving'];
         $type = $_POST['type'];
         $hoeveelheid = $_POST['hoeveelheid'];
@@ -41,7 +40,7 @@ try {
         $pattern = '/^(?<letters>\d{4})\s?(?<nummers>[a-zA-Z]{2})$/';
         if (!preg_match($pattern, $postcode)) {
             throw new Exception("Ongeldige postcode ingevoerd<br>Houdt het format '1234 AB' of '1234AB' aan." . PHP_EOL);
-        };
+        }
 
         if (strlen($postcode) === 6) {
             $postcode = substr($postcode, 0, 4) . ' ' . substr($postcode, 4, 6);
