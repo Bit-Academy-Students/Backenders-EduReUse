@@ -11,19 +11,26 @@ $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
 
-$id = $_SESSION['id'];
-
-$sql = "SELECT * FROM users WHERE id = :id";
+// offers
+$sql = "SELECT * FROM offers WHERE user_id = :user_id";
 $stmt = $conn->prepare($sql);
-$recordset = $stmt->execute(['id' => $id]);
+$stmt->execute(['user_id' => $_SESSION['id']]);
+$offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$sql2 = "SELECT * FROM needs WHERE user_id = :user_id";
-$stmt2 = $conn->prepare($sql2);
-$recordset2 = $stmt2->execute(['user_id' => $id]);
-
-$sql3 = "SELECT * FROM offers WHERE user_id = :user_id";
-$stmt3 = $conn->prepare($sql3);
-$recordset3 = $stmt3->execute(['user_id' => $id]);
+// needs
+$sql = "SELECT
+    needs.id,
+    needs.titel,
+    needs.hoeveelheid,
+    needs.postcode,
+    needs.is_completed,
+    types.type
+FROM needs
+INNER JOIN types ON needs.type_id = types.id
+WHERE user_id = :user_id";
+$stmt = $conn->prepare($sql);
+$stmt->execute(['user_id' => $_SESSION['id']]);
+$needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -41,63 +48,74 @@ $recordset3 = $stmt3->execute(['user_id' => $id]);
 <body class="bg-gray-100">
     <?php require_once __DIR__ . '/../components/header.php' ?>
 
-    <div class="flex flex-col bg-white rounded-lg p-6 my-15 justify-self-center w-[60%] shadow-lg gap-10">
-        <div class="flex flex-col gap-2">
-            <h1 class="font-bold text-2xl">Mijn aanbiedingen</h1>
-            <div class="flex flex-row">
-                <?php while ($offer = $stmt3->fetch()) : ?>
-                    <div class="">
-                        <?php if (!empty($offer['image_url'])) { ?>
-                            <img src="../src/uploads/<?= $offer['image_url'] ?>" alt="apparaat afbeelding" class="w-40">
-                        <?php } ?>
-                        <h2 class="font-bold text-2xl"><?= $offer['titel'] ?></h2>
-                        <p>Status</p>
-                    </div>
-                <?php endwhile; ?>
+    <div class="flex flex-col bg-white rounded-lg p-8 my-12 justify-self-center w-[90%] md:w-[70%] lg:w-[60%] shadow-lg gap-6 mx-auto">
+        <div class="flex flex-col gap-6">
+            <h1 class="font-bold text-3xl text-sky-600">Mijn aanbiedingen</h1>
+            <?php if (!$offers) { ?>
+                <p class="font-semibold text-slate-500">Je hebt nog geen aanbiedingen geplaatst...</p>
+            <?php } ?>
+            <?php if ($offers) { ?>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <?php foreach ($offers as $offer) { ?>
+                        <a href="/users/posts/<?= $offer['id'] ?>"
+                            class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition">
+                            <?php if (!empty($offer['image_url'])) { ?>
+                                <img src="../src/uploads/<?= $offer['image_url'] ?>" alt="apparaat afbeelding" class="w-full h-40 object-cover rounded-md mb-4">
+                            <?php } ?>
+                            <h2 class="font-bold text-xl text-gray-800 mb-2"> <?= $offer['titel'] ?> </h2>
+                            <p class="text-sm text-gray-600">Status: Open</p>
+                        </a>
+                    <?php } ?>
+                </div>
+            <?php } ?>
 
-            </div>
-
-            <div>
+            <div class="flex justify-center mt-6">
                 <a href="/doneer"
-                    class="rounded-md bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white w-26 cursor-pointer hover:bg-sky-500 transition">
+                    class="rounded-md bg-sky-600 px-6 py-2 text-lg font-semibold text-white hover:bg-sky-500 transition">
                     Doneer hier
                 </a>
             </div>
         </div>
 
-        <div class="flex flex-col gap-2">
-            <h1 class="font-bold text-2xl">Mijn aanvragen</h1>
-            <div class="flex flex-row items-center gap-4">
-                <table class="w-100">
-                    <thead class="bg-sky-100 border-b-2 border-sky-700">
-                        <tr class="">
-                            <th class="w-50 p-3 text-sm font-semibold tracking-wide ">Model</th>
-                            <th class="w-10 p-3 text-sm font-semibold tracking-wide ">Hoeveelheid</th>
-                            <th class="w-30 p-3 text-sm font-semibold tracking-wide ">status</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <?php while ($need = $stmt2->fetch()) : ?>
-                            <tr class=" ">
-                                <td class="p-3 text-sm"> <?= $need['titel'] ?> </td>
-                                <td class="p-3 text-sm"> <?= $need['hoeveelheid'] ?> </td>
-                                <td class="p-3 text-sm">Open</td>
+        <div class="flex flex-col gap-6">
+            <h1 class="font-bold text-3xl text-sky-600">Mijn aanvragen</h1>
+            <?php if (!$needs) { ?>
+                <p class="font-semibold text-slate-500">Je hebt nog geen aanvragen geplaatst...</p>
+            <?php } ?>
+            <?php if ($needs) { ?>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-300">
+                        <thead class="bg-sky-100 border-b-2 border-sky-700">
+                            <tr class="*:p-3 *:text-sm *:font-semibold *:tracking-wide *:text-left">
+                                <th class="">Omschrijving</th>
+                                <th class="">Type</th>
+                                <th class="">Hoeveelheid</th>
+                                <th class="">Status</th>
                             </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            </div>
-            <div>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach ($needs as $need) { ?>
+                                <tr class="odd:bg-white even:bg-gray-50 *:p-3 *:text-sm *:text-gray-800">
+                                    <td class=""> <?= $need['titel'] ?> </td>
+                                    <td class=""> <?= $need['type'] ?> </td>
+                                    <td class=""> <?= $need['hoeveelheid'] ?> </td>
+                                    <td class="">Open</td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php } ?>
+
+            <div class="flex justify-center mt-6">
                 <a href="/aanvraag"
-                    class="rounded-md bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white w-45 cursor-pointer hover:bg-sky-500 transition">
+                    class="rounded-md bg-sky-600 px-6 py-2 text-lg font-semibold text-white hover:bg-sky-500 transition">
                     Vraag een product aan
                 </a>
             </div>
-
         </div>
     </div>
-
 </body>
 
-<body>
+</html>

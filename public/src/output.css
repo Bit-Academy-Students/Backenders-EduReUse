@@ -405,6 +405,9 @@
   .justify-center {
     justify-content: center;
   }
+  .gap-0 {
+    gap: calc(var(--spacing) * 0);
+  }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
@@ -780,6 +783,11 @@
       padding: calc(var(--spacing) * 2);
     }
   }
+  .\*\:p-3 {
+    :is(& > *) {
+      padding: calc(var(--spacing) * 3);
+    }
+  }
   .\*\:p-4 {
     :is(& > *) {
       padding: calc(var(--spacing) * 4);
@@ -800,16 +808,44 @@
       text-align: center;
     }
   }
+  .\*\:text-left {
+    :is(& > *) {
+      text-align: left;
+    }
+  }
   .\*\:text-lg {
     :is(& > *) {
       font-size: var(--text-lg);
       line-height: var(--tw-leading, var(--text-lg--line-height));
     }
   }
+  .\*\:text-sm {
+    :is(& > *) {
+      font-size: var(--text-sm);
+      line-height: var(--tw-leading, var(--text-sm--line-height));
+    }
+  }
   .\*\:text-xl {
     :is(& > *) {
       font-size: var(--text-xl);
       line-height: var(--tw-leading, var(--text-xl--line-height));
+    }
+  }
+  .\*\:font-semibold {
+    :is(& > *) {
+      --tw-font-weight: var(--font-weight-semibold);
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+  .\*\:tracking-wide {
+    :is(& > *) {
+      --tw-tracking: var(--tracking-wide);
+      letter-spacing: var(--tracking-wide);
+    }
+  }
+  .\*\:text-gray-800 {
+    :is(& > *) {
+      color: var(--color-gray-800);
     }
   }
   .odd\:bg-white {
