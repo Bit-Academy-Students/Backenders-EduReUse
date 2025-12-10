@@ -55,7 +55,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                         class="bg-sky-500 text-white rounded-md p-1.5 w-fit hover:bg-sky-600 cursor-pointer transition">
                 </div>
 
-                <p class="text-gray-400 text-center">Na het wijzigen van je wachtwoord, wordt je uitgelogd</p>
+                <p class="text-gray-400 text-center">Na het wijzigen van je wachtwoord, moet je opnieuw inloggen</p>
             </div>
         </form>
     </div>

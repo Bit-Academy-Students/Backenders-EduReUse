@@ -33,19 +33,19 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         <form method="post" class="flex flex-col gap-10">
             <div class="flex flex-col gap-4 text-lg items-center">
-                <div>
+                <div class="flex flex-col w-full px-20">
                     <label for="new-name" class="cursor-pointer font-semibold">Nieuwe (school)naam</label>
                     <input type="text" name="new-name" id="new-name"
                         placeholder="naam"
                         value="<?= $user['naam'] ?>"
-                        class="bg-gray-200 w-60 p-2 rounded-md">
+                        class="bg-gray-200 p-2 rounded-md">
                 </div>
-                <div>
+                <div class="flex flex-col w-full px-20">
                     <label for="new-email" class="cursor-pointer font-semibold">Nieuw emailadres</label>
                     <input type="text" name="new-email" id="new-email"
                         placeholder="emailadres"
                         value="<?= $user['email'] ?>"
-                        class="bg-gray-200 w-60 p-2 rounded-md">
+                        class="bg-gray-200 p-2 rounded-md">
                 </div>
             </div>
 
@@ -60,7 +60,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
                         class="bg-sky-500 text-white rounded-md p-1.5 w-fit hover:bg-sky-600 cursor-pointer transition">
                 </div>
 
-                <p class="text-gray-400 text-center">Na het wijzigen van je gegevens, wordt je uitgelogd</p>
+                <p class="text-gray-400 text-center">Na het wijzigen van je gegevens, moet je opnieuw inloggen</p>
             </div>
         </form>
     </div>

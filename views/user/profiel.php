@@ -28,22 +28,22 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <body class="bg-gray-100">
     <?php require_once __DIR__ . '/../components/header.php' ?>
 
-    <div class="flex flex-col bg-white justify-self-center shadow-lg w-[90%] md:w-[80%] gap-6 rounded-lg p-8 my-10">
-        <h1 class="font-bold text-4xl text-center text-[#5481B7] border-b-1 border-gray-300 pb-4">Profiel</h1>
+    <div class="flex flex-col bg-white justify-self-center shadow-lg w-[90%] md:w-[70%] lg:w-[50%] gap-8 rounded-lg p-10 my-12 mx-auto">
+        <h1 class="font-bold text-4xl text-center text-sky-600 border-b border-gray-300 pb-4">Profiel</h1>
 
-        <div class="flex flex-col gap-4 text-lg">
-            <p><b class="text-gray-700">Email:</b> <span class="text-black"><?= $user['email'] ?></span></p>
-            <p><b class="text-gray-700">Gebruikersnaam:</b> <span class="text-black"><?= $user['naam'] ?></span></p>
-            <p class="text-gray-500"><b class="text-gray-700">Aangemaakt op:</b> <span class="text-black"><?= explode(' ', $user['date_created'])[0] ?></span></p>
+        <div class="flex flex-col gap-6 text-lg">
+            <p><b class="text-gray-700">Email:</b> <span class="text-gray-900"><?= $user['email'] ?></span></p>
+            <p><b class="text-gray-700">Gebruikersnaam:</b> <span class="text-gray-900"><?= $user['naam'] ?></span></p>
+            <p class="text-gray-500"><b class="text-gray-700">Aangemaakt op:</b> <span class="text-gray-900"><?= explode(' ', $user['date_created'])[0] ?></span></p>
         </div>
 
-        <div class="flex flex-row gap-5 justify-center">
+        <div class="flex flex-row gap-6 justify-center">
             <a href="/user/edit-profile"
-                class="bg-sky-500 text-white rounded-md p-1.5 w-fit hover:bg-sky-600 transition">
+                class="bg-sky-500 text-white rounded-md px-6 py-2 hover:bg-sky-600 transition flex items-center justify-center">
                 Edit profile
             </a>
             <a href="/user/change-password"
-                class="bg-sky-500 text-white rounded-md p-1.5 w-fit hover:bg-sky-600 transition">
+                class="bg-sky-500 text-white rounded-md px-6 py-2 hover:bg-sky-600 transition flex items-center justify-center">
                 Change password
             </a>
         </div>

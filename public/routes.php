@@ -18,7 +18,7 @@ post('/register', 'views/register.php');
 
 // user + posts
 get('/user/profiel', 'views/user/profiel.php');
-get('/user/posts', 'views/user/schoolPosts.php');
+get('/user/posts', 'views/user/posts.php');
 get('/user/edit-profile', 'views/user/editUser.php');
 post('/user/edit-profile', function () {
     try {
