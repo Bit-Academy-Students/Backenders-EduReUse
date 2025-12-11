@@ -104,12 +104,6 @@ if ($rows) {
             <div class="flex items-center justify-between pb-3 mb-5 border-b border-gray-300">
                 <!-- header -->
                 <h1 class="font-bold text-3xl">Alles</h1>
-
-                <div class="flex gap-4 items-center">
-                    <button type="button" class="px-3 py-1 bg-red-100 rounded hover:bg-red-200">Delete</button>
-                    <button type="button" class="px-3 py-1 bg-gray-100 rounded hover:bg-gray-200">Filters</button>
-                    <input id="search" placeholder="Search" type="text" class="bg-slate-100 rounded-md shadow-xs py-1.5 px-3">
-                </div>
             </div>
 
             <div class="flex flex-col lg:flex-row gap-6">
