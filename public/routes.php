@@ -66,6 +66,8 @@ get('/aanvraag', 'views/user/aanvraag-formulier.php');
 post('/aanvraag', 'views/user/aanvraag-formulier.php');
 
 // admin pagina's
+get('/admin/need/$needId', 'views/admin/adminNeedDetail.php');
+get('/admin/offer/$offerId', 'views/admin/adminOfferDetail.php');
 get('/admin/alles', 'views/admin/adminList.php');
 get('/admin/aanbiedingen', 'views/admin/offers.php');
 get('/admin/aanvragen', 'views/admin/needs.php');
