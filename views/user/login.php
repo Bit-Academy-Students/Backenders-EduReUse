@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use Database\Database;
 
 if (isset($_SESSION['id'])) {
@@ -14,16 +12,8 @@ $conn->query("USE " . $db->getDbName());
 
 try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        if (!isset($_POST['email'])) {
-            throw new Exception("Geen email meegegeven");
-        }
-
-        if (!isset($_POST['wachtwoord'])) {
-            throw new Exception("Niet alle velden zijn ingevuld");
-        }
-
-        $email = $_POST["email"];
-        $wachtwoord = $_POST["wachtwoord"];
+        $email = isset($_POST['email']) ? $_POST["email"] : throw new Exception("Geen email meegegeven");
+        $wachtwoord = isset($_POST['wachtwoord']) ? $_POST["wachtwoord"] : throw new Exception("Niet alle velden zijn ingevuld");
 
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $conn->prepare($sql);
@@ -40,7 +30,7 @@ try {
             exit();
         }
 
-        throw new Exception('Invalid email and/or wachtwoord');
+        throw new Exception('Verkeerde email en/of wachtwoord');
     }
 } catch (Exception $e) {
     $_SESSION['error'] = $e->getMessage();
@@ -56,13 +46,17 @@ try {
     <title>Login</title>
 
     <link rel="stylesheet" href="src/output.css">
-    <?php require_once __DIR__ . '/components/fontawesome-link.php' ?>
+    <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
 </head>
 
 <body class="justify-center bg-gray-100">
-    <?php require_once 'components/header.php' ?>
+    <?php require_once __DIR__ . '/../components/header.php' ?>
 
-    <div class="flex flex-col w-50% p-6 shadow-lg bg-white rounded-lg justify-self-center mt-15">
+    <?php if (isset($_SESSION['error'])) { ?>
+        <p class="font-bold text-xl mt-7 justify-self-center p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
+        <?php unset($_SESSION['error']); ?>
+    <?php } ?>
+    <div class="flex flex-col w-50% p-6 shadow-lg bg-white rounded-lg justify-self-center my-7">
         <h2 class="text-sky-600 font-bold text-3xl mb-5 text-center">Login</h2>
         <form method="post" class="space-y-6 mb-4">
             <div>
@@ -90,10 +84,6 @@ try {
                 value="Login">
                 Login
             </button>
-            <?php if (isset($_SESSION['error'])) { ?>
-                <p class="font-bold text-xl p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
-                <?php unset($_SESSION['error']); ?>
-            <?php } ?>
         </form>
         <div>
             <a href="/register" class="text-gray-500 hover:text-black">
