@@ -78,6 +78,7 @@ post('/admin/match', function () {
     $controller = new MatchController();
     $controller->post($_POST);
 });
+get('/admin/matches/$id', 'views/admin/matchesDetail.php');
 
 if ($_SERVER['REQUEST_URI'] === '/admin/ready-to-match' || $_SERVER['REQUEST_URI'] === '/admin/ready-to-match/') {
     header('location: /admin/aanvragen');

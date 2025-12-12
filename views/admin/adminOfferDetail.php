@@ -43,7 +43,7 @@ if (isset($offerId)) {
 }
 
 if (!$offerId) {
-    header('location: /admin/list');
+    header('location: /admin/alles');
     exit();
 }
 
@@ -70,9 +70,12 @@ $stmt->execute(['id' => $offerId]);
 $offer = $stmt->fetch();
 
 if (!$offer) {
-    header('location: /admin/list');
+    header('location: /admin/alles');
     exit();
 }
+
+$pattern = '/^(?:(?<protocol>[a-z]{2,6})\:\/\/|)?(?<domain>\w.*\.[a-z]{2,})?(?<path>\/(|\w.*))?$/';
+$matches = [];
 
 ?>
 <!DOCTYPE html>
@@ -125,13 +128,13 @@ if (!$offer) {
                 </div>
 
                 <div class="border-b border-gray-200 pb-3">
-                    <label class="text-sm font-semibold text-gray-600 uppercase">Product Type</label>
-                    <p class="text-lg text-gray-800"><?= htmlspecialchars($offer['product_type'] ?? '-') ?></p>
+                    <label class="text-sm font-semibold text-gray-600 uppercase">Beschrijving</label>
+                    <p class="text-lg text-gray-800"><?= htmlspecialchars($offer['beschrijving'] ?? '-') ?></p>
                 </div>
 
                 <div class="border-b border-gray-200 pb-3">
-                    <label class="text-sm font-semibold text-gray-600 uppercase">Beschrijving</label>
-                    <p class="text-lg text-gray-800"><?= htmlspecialchars($offer['beschrijving'] ?? '-') ?></p>
+                    <label class="text-sm font-semibold text-gray-600 uppercase">Product Type</label>
+                    <p class="text-lg text-gray-800"><?= htmlspecialchars($offer['product_type'] ?? '-') ?></p>
                 </div>
 
                 <div class="border-b border-gray-200 pb-3">
@@ -140,20 +143,22 @@ if (!$offer) {
                 </div>
 
                 <div class="border-b border-gray-200 pb-3">
-                    <label class="text-sm font-semibold text-gray-600 uppercase">Date Created</label>
-                    <p class="text-lg text-gray-800"><?= htmlspecialchars($offer['date_created']) ?></p>
+                    <label class="text-sm font-semibold text-gray-600 uppercase">Datum gecreëerd</label>
+                    <p class="text-lg text-gray-800"><?= htmlspecialchars(explode(' ', $offer['date_created'])[0]) ?></p>
                 </div>
 
                 <div class="border-b border-gray-200 pb-3">
-                    <label class="text-sm font-semibold text-gray-600 uppercase">Date Modified</label>
-                    <p class="text-lg text-gray-800"><?= htmlspecialchars($offer['date_modified']) ?></p>
+                    <label class="text-sm font-semibold text-gray-600 uppercase">Laatst aangepast op</label>
+                    <p class="text-lg text-gray-800"><?= htmlspecialchars(explode(' ', $offer['date_modified'])[0]) ?></p>
                 </div>
 
                 <div class="pb-3">
                     <label class="text-sm font-semibold text-gray-600 uppercase">Product URL</label>
+
                     <?php if ($offer['product_url']) : ?>
+                        <?php preg_match($pattern, $offer['product_url'], $matches); ?>
                         <a href="<?= htmlspecialchars($offer['product_url']) ?>" target="_blank" class="text-lg text-blue-600 hover:text-blue-800 hover:underline break-all">
-                            <?= htmlspecialchars($offer['product_url']) ?>
+                            <?= htmlspecialchars($matches['domain']) ?>/
                         </a>
                     <?php else : ?>
                         <p class="text-lg text-gray-800">-</p>

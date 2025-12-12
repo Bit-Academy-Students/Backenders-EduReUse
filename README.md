@@ -30,7 +30,8 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 
 ## Requirements
 1. Zorg dat je [composer](https://getcomposer.org/download/) geinstalleerd hebt
-2. Zorg dat je een server als [XAMPP](https://www.apachefriends.org/download.html) geinstalleerd hebt OF apache en MySQL apart hebt runnen
+2. Zorg dat je [Node Package Manager](https://www.npmjs.com/) geinstalleerd hebt
+3. Zorg dat je een server als [XAMPP](https://www.apachefriends.org/download.html) geinstalleerd hebt OF apache en MySQL apart hebt runnen
 
 ## Installation
 ### 1. Clone deze repository:

@@ -29,7 +29,7 @@ if (!$user['is_admin']) {
 $needId = $needId ?? null;
 
 if (!$needId) {
-    header('location: /admin/list');
+    header('location: /admin/alles');
     exit();
 }
 
@@ -54,7 +54,7 @@ $stmt->execute(['id' => $needId]);
 $need = $stmt->fetch();
 
 if (!$need) {
-    header('location: /admin/list');
+    header('location: /admin/alles');
     exit();
 }
 
@@ -105,6 +105,11 @@ if (!$need) {
                 </div>
 
                 <div class="border-b border-gray-200 pb-3">
+                    <label class="text-sm font-semibold text-gray-600 uppercase">Product Type</label>
+                    <p class="text-lg text-gray-800"><?= htmlspecialchars($need['product_type'] ?? '-') ?></p>
+                </div>
+
+                <div class="border-b border-gray-200 pb-3">
                     <label class="text-sm font-semibold text-gray-600 uppercase">Postcode</label>
                     <p class="text-lg text-gray-800"><?= htmlspecialchars($need['postcode']) ?></p>
                 </div>
@@ -115,20 +120,16 @@ if (!$need) {
                 </div>
 
                 <div class="border-b border-gray-200 pb-3">
-                    <label class="text-sm font-semibold text-gray-600 uppercase">Date Created</label>
-                    <p class="text-lg text-gray-800"><?= htmlspecialchars($need['date_created']) ?></p>
+                    <label class="text-sm font-semibold text-gray-600 uppercase">Datum gecreëerd</label>
+                    <p class="text-lg text-gray-800"><?= htmlspecialchars(explode(' ', $need['date_created'])[0]) ?></p>
                 </div>
 
-                <div class="border-b border-gray-200 pb-3">
-                    <label class="text-sm font-semibold text-gray-600 uppercase">Date Modified</label>
-                    <p class="text-lg text-gray-800"><?= htmlspecialchars($need['date_modified']) ?></p>
-                </div>
-
-                <div class="border-b border-gray-200 pb-3">
-                    <label class="text-sm font-semibold text-gray-600 uppercase">Product Type</label>
-                    <p class="text-lg text-gray-800"><?= htmlspecialchars($need['product_type'] ?? '-') ?></p>
-                </div>
-
+                <?php if (explode(' ', $need['date_created'])[0] !== explode(' ', $need['date_modified'])[0]) : ?>
+                    <div class="border-b border-gray-200 pb-3">
+                        <label class="text-sm font-semibold text-gray-600 uppercase">Laatst aangepast op</label>
+                        <p class="text-lg text-gray-800"><?= htmlspecialchars(explode(' ', $need['date_modified'])[0]) ?></p>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
