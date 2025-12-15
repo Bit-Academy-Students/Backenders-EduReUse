@@ -52,11 +52,13 @@ class DonateController extends Seeder
 
         $url = $_POST['product_url'];
 
-        // only add image to database if an image was uploaded 
+        // only add row to database if an image was uploaded
         $image_name = '';
-        if (!empty($_FILES['image']['name'])) {
-            $image_name = $this->storeImg($titel);
+        if (empty($_FILES['image']['name'])) {
+            throw new Exception("Geen foto geüpload");
         }
+
+        $image_name = $this->storeImg($titel);
 
         $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, image_url, type_id, user_id, product_url, is_completed)
             VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :dateCreated, :dateModified, :image_url, :typeId, :userId, :productUrl, :isCompleted)";

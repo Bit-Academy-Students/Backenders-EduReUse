@@ -150,13 +150,16 @@ class MatchController extends Seeder
 
         // if different status was selected -> update to database
         if ($originalStatusId !== $newStatusId) {
-            $sql = "UPDATE matches SET status_id = :statusId WHERE id = :matchId";
+            $sql = "UPDATE matches SET status_id = :statusId, date_modified = :dateModified WHERE id = :matchId";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
                 'statusId' => $newStatusId,
+                'dateModified' => $this->now(),
                 'matchId' => $matchId,
             ]);
         }
+
+        // TODO: update date_delivered, date_modified, etc. into DB whenever status gets set to 'delivered', 'refurbished', etc.
 
         // insert into db
         $sql = "INSERT INTO history_logs (notitie, date_created, admin_id, match_id)

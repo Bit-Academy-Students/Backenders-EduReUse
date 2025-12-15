@@ -95,7 +95,7 @@ $matches = $conn->query($sql);
                     <?php foreach ($matches as $match) : ?>
                         <?php if ($match['status_label'] !== 'afgerond') : ?>
                             <tr onclick="document.location.href = '/admin/matches/<?= $match['id'] ?>'"
-                                class="*:p-2.5 *:border-t-1 *:border-slate-300 *:text-center cursor-pointer hover:bg-slate-100 transition">
+                                class="*:p-2.5 *:my-2 *:border-t-1 *:border-slate-300 *:text-center cursor-pointer hover:bg-slate-100 transition">
                                 <td><?= $match['needschool_naam'] ?></td>
                                 <td><?= $match['offerschool_naam'] ?></td>
                                 <td class="font-semibold w-fit px-2 py-1 rounded-md shadow-sm

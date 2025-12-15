@@ -105,7 +105,7 @@ $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors w-fit">
                             <i class="fas fa-arrow-left mr-2"></i>Terug
                         </a>
-                        <h1 class="font-bold text-3xl">Match overzicht</h1>
+                        <h1 class="font-bold text-gray-700 text-3xl">Match overzicht</h1>
                         <button type="button"
                             class="p-2 bg-sky-500 rounded hover:bg-sky-400 text-white transition-colors w-fit cursor-pointer">
                             Genereer PDF
