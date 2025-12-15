@@ -63,7 +63,9 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <a href="/user/detail-offer?id=<?= $offer['id'] ?>"
                             class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition">
                             <?php if (!empty($offer['image_url'])) { ?>
-                                <img src="../public/uploads/<?= $offer['image_url'] ?>" alt="apparaat afbeelding" class="w-full h-40 object-cover rounded-md mb-4">
+                                <img src="../src/uploads/<?= htmlspecialchars($offer['image_url']) ?>"
+                                    alt="apparaat afbeelding"
+                                    class="w-full h-40 object-cover rounded-md mb-4">
                             <?php } ?>
                             <h2 class="font-bold text-xl text-gray-800 mb-2"> <?= $offer['titel'] ?> </h2>
                             <p class="text-sm text-gray-600">Status: Open</p>

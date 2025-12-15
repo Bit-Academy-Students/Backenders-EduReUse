@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Database\Database;
 use Database\seeders\Seeder;
+use Exception;
 use PDO;
 
 class MatchController extends Seeder
@@ -18,13 +19,23 @@ class MatchController extends Seeder
         $this->conn->query("USE " . $this->database->getDbName());
     }
 
+    /**
+     * stores a match into the database
+     *
+     * stores seperate matches for each offer that was selected
+     * 
+     * @param array $post
+     * @return void
+     */
     public function post(array $post): void
     {
+        // redirect user to login if not logged in
         if (!isset($_SESSION['id'])) {
             header('location: /login');
             exit();
         }
 
+        // error handling
         if (!isset($post['offers']) || !isset($post['status']) || !isset($post['need_id'])) {
             $_SESSION['error'] = 'Er is iets fout gegaan...';
             header('location: ' . $post['previous-url']);
@@ -112,14 +123,54 @@ class MatchController extends Seeder
             ]);
         }
 
-        // echo '<pre>';
-        // print_r($match);
-        // print_r($post);
-        // print_r($offers);
-        // print_r($need);
-        // echo '</pre>';
-
         header('Location: /admin/matches');
+        exit();
+    }
+
+    /**
+     * Adds log to database
+     * 
+     * @param array $post $_POST variables
+     * @return void
+     * @throws Exception
+     */
+    public function addLog(array $post): void
+    {
+        // redirect user to login if not logged in
+        if (!isset($_SESSION['id'])) {
+            header('location: /login');
+            exit();
+        }
+
+        // error handling
+        $newStatusId = (!empty($post['status']) ? $post['status'] : throw new Exception("Geen status meegegeven"));
+        $originalStatusId = (!empty($post['original-match-status']) ? $post['original-match-status'] : throw new Exception("Oude status ontbreekt"));
+        $log = (!empty($post['new-log'])) ? trim($post['new-log']) : throw new Exception("Geen log meegegeven");
+        $matchId = (!empty($post['match-id'])) ? $post['match-id'] : throw new Exception("Geen match meegegeven");
+
+        // if different status was selected -> update to database
+        if ($originalStatusId !== $newStatusId) {
+            $sql = "UPDATE matches SET status_id = :statusId WHERE id = :matchId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                'statusId' => $newStatusId,
+                'matchId' => $matchId,
+            ]);
+        }
+
+        // insert into db
+        $sql = "INSERT INTO history_logs (notitie, date_created, admin_id, match_id)
+        VALUES (:log, :dateCreated, :adminId, :matchId)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'log' => $log,
+            'dateCreated' => $this->now(),
+            'adminId' => $_SESSION['id'],
+            'matchId' => $matchId,
+        ]);
+
+        // redirect to detailpage
+        header("location: /admin/matches/$matchId");
         exit();
     }
 }

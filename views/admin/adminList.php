@@ -103,9 +103,9 @@ if ($rows) {
         <?php require_once __DIR__ . '/../components/leftSidebar.php' ?>
 
         <div class="bg-white p-4 rounded-lg m-5 shadow-lg w-9/10">
-            <div class="flex items-center justify-between pb-3 mb-5 border-b border-gray-300">
+            <div class="flex items-center justify-around pb-3 mb-5 border-b border-gray-300">
                 <!-- header -->
-                <h1 class="font-bold text-3xl">Alles</h1>
+                <h1 class="font-bold text-3xl text-slate-600">Alles</h1>
 
                 <div class="flex gap-4 items-center">
                     <label for="hide-handled">Verberg afgehandeld</label>

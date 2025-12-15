@@ -79,9 +79,8 @@ $matches = $conn->query($sql);
                 </div>
             </div>
 
-            <table>
+            <table class="w-full">
                 <tr class="*:p-2">
-                    <th></th>
                     <th>Aanvrager naam</th>
                     <th>Donor naam</th>
                     <th>Leveringsstatus</th>
@@ -91,25 +90,22 @@ $matches = $conn->query($sql);
                     <th>Datum toegevoegd</th>
                 </tr>
 
-                <?php if ($matches) { ?>
-                    <?php foreach ($matches as $match) { ?>
-                        <tr class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center">
-                            <td>
-                                <a href="/admin/matches/<?= $match['id'] ?>"
-                                    class="text-sky-600 font-semibold">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                </a>
-                            </td>
-                            <td><?= $match['needschool_naam'] ?></td>
-                            <td><?= $match['offerschool_naam'] ?></td>
-                            <td><?= $match['status_label'] ?></td>
-                            <td><?= $match['type'] ?></td>
-                            <td><?= $match['ophaal_postcode'] ?></td>
-                            <td><?= $match['aflever_postcode'] ?></td>
-                            <td><?= explode(' ', $match['date_created'])[0] ?></td>
-                        </tr>
-                    <?php } ?>
-                <?php } ?>
+                <?php if ($matches) : ?>
+                    <?php foreach ($matches as $match) : ?>
+                        <?php if ($match['status_label'] !== 'afgerond') : ?>
+                            <tr onclick="document.location.href = '/admin/matches/<?= $match['id'] ?>'"
+                                class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center cursor-pointer hover:bg-slate-100 transition">
+                                <td><?= $match['needschool_naam'] ?></td>
+                                <td><?= $match['offerschool_naam'] ?></td>
+                                <td><?= $match['status_label'] ?></td>
+                                <td><?= $match['type'] ?></td>
+                                <td><?= $match['ophaal_postcode'] ?></td>
+                                <td><?= $match['aflever_postcode'] ?></td>
+                                <td><?= explode(' ', $match['date_created'])[0] ?></td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </table>
         </div>
     </div>

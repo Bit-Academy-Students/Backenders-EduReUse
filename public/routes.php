@@ -81,6 +81,16 @@ post('/admin/match', function () {
     $controller = new MatchController();
     $controller->post($_POST);
 });
+get('/admin/matches/$id', 'views/admin/matchesDetail.php');
+post('/admin/matches/$id', function () {
+    try {
+        $controller = new MatchController();
+        $controller->addLog($_POST);
+    } catch (Exception $e) {
+        $_SESSION['error'] = $e->getMessage();
+        header('location: /admin/matches/' . $_POST['match-id']);
+    }
+});
 
 if ($_SERVER['REQUEST_URI'] === '/admin/ready-to-match' || $_SERVER['REQUEST_URI'] === '/admin/ready-to-match/') {
     header('location: /admin/aanvragen');

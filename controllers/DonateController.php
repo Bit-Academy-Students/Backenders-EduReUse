@@ -23,6 +23,16 @@ class DonateController extends Seeder
 
         $this->conn->query("USE " . $this->database->getDbName());
 
+        $unallowedChars = [
+            '?',
+            '&',
+        ];
+        foreach ($unallowedChars as $char) {
+            if (str_contains($_POST['titel'], $char)) {
+                throw new Exception("Karakter '$char' is niet toegestaan");
+            }
+        }
+
         if (!($_POST['titel'])) {
             throw new Exception('Geen titel meegegeven');
         }
@@ -95,7 +105,7 @@ class DonateController extends Seeder
         }
 
         // move img to uploads folder
-        $newImgName = uniqid($titel) . ".$imgExtension";
+        $newImgName = preg_replace('/\s+/', '_', uniqid($titel) . ".$imgExtension");
         $imgUploadPath = '../public/src/uploads/' . $newImgName;
         move_uploaded_file($tmp_name, $imgUploadPath);
 
