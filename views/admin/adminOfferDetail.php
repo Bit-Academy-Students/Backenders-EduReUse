@@ -156,10 +156,18 @@ $matches = [];
                     <label class="text-sm font-semibold text-gray-600 uppercase">Product URL</label>
 
                     <?php if ($offer['product_url']) : ?>
-                        <?php preg_match($pattern, $offer['product_url'], $matches); ?>
-                        <a href="<?= htmlspecialchars($offer['product_url']) ?>" target="_blank" class="text-lg text-blue-600 hover:text-blue-800 hover:underline break-all">
-                            <?= htmlspecialchars($matches['domain']) ?>/
-                        </a>
+                        <?php if (preg_match($pattern, $offer['product_url'], $matches)): ?>
+                            <a href="<?= htmlspecialchars($offer['product_url']) ?>"
+                                target="_blank"
+                                class="text-lg text-blue-600 hover:text-blue-800 hover:underline break-all">
+                                <?= htmlspecialchars($matches['domain']) ?>/
+                            </a>
+                        <?php else : ?>
+                            <a href="<?= $offer['product_url'] ?>"
+                                class="text-lg text-blue-600 hover:text-blue-800 hover:underline break-all">
+                                <?= htmlspecialchars($offer['product_url']) ?>
+                            </a>
+                        <?php endif; ?>
                     <?php else : ?>
                         <p class="text-lg text-gray-800">-</p>
                     <?php endif; ?>
