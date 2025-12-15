@@ -84,7 +84,7 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         ?>
                             <tr class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center">
                                 <td>
-                                    <a href="/admin/needs/<?= $need['id'] ?>"
+                                    <a href="/admin/need/<?= $need['id'] ?>?back=needs"
                                         class="text-sky-600 font-semibold">
                                         <i class="fa-solid fa-angles-right"></i>
                                     </a>

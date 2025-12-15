@@ -123,7 +123,7 @@ if ($rows) {
                     <div class="space-y-4">
                         <?php if (!empty($needs)) : ?>
                             <?php foreach ($needs as $need) : ?>
-                                <a href="/admin/need/<?= htmlspecialchars($need['id']) ?>" class="block">
+                                <a href="/admin/need/<?= htmlspecialchars($need['id']) ?>?back=all" class="block">
                                     <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md hover:border-black-400 cursor-pointer transition-all">
                                         <h3 class="text-lg font-medium text-gray-800 mb-2">
                                             <?= htmlspecialchars($need['titel'] ?? '-') ?>

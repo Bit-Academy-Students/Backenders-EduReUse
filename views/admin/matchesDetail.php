@@ -26,7 +26,24 @@ if (!$user['is_admin']) {
 }
 
 // get match
-$sql = "SELECT * FROM matches WHERE id = :id";
+$sql = "SELECT
+    matches.*, 
+    needs.titel AS need_title, 
+    needs.hoeveelheid,
+    needs.postcode, 
+    needs.deadline, 
+    types.type AS product_type,
+    need_user.naam AS need_username, 
+    offer_user.naam AS offer_username,
+    statuses.label AS status
+FROM matches
+INNER JOIN needs ON matches.need_id = needs.id
+INNER JOIN users AS need_user ON needs.user_id = need_user.id
+INNER JOIN offers ON matches.offer_id = offers.id
+INNER JOIN users AS offer_user ON offers.user_id = offer_user.id
+INNER JOIN types ON needs.type_id = types.id
+INNER JOIN statuses ON matches.status_id = statuses.id
+WHERE matches.id = :id";
 $stmt = $conn->prepare($sql);
 $stmt->execute(['id' => $id]);
 
@@ -95,42 +112,91 @@ $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </button>
                     </div>
 
-                    <!-- Need informatie -->
+                    <!-- Match informatie -->
                     <div class="space-y-4">
-
                         <div class="border-b border-gray-200 pb-3">
-                            <label class="text-sm font-semibold text-gray-600 uppercase">Gebruiker</label>
-                            <p class="text-lg text-gray-800"></p>
+                            <label class="text-sm font-bold text-gray-600 uppercase">Ontvanger</label>
+                            <p class="text-lg text-gray-800"><?= $match['need_username'] ?></p>
                         </div>
 
                         <div class="border-b border-gray-200 pb-3">
+                            <label class="text-sm font-bold text-gray-600 uppercase">Verzender</label>
+                            <p class="text-lg text-gray-800"><?= $match['offer_username'] ?></p>
+                        </div>
+
+                        <div class="flex flex-row items-baseline gap-5 border-b border-gray-200 pb-3">
+                            <label class="text-sm font-bold text-gray-600 uppercase">Status</label>
+                            <p class="text-lg text-gray-800 font-semibold w-fit px-2 py-1 rounded-md shadow-sm
+                                <?php if ($match['status_id'] === 1) : ?>
+                                    text-emerald-600 bg-emerald-100
+                                <?php elseif ($match['status_id'] === 2) : ?>
+                                    text-rose-600 bg-rose-100
+                                <?php elseif ($match['status_id'] === 3) : ?>
+                                    text-sky-600 bg-sky-100
+                                <?php elseif ($match['status_id'] === 4) : ?>
+                                    text-yellow-600 bg-yellow-100
+                                <?php elseif ($match['status_id'] === 5) : ?>
+                                    text-indigo-600 bg-indigo-100
+                                <?php elseif ($match['status_id'] === 6) : ?>
+                                    text-blue-600 bg-blue-100
+                                <?php elseif ($match['status_id'] === 7) : ?>
+                                    text-pink-600 bg-pink-100
+                                <?php elseif ($match['status_id'] === 8) : ?>
+                                    text-green-600 bg-green-100
+                                <?php endif; ?>
+                                ">
+                                <?= $match['status'] ?></p>
+
+                        </div>
+
+                        <div class=" border-b border-gray-200 pb-3">
                             <label class="text-sm font-semibold text-gray-600 uppercase">Titel</label>
-                            <p class="text-lg text-gray-800"></p>
+                            <p class="text-lg text-gray-800"><?= $match['need_title'] ?></p>
                         </div>
 
                         <div class="border-b border-gray-200 pb-3">
                             <label class="text-sm font-semibold text-gray-600 uppercase">Hoeveelheid</label>
-                            <p class="text-lg text-gray-800"></p>
+                            <p class="text-lg text-gray-800"><?= $match['hoeveelheid'] ?></p>
                         </div>
 
                         <div class="border-b border-gray-200 pb-3">
                             <label class="text-sm font-semibold text-gray-600 uppercase">Product Type</label>
-                            <p class="text-lg text-gray-800"></p>
+                            <p class="text-lg text-gray-800"><?= $match['product_type'] ?></p>
                         </div>
 
                         <div class="border-b border-gray-200 pb-3">
                             <label class="text-sm font-semibold text-gray-600 uppercase">Postcode</label>
-                            <p class="text-lg text-gray-800"></p>
+                            <p class="text-lg text-gray-800"><?= $match['postcode'] ?></p>
                         </div>
 
                         <div class="border-b border-gray-200 pb-3">
                             <label class="text-sm font-semibold text-gray-600 uppercase">Deadline</label>
-                            <p class="text-lg text-gray-800"></p>
+                            <p class="text-lg text-gray-800"><?= $match['deadline'] ?></p>
                         </div>
 
                         <div class="border-b border-gray-200 pb-3">
                             <label class="text-sm font-semibold text-gray-600 uppercase">Datum gecreëerd</label>
-                            <p class="text-lg text-gray-800"></p>
+                            <p class="text-lg text-gray-800"><?= $match['date_created'] ?></p>
+                        </div>
+
+                        <div class="border-b border-gray-200 pb-3">
+                            <label class="text-sm font-semibold text-gray-600 uppercase">Datum opgehaald</label>
+                            <p class="text-lg text-gray-800"><?= $match['date_pickup'] ?></p>
+                        </div>
+
+                        <div class="border-b border-gray-200 pb-3">
+                            <label class="text-sm font-semibold text-gray-600 uppercase">Datum gerefurbished</label>
+                            <p class="text-lg text-gray-800"><?= $match['date_refurbished'] ?></p>
+                        </div>
+
+                        <div class="border-b border-gray-200 pb-3">
+                            <label class="text-sm font-semibold text-gray-600 uppercase">Datum geleverd</label>
+                            <p class="text-lg text-gray-800"><?= $match['date_delivered'] ?></p>
+                        </div>
+
+                        <div class="border-b border-gray-200 pb-3">
+                            <label class="text-sm font-semibold text-gray-600 uppercase">Laatst gewijzigd op</label>
+                            <p class="text-lg text-gray-800"><?= $match['date_modified'] ?></p>
                         </div>
                     </div>
                 </div>
