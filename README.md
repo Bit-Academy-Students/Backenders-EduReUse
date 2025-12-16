@@ -17,6 +17,7 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 ### Frontend
  - **Frontend framework:** [tailwind css](https://tailwindcss.com/)
  - **Icon library:** [FontAwesome](https://fontawesome.com/)
+ - **Genereren van maps:** [Leaflet](https://leafletjs.com/) en [OpenStreetMap](openstreetmap.org/)
 
 ### Backend
  - **Plain PHP** voor het grootste gedeelte
