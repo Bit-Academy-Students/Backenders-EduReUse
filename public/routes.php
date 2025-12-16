@@ -22,6 +22,7 @@ get('/user/posts', 'views/user/posts.php');
 get('/user/delete-offer', 'views/user/deleteOffer.php');
 get('/user/detail-offer', 'views/user/detailOffer.php');
 get('/user/edit-offer', 'views/user/editOffer.php');
+post('/user/edit-offer', 'views/user/editOffer.php');
 get('/user/detail-need', 'views/user/detailAanvraag.php');
 get('/user/edit-profile', 'views/user/editUser.php');
 post('/user/edit-profile', function () {
