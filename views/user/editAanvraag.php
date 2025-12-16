@@ -2,167 +2,93 @@
 
 use Database\Database;
 
-if (!isset($_SESSION['id'])) {
-    header('location: /login');
-    exit();
-}
-
 $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
 
-// product types
-$sql = "SELECT * FROM `types`";
-$types = $conn->query($sql);
+$id = (int) $_GET['id'];
 
-try {
-    if (isset($_POST['submit'])) {
-        if (!($_POST['omschrijving'])) {
-            throw new Exception('Geen omschrijving meegegeven');
-        }
-        if (!($_POST['type'])) {
-            throw new Exception('Geen product type meegegeven');
-        }
-        if (!($_POST['hoeveelheid'])) {
-            throw new Exception('Geen hoeveelheid meegegeven');
-        }
-        if (!($_POST['postcode'])) {
-            throw new Exception('Geen postcode meegegeven');
-        }
+$sql = "SELECT * FROM needs WHERE id = :id";
+$stmt = $conn->prepare($sql);
+$stmt->execute(['id' => $id]);
 
-        $omschrijving = $_POST['omschrijving'];
-        $type = $_POST['type'];
-        $hoeveelheid = $_POST['hoeveelheid'];
-        $deadline = !empty($_POST['deadline']) ? $_POST['deadline'] : null;
+$offer = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // regular expression for postcode
-        $postcode = strtoupper($_POST['postcode']);
-        $pattern = '/^(?<letters>\d{4})\s?(?<nummers>[a-zA-Z]{2})$/';
-        if (!preg_match($pattern, $postcode)) {
-            throw new Exception("Ongeldige postcode ingevoerd<br>Houdt het format '1234 AB' of '1234AB' aan." . PHP_EOL);
-        }
 
-        if (strlen($postcode) === 6) {
-            $postcode = substr($postcode, 0, 4) . ' ' . substr($postcode, 4, 6);
-        }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $hoeveelheid = $_POST["new_need_hoeveelheid"];
+    $postcode = $_POST['new_need_postcode'];
+    $deadline = $_POST['new_deadline'];
 
-        $sql = "INSERT INTO needs (titel, type_id, hoeveelheid, postcode, deadline, user_id, date_created, date_modified, is_completed)
-            VALUES (:titel, :typeId, :hoeveelheid, :postcode, :deadline, :userId, :dateCreated, :dateModified, :isCompleted)";
+    $sql2 = "UPDATE needs SET hoeveelheid = :hoeveelheid, postcode = :postcode, deadline = :deadline WHERE id = :id";
+    $stmt2 = $conn->prepare($sql2);
+    $stmt2->execute(['hoeveelheid' => $hoeveelheid, 'postcode' => $postcode, 'deadline' => $deadline, 'id' => $id]);
+    
 
-        $exec = $conn->prepare($sql);
-        $exec->execute([
-            'titel' => $omschrijving,
-            'typeId' => $type,
-            'hoeveelheid' => $hoeveelheid,
-            'postcode' => $postcode,
-            'deadline' => $deadline,
-            'userId' => $_SESSION['id'],
-            'dateCreated' => date('Y-m-d G:i:s'),
-            'dateModified' => date('Y-m-d G:i:s'),
-            'isCompleted' => 0,
-        ]);
-
-        header('location: /user/posts');
-        exit();
-    }
-} catch (Exception $e) {
-    $error = $e->getMessage();
-} catch (PDOException $ex) {
-    $error = $ex->getMessage();
+    header("Location: /user/posts");
+    exit();
 }
 
 ?>
+
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aanvraag</title>
+    <title>Wachtwoord wijzigen</title>
 
-    <link rel="stylesheet" href="src/output.css">
+    <link rel="stylesheet" href="/../src/output.css">
     <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
 </head>
 
 <body class="bg-gray-100">
     <?php require_once __DIR__ . '/../components/header.php' ?>
 
-    <div class="flex flex-col bg-white justify-self-center shadow-lg w-[40%] gap-3 rounded-lg p-6 my-15">
-        <div>
-            <h1 class="font-bold text-3xl text-center">Aanvraag Formulier</h1>
-        </div>
+    <div class="flex flex-col bg-white justify-self-center shadow-lg w-[60%] md:w-[50%] gap-6 rounded-lg p-8 my-10">
+         <a href="/user/posts"
+                        class="text-gray-600 hover:text-black font-semibold transition">
+                        <i class="fa-solid fa-backward"></i>
+                        Terug
+                    </a>
+        <h1 class="font-bold text-4xl text-center text-sky-600 border-b-1 border-gray-300 pb-4">Aanvraag info aanpassen</h1>
 
-        <div>
-            <form method="post" class="space-y-6">
-                <div class="flex items-baseline gap-2">
-                    <label for="omschrijving" class="cursor-pointer text-lg">
-                        Omschrijving
-                    </label>
-                    <input type="text"
-                        name="omschrijving" id="omschrijving"
-                        placeholder="Bijvoorbeeld: 'een mooie nieuwe laptop'"
-                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
+        <form method="post" class="flex flex-col gap-10">
+            <div class="flex flex-col gap-4 text-lg items-center">
+            <div class="flex flex-col w-full px-20">
+                <label for="new_need_hoeveelheid" class="cursor-pointer font-semibold">Hoeveelheid</label>
+                <input type="number" name="new_need_hoeveelheid" id="new_need_hoeveelheid"
+                    value="<?= $offer['hoeveelheid'] ?>"
+                    class="bg-gray-200 p-2 rounded-md">
+            </div>
+            <div class="flex flex-col w-full px-20">
+                <label for="new_need_postcode" class="cursor-pointer font-semibold">Postcode</label>
+                <input type="text" name="new_need_postcode" id="new_need_postcode"
+                    value="<?= $offer['postcode'] ?>"
+                    class="bg-gray-200 p-2 rounded-md">
+            </div>
+            </div>
+            <div class="flex flex-col w-full px-20">
+                <label for="new_deadline" class="cursor-pointer font-semibold">Deadline<span class="text-gray-500">(optioneel)</span></label>
+                <input type="date"
+                    id="new_deadline" name="new_deadline"
+                   value="<?= $offer['deadline'] ?>"
+                        class="bg-gray-200 p-2 rounded-md">
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-row gap-5 items-center justify-center">
+                    <input type="submit" value="Pas aan"
+                        class="bg-sky-500 text-white rounded-md p-1.5 w-fit hover:bg-sky-600 cursor-pointer transition">
                 </div>
-
-                <div class="flex items-baseline gap-2">
-                    <label for="type" class="cursor-pointer text-lg">
-                        Type
-                    </label>
-                    <select name="type"
-                        id="type"
-                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
-                        <?php foreach ($types as $type) { ?>
-                            <option value="<?= $type['id'] ?>"><?= $type['type'] ?></option>
-                        <?php } ?>
-                    </select>
-                </div>
-
-                <div class="flex items-baseline gap-2">
-                    <label for="hoeveelheid" class="cursor-pointer text-lg">
-                        Hoeveelheid
-                    </label>
-                    <input type="number"
-                        name="hoeveelheid" id="hoeveelheid"
-                        value="1"
-                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
-                </div>
-
-                <div class="flex items-baseline gap-2">
-                    <label for="postcode" class="cursor-pointer text-lg">
-                        Postcode
-                    </label>
-                    <input type="text"
-                        name="postcode" id="postcode"
-                        placeholder="1234 AB"
-                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
-                </div>
-
-                <div class="flex items-baseline gap-2">
-                    <label for="deadline" class="cursor-pointer text-lg">
-                        Deadline
-
-                    </label>
-                    <input type="date"
-                        id="deadline" name="deadline"
-                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
-                    <span class="text-gray-500">(optioneel)</span>
-                </div>
-
-                <input type="submit"
-                    name="submit" value="Vraag aan"
-                    class="flex w-full justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white cursor-pointer hover:bg-sky-500 transition">
-            </form>
-        </div>
-        <?php if (isset($error)) { ?>
-            <p class="font-bold text-center rounded-md bg-red-300 text-red-600"><?= $error ?></p>
-        <?php } ?>
+            </div>
+        </form>
     </div>
-
-    <script>
-        const input = document.getElementById('omschrijving');
-        input.focus();
-        input.select();
-    </script>
+    <?php if (isset($_SESSION['error'])) { ?>
+        <p class="font-bold text-xl justify-self-center p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
+        <?php unset($_SESSION['error']); ?>
+    <?php } ?>
 </body>
 
 </html>

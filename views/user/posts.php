@@ -96,6 +96,7 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th class="">Type</th>
                                 <th class="">Hoeveelheid</th>
                                 <th class="">Deadline</th>
+                                <th class="">Edit</th>
                                 <th class="">Delete</th>
                             </tr>
                         </thead>
@@ -107,6 +108,8 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <td class="overflow-hidden"> <?= $need['type'] ?> </td>
                                     <td class="overflow-hidden"> <?= $need['hoeveelheid'] ?> </td>
                                     <td class="overflow-hidden"> <?= $need['deadline'] ?> </td>
+                                    <td class="overflow-hidden"><a href="/user/edit-aanvraag?id=<?= $need['id'] ?>"><i class="fa-solid fa-pen-to-square" style="color: #00a3ff;"></i></a></td>
+                                    <td class="overflow-hidden"> <a class="cursor-pointer" href="/user/delete-needs?id=<?= $need['id'] ?>"><i class="fa-solid fa-trash-can" style="color: #f03838;"></i></a></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
