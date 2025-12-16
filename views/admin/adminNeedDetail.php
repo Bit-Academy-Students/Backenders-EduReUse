@@ -147,10 +147,7 @@ if (!$need) {
         </div>
     </div>
 
-    <div id="map" class="h-80">
-        <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
-        <p><a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap contributors</a></p>
-    </div>
+    <div id="map" class="h-80"></div>
 
     <script>
         const api = `https://api.geoapify.com/v1/geocode/search?text=<?= htmlspecialchars(str_replace(' ', '', $need['postcode'])) ?>&apiKey=13a8e0d15e224c5ebf41734d171a7d2d`;
@@ -163,7 +160,7 @@ if (!$need) {
                 const response = await fetch(api);
                 const data = await response.json();
 
-                if (!response.ok) {
+                if (!response.ok || !data.features.length) {
                     console.log('Niet gevonden');
                     return;
                 }
