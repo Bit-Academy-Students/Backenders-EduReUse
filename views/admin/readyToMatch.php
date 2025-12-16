@@ -32,18 +32,20 @@ FROM `offers`
 INNER JOIN product_states ON offers.staat_id = product_states.id
 INNER JOIN types ON offers.type_id = types.id
 INNER JOIN users ON offers.user_id = users.id
-WHERE types.type = :type
+WHERE types.id = :id
 ORDER BY offers.id DESC";
 $stmt = $conn->prepare($sql);
 
 if ($type) {
-    $stmt->execute(['type' => $type['type']]);
+    $stmt->execute(['id' => $type['id']]);
 }
 
 $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $amountIncompleted = 0;
+$offersAmt = 0;
 foreach ($offers as $offer) {
+    $offersAmt++;
     $amountIncompleted += $offer['is_completed'];
 }
 
@@ -78,7 +80,7 @@ foreach ($offers as $offer) {
                 <?php exit(); ?>
             <?php } ?>
 
-            <?php if (empty($offers) || $amountIncompleted !== 0) { ?>
+            <?php if (empty($offers) || $amountIncompleted === $offersAmt) { ?>
                 <?php if ($type) { ?>
                     <h1 class="text-center text-2xl font-bold">Niemand heeft nog een donatie met het type '<?= $type['type'] ?>' aangemaakt</h1>
                     <?php exit(); ?>
@@ -122,7 +124,7 @@ foreach ($offers as $offer) {
         </div>
 
         <!-- count of total selected items -->
-        <div class="w-[95%] mb-3 mt-4">
+        <div class="w-[95%] mb-3<?= (!empty($_SESSION['error'])) ? '' : 0 ?> mt-4">
             <div id="totalDiv" class="flex gap-2 justify-self-end p-4 bg-white rounded-lg shadow-md" hidden>
                 <p id="total"></p>
                 <span class="text-slate-500">(max <?= $need['hoeveelheid'] ?>)</span>
@@ -147,7 +149,6 @@ foreach ($offers as $offer) {
             <p class="font-bold text-xl justify-self-center p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
             <?php unset($_SESSION['error']); ?>
         <?php } ?>
-
     </form>
 
     <script src="/src/checkbox.js"></script>

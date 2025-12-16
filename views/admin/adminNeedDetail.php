@@ -81,7 +81,9 @@ if (!$need) {
             <!-- terug knop -->
             <div class="flex items-center justify-between pb-4 mb-6 border-b border-gray-300">
                 <h1 class="font-bold text-3xl">Aanvraag Details</h1>
-                <a href="/admin/alles" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors">
+                <a href="/admin/<?php if ($_GET['back'] === 'all') : ?>alles<?php else : ?>aanvragen<?php endif; ?>"
+
+                    class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors">
                     <i class="fas fa-arrow-left mr-2"></i>Terug
                 </a>
             </div>

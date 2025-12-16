@@ -82,9 +82,10 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($needs as $need) { ?>
                         <?php if (!$need['is_completed']) { // only display need if admin hasn't handled the needs
                         ?>
-                            <tr class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center">
+                            <tr onclick="document.location.href='/admin/need/<?= $need['id'] ?>?back=needs'"
+                                class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center cursor-pointer hover:bg-slate-100 transition">
                                 <td>
-                                    <a href="/admin/needs/<?= $need['id'] ?>"
+                                    <a href="/admin/need/<?= $need['id'] ?>?back=needs"
                                         class="text-sky-600 font-semibold">
                                         <i class="fa-solid fa-angles-right"></i>
                                     </a>

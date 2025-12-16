@@ -40,7 +40,8 @@ $sql = "SELECT
     types.type AS product_type,
     users.naam AS user_name,
     offers.product_url,
-    offers.is_completed
+    offers.is_completed,
+    offers.image_url
 FROM offers
 INNER JOIN product_states ON offers.staat_id = product_states.id
 INNER JOIN types ON offers.type_id = types.id
@@ -62,7 +63,8 @@ SELECT
     types.type AS product_type,
     users.naam AS user_name,
     NULL AS product_url,
-    needs.is_completed
+    needs.is_completed,
+    NULL as image_url
 FROM needs
 INNER JOIN types ON needs.type_id = types.id
 INNER JOIN users ON needs.user_id = users.id
@@ -123,7 +125,7 @@ if ($rows) {
                     <div class="space-y-4">
                         <?php if (!empty($needs)) : ?>
                             <?php foreach ($needs as $need) : ?>
-                                <a href="/admin/need/<?= htmlspecialchars($need['id']) ?>" class="block">
+                                <a href="/admin/need/<?= htmlspecialchars($need['id']) ?>?back=all" class="block">
                                     <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md hover:border-black-400 cursor-pointer transition-all">
                                         <h3 class="text-lg font-medium text-gray-800 mb-2">
                                             <?= htmlspecialchars($need['titel'] ?? '-') ?>
@@ -154,19 +156,27 @@ if ($rows) {
                         <?php if (!empty($offers)) : ?>
                             <?php foreach ($offers as $offer) : ?>
                                 <a href="/admin/offer/<?= htmlspecialchars($offer['id']) ?>" class="block">
-                                    <div class="bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md hover:border-black-400 cursor-pointer transition-all">
-                                        <h3 class="text-lg font-medium text-gray-800 mb-2">
-                                            <?= htmlspecialchars($offer['titel'] ?? '-') ?>
-                                            <?php if ($offer['is_completed']) { ?>
-                                                <i class="text-green-400"><?= '(afgehandeld)' ?></i>
-                                            <?php } ?>
-                                        </h3>
+                                    <div class="flex flex-row gap-5 bg-white border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md hover:border-black-400 cursor-pointer transition-all grid grid-cols-10">
+                                        <div class="col-span-3">
+                                            <?php if ($offer['image_url']): ?>
+                                                <img src="../src/uploads/<?= $offer['image_url'] ?>" alt="Product image"
+                                                    class="h-32 w-32 rounded-lg object-cover shadow-sm">
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="col-span-7">
+                                            <h3 class="text-lg font-medium text-gray-800 mb-2">
+                                                <?= htmlspecialchars($offer['titel'] ?? '-') ?>
+                                                <?php if ($offer['is_completed']) { ?>
+                                                    <i class="text-green-400"><?= '(afgehandeld)' ?></i>
+                                                <?php } ?>
+                                            </h3>
 
-                                        <div class="space-y-1 text-sm text-gray-600">
-                                            <div><strong>Gebruiker:</strong> <?= htmlspecialchars($offer['user_name'] ?? '-') ?></div>
-                                            <div><strong>Postcode:</strong> <?= htmlspecialchars($offer['postcode'] ?? '-') ?></div>
-                                            <div><strong>Type:</strong> <?= htmlspecialchars($offer['product_type'] ?? '-') ?></div>
-                                            <div><strong>Datum gecreëerd:</strong> <?= htmlspecialchars(explode(' ', $offer['date_created'])[0] ?? '-') ?></div>
+                                            <div class="space-y-1 text-sm text-gray-600">
+                                                <div><strong>Gebruiker:</strong> <?= htmlspecialchars($offer['user_name'] ?? '-') ?></div>
+                                                <div><strong>Postcode:</strong> <?= htmlspecialchars($offer['postcode'] ?? '-') ?></div>
+                                                <div><strong>Type:</strong> <?= htmlspecialchars($offer['product_type'] ?? '-') ?></div>
+                                                <div><strong>Datum gecreëerd:</strong> <?= htmlspecialchars(explode(' ', $offer['date_created'])[0] ?? '-') ?></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
