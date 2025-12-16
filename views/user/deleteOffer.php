@@ -20,7 +20,7 @@ $delete = $stmt->execute(['id' => $id]);
 
 
 
- header('Location: /user/posts');
-    exit;
+header('Location: /user/posts');
+exit;
 
 ?>
