@@ -69,6 +69,17 @@ if (!$need) {
 
     <link rel="stylesheet" href="/../src/output.css">
     <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
+
+    <!-- Geolocation links -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+    <script src="https://cdn.maptiler.com/maptiler-geocoding-control/v2.1.7/leaflet.umd.js"></script>
+    <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v2.1.7/style.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">
@@ -135,6 +146,52 @@ if (!$need) {
             </div>
         </div>
     </div>
+
+    <div id="map" class="h-80">
+        <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
+        <p><a href="https://www.maptiler.com/copyright/" target="_blank" rel="noopener">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">&copy; OpenStreetMap contributors</a></p>
+    </div>
+
+    <script>
+        const api = `https://api.geoapify.com/v1/geocode/search?text=<?= htmlspecialchars(str_replace(' ', '', $need['postcode'])) ?>&apiKey=13a8e0d15e224c5ebf41734d171a7d2d`;
+
+        let long = null;
+        let lat = null;
+        let stad = null;
+        async function getCoordinates() {
+            try {
+                const response = await fetch(api);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.log('Niet gevonden');
+                    return;
+                }
+
+                long = data.features[0].geometry.coordinates[1];
+                lat = data.features[0].geometry.coordinates[0];
+                stad = data.features[0].properties.city;
+            } catch (error) {
+                console.log(error);
+            }
+
+            const map = L.map('map').setView([long, lat], 14);
+
+            const key = 'kPWqhBvKYnFpIPZWxbbb';
+            L.tileLayer(`https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${key}`, { //style URL
+                tileSize: 512,
+                zoomOffset: -1,
+                minZoom: 1,
+                attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+                crossOrigin: false
+            }).addTo(map);
+
+            L.marker([long, lat]).addTo(map)
+                .bindPopup(`<?= htmlspecialchars($need['postcode']) ?>, ${stad}`);
+        };
+
+        getCoordinates();
+    </script>
 </body>
 
 </html>
