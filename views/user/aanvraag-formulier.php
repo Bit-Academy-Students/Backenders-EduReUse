@@ -17,34 +17,25 @@ $types = $conn->query($sql);
 
 try {
     if (isset($_POST['submit'])) {
-        if (!($_POST['omschrijving'])) {
-            throw new Exception('Geen omschrijving meegegeven');
-        }
-        if (!($_POST['type'])) {
-            throw new Exception('Geen product type meegegeven');
-        }
-        if (!($_POST['hoeveelheid'])) {
-            throw new Exception('Geen hoeveelheid meegegeven');
-        }
-        if (!($_POST['postcode'])) {
-            throw new Exception('Geen postcode meegegeven');
+        $omschrijving = (!empty($_POST['omschrijving'])) ? $_POST['omschrijving'] : throw new Exception('Geen omschrijving meegegeven');
+        $type = (!empty($_POST['type'])) ? $_POST['type'] : throw new Exception('Geen product type meegegeven');
+        $hoeveelheid = (!empty($_POST['hoeveelheid'])) ? $_POST['hoeveelheid'] : throw new Exception('Geen hoeveelheid meegegeven');
+        if ($hoeveelheid < 0) {
+            throw new Exception("Hoeveelheid moet hoger dan 0 zijn.");
         }
 
-        $omschrijving = $_POST['omschrijving'];
-        $type = $_POST['type'];
-        $hoeveelheid = $_POST['hoeveelheid'];
-        $deadline = !empty($_POST['deadline']) ? $_POST['deadline'] : null;
+        $postcode = (!empty($_POST['postcode'])) ? strtoupper($_POST['postcode']) : throw new Exception('Geen postcode meegegeven');
+        $deadline = (!empty($_POST['deadline'])) ? $_POST['deadline'] : null;
 
-        // regular expression for postcode
-        $postcode = strtoupper($_POST['postcode']);
-        $pattern = '/^(?<letters>\d{4})\s?(?<nummers>[a-zA-Z]{2})$/';
-        if (!preg_match($pattern, $postcode)) {
-            throw new Exception("Ongeldige postcode ingevoerd<br>Houdt het format '1234 AB' of '1234AB' aan." . PHP_EOL);
+        // regex voor postcode
+        $pattern = '/^(\d{4})\s?([a-zA-Z]{2})$/';
+        if (!preg_match($pattern, $postcode) || strlen($postcode) < 6 || strlen($postcode) > 7) {
+            throw new Exception("Verkeerde postcode '$postcode' ingevoerd, houdt het format '1234 AB' aan");
         }
 
-        if (strlen($postcode) === 6) {
-            $postcode = substr($postcode, 0, 4) . ' ' . substr($postcode, 4, 6);
-        }
+        // reformat postcode
+        $replacement = '$1 $2';
+        $postcode = preg_replace($pattern, $replacement, $postcode);
 
         $sql = "INSERT INTO needs (titel, type_id, hoeveelheid, postcode, deadline, user_id, date_created, date_modified, is_completed)
             VALUES (:titel, :typeId, :hoeveelheid, :postcode, :deadline, :userId, :dateCreated, :dateModified, :isCompleted)";
@@ -123,7 +114,7 @@ try {
                     </label>
                     <input type="number"
                         name="hoeveelheid" id="hoeveelheid"
-                        value="1"
+                        value="1" min="0"
                         class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
 

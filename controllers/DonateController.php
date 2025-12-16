@@ -34,36 +34,60 @@ class DonateController extends Seeder
         $titel = (!empty($_POST['titel'])) ? $_POST['titel'] : throw new Exception('Geen titel meegegeven');
         $type = (!empty($_POST['type'])) ? $_POST['type'] : throw new Exception('Geen product type meegegeven');
         $aantal = (!empty($_POST['aantal'])) ? $_POST['aantal'] : throw new Exception('Geen hoeveelheid meegegeven');
+        if ($aantal < 0) {
+            throw new Exception("Aantal kan niet minder dan 0 zijn");
+        }
         $beschrijving = $_POST['beschrijving'];
         $staat = (!empty($_POST['staat'])) ? $_POST['staat'] : throw new Exception('Geen product staat meegegeven');
-        if (empty($_POST['postcode'])) {
-            throw new Exception('Geen postcode meegegeven');
-        }
+
+        $postcode = (!empty($_POST['postcode'])) ? strtoupper($_POST['postcode']) : throw new Exception('Geen postcode meegegeven');
 
         // regex voor postcode
-        $postcode = strtoupper($_POST['postcode']);
         $pattern = '/^(\d{4})\s?([a-zA-Z]{2})$/';
-        $replacement = '$1 $2';
-        if (strlen($postcode) === 6 || strlen($postcode) === 7) {
-            $postcode = preg_replace($pattern, $replacement, $postcode);
-        } else {
+        if (!preg_match($pattern, $postcode) || strlen($postcode) < 6 || strlen($postcode) > 7) {
             throw new Exception("Verkeerde postcode '$postcode' ingevoerd, houdt het format '1234 AB' aan");
         }
 
-        $url = $_POST['product_url'];
+        // reformat postcode
+        $replacement = '$1 $2';
+        $postcode = preg_replace($pattern, $replacement, $postcode);
 
         // only add row to database if an image was uploaded
         $image_name = '';
+        $url = $_POST['product_url'];
         if (empty($_FILES['image']['name'])) {
             throw new Exception("Geen foto geüpload");
         }
 
         $image_name = $this->storeImg($titel);
 
-        $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, image_url, type_id, user_id, product_url, is_completed)
-            VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :dateCreated, :dateModified, :image_url, :typeId, :userId, :productUrl, :isCompleted)";
+        $sql = "INSERT INTO offers (titel, 
+            staat_id,
+            hoeveelheid,
+            beschrijving, 
+            postcode, 
+            date_created, 
+            date_modified, 
+            image_url, 
+            type_id, 
+            user_id, 
+            product_url,
+            is_completed)
+        VALUES (
+            :titel,
+            :staatId,
+            :hoeveelheid, 
+            :beschrijving, 
+            :postcode, 
+            :dateCreated, 
+            :dateModified, 
+            :image_url, 
+            :typeId, 
+            :userId, 
+            :productUrl, 
+            :isCompleted
+        )";
 
-        $now = $this->now();
         $exec = $this->conn->prepare($sql);
         $exec->execute([
             'titel' => $titel,
@@ -71,8 +95,8 @@ class DonateController extends Seeder
             'hoeveelheid' => $aantal,
             'beschrijving' => $beschrijving,
             'postcode' => $postcode,
-            'dateCreated' => $now,
-            'dateModified' => $now,
+            'dateCreated' => $this->now(),
+            'dateModified' => $this->now(),
             'image_url' => $image_name,
             'typeId' => $type,
             'userId' => $_SESSION['id'],

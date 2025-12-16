@@ -20,8 +20,8 @@ class MatchController extends Seeder
     }
 
     /**
-     * stores a match into the database
-     *
+     * Stores a match into the database
+     * 
      * stores seperate matches for each offer that was selected
      * 
      * @param array $post
@@ -157,9 +157,19 @@ class MatchController extends Seeder
                 'dateModified' => $this->now(),
                 'matchId' => $matchId,
             ]);
-        }
 
-        // TODO: update date_delivered, date_modified, etc. into DB whenever status gets set to 'delivered', 'refurbished', etc.
+            // update date_delivered, date_modified, etc. into DB whenever status gets set to 'delivered', 'refurbished', etc.
+            $queryData = $this->getUpdateRowQuery($newStatusId);
+
+            // update into db
+            $sql = $queryData[0];
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                $queryData[1] => $this->now(),
+                'dateModified' => $this->now(),
+                'matchId' => $matchId
+            ]);
+        }
 
         // insert into db
         $sql = "INSERT INTO history_logs (notitie, date_created, admin_id, match_id)
@@ -175,5 +185,36 @@ class MatchController extends Seeder
         // redirect to detailpage
         header("location: /admin/matches/$matchId");
         exit();
+    }
+
+    /**
+     * Returns query and tablerow name in an array for Matches updates
+     * 
+     * @param int $newStatusId
+     * @return array contains SQL query and tablerow name
+     */
+    private function getUpdateRowQuery(int $newStatusId): array
+    {
+        // status id's and matching data
+        $returns = [];
+        $arr = [
+            5 => ['date_pickup' => 'datePickup'],
+            6 => ['date_refurbished' => 'dateRefurbished'],
+            7 => ['date_delivered' => 'dateDelivered'],
+        ];
+
+        // loop over array
+        foreach ($arr as $statusId => $columns) {
+            if ($newStatusId == $statusId) {
+                foreach ($columns as $col => $row) {
+                    $returns[0] = "UPDATE matches
+                            SET $col = :$row, date_modified = :dateModified
+                            WHERE id = :matchId";
+                    $returns[1] = $row;
+                }
+            }
+        }
+
+        return $returns;
     }
 }
