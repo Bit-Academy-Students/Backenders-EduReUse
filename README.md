@@ -71,10 +71,10 @@ DB_PASS=""
 ### 5. Vul de database met seeders:
 1. Voer de database migrations en seeder uit:
 ```
-php database/databaseMigrator.php
+php database/migrator.php
 ```
 ```
-php database/databaseSeeder.php
+php database/seeder.php
 ```
 
 ## Usage

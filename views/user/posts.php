@@ -24,6 +24,7 @@ $sql = "SELECT
     needs.hoeveelheid,
     needs.postcode,
     needs.is_completed,
+    needs.deadline,
     types.type
 FROM needs
 INNER JOIN types ON needs.type_id = types.id
@@ -57,7 +58,7 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php if ($offers) { ?>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <?php foreach ($offers as $offer) { ?>
-                        <a href="/users/posts/<?= $offer['id'] ?>"
+                        <a href="/user/detail-offer?id=<?= $offer['id'] ?>"
                             class="bg-gray-50 border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition">
                             <?php if (!empty($offer['image_url'])) { ?>
                                 <img src="../src/uploads/<?= htmlspecialchars($offer['image_url']) ?>"
@@ -92,17 +93,18 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th class="">Omschrijving</th>
                                 <th class="">Type</th>
                                 <th class="">Hoeveelheid</th>
-                                <th class="">Status</th>
+                                <th class="">Deadline</th>
+                                <th class="">Delete</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <?php foreach ($needs as $need) { ?>
-                                <tr class="odd:bg-white even:bg-gray-50 *:p-3 *:text-sm *:text-gray-800">
-                                    <td class=""> <?= $need['titel'] ?> </td>
-                                    <td class=""> <?= $need['type'] ?> </td>
-                                    <td class=""> <?= $need['hoeveelheid'] ?> </td>
-                                    <td class="">Open</td>
+                                <tr class="max-h-1.5 odd:bg-white even:bg-gray-50 *:p-3 *:text-sm *:text-gray-800">
+                                    <td class="overflow-hidden max-w-20"><?= $need['titel'] ?> </a> </td>
+                                    <td class="overflow-hidden"> <?= $need['type'] ?> </td>
+                                    <td class="overflow-hidden"> <?= $need['hoeveelheid'] ?> </td>
+                                    <td class="overflow-hidden"> <?= $need['deadline'] ?> </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
