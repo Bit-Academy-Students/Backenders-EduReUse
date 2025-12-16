@@ -62,7 +62,9 @@ $recordset = $stmt->execute(['id' => $id]);
 
                 <div class="flex items-baseline gap-2">
                     <label for="aantal" class="cursor-pointer text-lg">Aantal:</label>
-                    <input type="number" name="aantal" id="aantal" class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
+                    <input type="number" name="aantal" id="aantal"
+                        value="1" min="0"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
 
                 <div class="flex items-baseline gap-2">

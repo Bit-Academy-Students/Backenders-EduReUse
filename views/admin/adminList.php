@@ -130,7 +130,7 @@ if ($rows) {
                                         <h3 class="text-lg font-medium text-gray-800 mb-2">
                                             <?= htmlspecialchars($need['titel'] ?? '-') ?>
                                             <?php if ($need['is_completed']) { ?>
-                                                <i class="text-green-400">(afgehandeld)</i>
+                                                <i class="text-green-400">(gematched)</i>
                                             <?php } ?>
                                         </h3>
 
@@ -167,7 +167,7 @@ if ($rows) {
                                             <h3 class="text-lg font-medium text-gray-800 mb-2">
                                                 <?= htmlspecialchars($offer['titel'] ?? '-') ?>
                                                 <?php if ($offer['is_completed']) { ?>
-                                                    <i class="text-green-400"><?= '(afgehandeld)' ?></i>
+                                                    <i class="text-green-400"><?= '(gematched)' ?></i>
                                                 <?php } ?>
                                             </h3>
 
