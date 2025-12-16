@@ -64,7 +64,7 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($offers as $offer) { ?>
                 <h2 class="font-bold text-4xl text-center text-sky-600 border-b border-gray-300 pb-4"> <?= $offer['titel'] ?> </h2>
                 <?php if (!empty($offer['image_url'])) { ?>
-                    <img src="../public/uploads/<?= $offer['image_url'] ?>" alt="apparaat afbeelding" class="w-full h-40 object-cover rounded-md mb-4">
+                    <img src="../src/uploads/<?= htmlspecialchars($offer['image_url']) ?>" alt="apparaat afbeelding" class="w-full object-cover rounded-md mb-4">
                 <?php } ?>
             <?php } ?>
 
