@@ -20,38 +20,45 @@ class DonateController extends Seeder
     public function post()
     {
         $this->unsetSessionError('error');
-
+        // connect met db
         $this->conn->query("USE " . $this->database->getDbName());
 
-        if (!($_POST['titel'])) {
-            throw new Exception('Geen titel meegegeven');
+        // error handling
+        $unallowedChars = ['?', '&',];
+        foreach ($unallowedChars as $char) {
+            if (str_contains($_POST['titel'], $char)) {
+                throw new Exception("Karakter '$char' is niet toegestaan");
+            }
         }
-        if (!($_POST['type'])) {
-            throw new Exception('Geen product type meegegeven');
-        }
-        if (!($_POST['aantal'])) {
-            throw new Exception('Geen hoeveelheid meegegeven');
-        }
-        if (!($_POST['staat'])) {
-            throw new Exception('Geen product staat meegegeven');
-        }
-        if (!($_POST['postcode'])) {
+
+        $titel = (!empty($_POST['titel'])) ? $_POST['titel'] : throw new Exception('Geen titel meegegeven');
+        $type = (!empty($_POST['type'])) ? $_POST['type'] : throw new Exception('Geen product type meegegeven');
+        $aantal = (!empty($_POST['aantal'])) ? $_POST['aantal'] : throw new Exception('Geen hoeveelheid meegegeven');
+        $beschrijving = $_POST['beschrijving'];
+        $staat = (!empty($_POST['staat'])) ? $_POST['staat'] : throw new Exception('Geen product staat meegegeven');
+        if (empty($_POST['postcode'])) {
             throw new Exception('Geen postcode meegegeven');
         }
 
-        $titel = $_POST['titel'];
-        $type = $_POST['type'];
-        $aantal = $_POST['aantal'];
-        $beschrijving = $_POST['beschrijving'];
-        $staat = $_POST['staat'];
+        // regex voor postcode
         $postcode = strtoupper($_POST['postcode']);
+        $pattern = '/^(\d{4})\s?([a-zA-Z]{2})$/';
+        $replacement = '$1 $2';
+        if (strlen($postcode) === 6 || strlen($postcode) === 7) {
+            $postcode = preg_replace($pattern, $replacement, $postcode);
+        } else {
+            throw new Exception("Verkeerde postcode '$postcode' ingevoerd, houdt het format '1234 AB' aan");
+        }
+
         $url = $_POST['product_url'];
 
-        // only add image to database if an image was uploaded 
+        // only add row to database if an image was uploaded
         $image_name = '';
-        if (!empty($_FILES['image']['name'])) {
-            $image_name = $this->storeImg($titel);
+        if (empty($_FILES['image']['name'])) {
+            throw new Exception("Geen foto geüpload");
         }
+
+        $image_name = $this->storeImg($titel);
 
         $sql = "INSERT INTO offers (titel, staat_id, hoeveelheid, beschrijving, postcode, date_created, date_modified, image_url, type_id, user_id, product_url, is_completed)
             VALUES (:titel, :staatId, :hoeveelheid, :beschrijving, :postcode, :dateCreated, :dateModified, :image_url, :typeId, :userId, :productUrl, :isCompleted)";
@@ -95,7 +102,7 @@ class DonateController extends Seeder
         }
 
         // move img to uploads folder
-        $newImgName = uniqid($titel) . ".$imgExtension";
+        $newImgName = preg_replace('/\s+/', '_', uniqid($titel) . ".$imgExtension");
         $imgUploadPath = '../public/src/uploads/' . $newImgName;
         move_uploaded_file($tmp_name, $imgUploadPath);
 

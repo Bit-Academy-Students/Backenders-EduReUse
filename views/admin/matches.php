@@ -26,7 +26,8 @@ if (!$user['is_admin']) {
 }
 
 // matches
-$sql = "SELECT 
+$sql = "SELECT
+    matches.*,
     matches.id,
     need_users.naam AS needschool_naam,
     offer_users.naam AS offerschool_naam,
@@ -79,9 +80,8 @@ $matches = $conn->query($sql);
                 </div>
             </div>
 
-            <table>
+            <table class="w-full">
                 <tr class="*:p-2">
-                    <th></th>
                     <th>Aanvrager naam</th>
                     <th>Donor naam</th>
                     <th>Leveringsstatus</th>
@@ -91,25 +91,42 @@ $matches = $conn->query($sql);
                     <th>Datum toegevoegd</th>
                 </tr>
 
-                <?php if ($matches) { ?>
-                    <?php foreach ($matches as $match) { ?>
-                        <tr class="*:p-4 *:border-t-1 *:border-slate-300 *:text-center">
-                            <td>
-                                <a href="/admin/matches/<?= $match['id'] ?>"
-                                    class="text-sky-600 font-semibold">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                </a>
-                            </td>
-                            <td><?= $match['needschool_naam'] ?></td>
-                            <td><?= $match['offerschool_naam'] ?></td>
-                            <td><?= $match['status_label'] ?></td>
-                            <td><?= $match['type'] ?></td>
-                            <td><?= $match['ophaal_postcode'] ?></td>
-                            <td><?= $match['aflever_postcode'] ?></td>
-                            <td><?= explode(' ', $match['date_created'])[0] ?></td>
-                        </tr>
-                    <?php } ?>
-                <?php } ?>
+                <?php if ($matches) : ?>
+                    <?php foreach ($matches as $match) : ?>
+                        <?php if ($match['status_label'] !== 'afgerond') : ?>
+                            <tr onclick="document.location.href = '/admin/matches/<?= $match['id'] ?>'"
+                                class="*:p-2.5 *:my-2 *:border-t-1 *:border-slate-300 *:text-center cursor-pointer hover:bg-slate-100 transition">
+                                <td><?= $match['needschool_naam'] ?></td>
+                                <td><?= $match['offerschool_naam'] ?></td>
+                                <td class="font-semibold w-fit px-2 py-1 rounded-md shadow-sm
+                                <?php if ($match['status_id'] === 1) : ?>
+                                    text-emerald-600 bg-emerald-100
+                                <?php elseif ($match['status_id'] === 2) : ?>
+                                    text-rose-600 bg-rose-100
+                                <?php elseif ($match['status_id'] === 3) : ?>
+                                    text-sky-600 bg-sky-100
+                                <?php elseif ($match['status_id'] === 4) : ?>
+                                    text-yellow-600 bg-yellow-100
+                                <?php elseif ($match['status_id'] === 5) : ?>
+                                    text-indigo-600 bg-indigo-100
+                                <?php elseif ($match['status_id'] === 6) : ?>
+                                    text-blue-600 bg-blue-100
+                                <?php elseif ($match['status_id'] === 7) : ?>
+                                    text-pink-600 bg-pink-100
+                                <?php elseif ($match['status_id'] === 8) : ?>
+                                    text-green-600 bg-green-100
+                                <?php endif; ?>
+                                ">
+                                    <?= $match['status_label'] ?>
+                                </td>
+                                <td><?= $match['type'] ?></td>
+                                <td><?= $match['ophaal_postcode'] ?></td>
+                                <td><?= $match['aflever_postcode'] ?></td>
+                                <td><?= explode(' ', $match['date_created'])[0] ?></td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </table>
         </div>
     </div>
