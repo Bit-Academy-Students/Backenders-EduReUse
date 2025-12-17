@@ -61,15 +61,37 @@ $conn->query("USE " . $db->getDbName());
             </div>
         </div>
 
-        <div class="flex flex-col w-full md:w-5/10 bg-white p-6 rounded-lg gap-3 shadow-lg">
-            <h1 class="font-bold text-xl">Bijdrage doen?</h1>
-            <p>Wil je ons werk steunen? Overweeg dan een donatie. Samen kunnen we meer jongeren bereiken en inspireren.</p>
-            <a href="<?= isset($_SESSION['id']) ? '/user/posts' : '/register' ?>"
-                class="bg-sky-500 text-white text-center rounded-md p-1.5 w-35 mt-1 hover:bg-sky-600 transition">
-                Meld je nu aan!
-            </a>
+        <div class="flex justify-center w-full mb-8">
+            <div class="flex flex-col w-[95%] bg-white p-6 rounded-lg gap-3 shadow-lg text-center">
+                <p class="text-lg">
+                    Wil je meer informatie over ons weten? Klik dan <a href="https://wailsalutem-foundation.com/" target="_blank" class="text-sky-500 font-bold hover:text-sky-600 underline">hier</a> om naar onze website te gaan.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-10 mb-10">
+            <div class="flex flex-col w-full md:w-[45%] bg-white p-6 rounded-lg gap-3 shadow-lg">
+                <h1 class="font-bold text-xl">Bijdrage doen?</h1>
+                <p>Wil je ons werk steunen? Overweeg dan een donatie. Samen kunnen we meer jongeren bereiken en inspireren.</p>
+                <a href="<?= isset($_SESSION['id']) ? '/user/posts' : '/register' ?>" class="bg-sky-500 text-white text-center rounded-md w-fit p-1.5 w-35 mt-1 hover:bg-sky-600 transition">
+                    Meld je nu aan!
+                </a>
+            </div>
+
+            <div class="flex flex-col w-full md:w-[45%] bg-white p-6 rounded-lg gap-3 shadow-lg">
+                <h1 class="font-bold text-xl">Heb je al een account bij ons?</h1>
+                <p>Klik dan hieronder om een donatie te doen of een aanvraag in te dienen.</p>
+                <div class="flex flex-row gap-4">
+                    <a href="<?= isset($_SESSION['id']) ? '/doneer' : '/login' ?>" class="bg-sky-500 text-white rounded-md p-1.5 w-35 mt-1 hover:bg-sky-600 transition text-center w-fit h-fit">Donatie doen</a>
+                    <a href="<?= isset($_SESSION['id']) ? '/aanvraag' : '/login' ?>" class="bg-sky-500 text-white rounded-md p-1.5 w-35 mt-1 hover:bg-sky-600 transition text-center w-fit">Aanvraag indienen</a>
+                </div>
+
+            </div>
         </div>
     </div>
+
+    <?php require_once 'components/footer.php' ?>
+
 </body>
 
 </html>
