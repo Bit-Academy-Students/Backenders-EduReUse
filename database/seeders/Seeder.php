@@ -14,6 +14,12 @@ abstract class Seeder
         $this->db = $db;
     }
 
+    /**
+     * Truncates table from database
+     *
+     * @param string $table
+     * @return void
+     */
     public function truncate(string $table): void
     {
         // load env variables
@@ -24,11 +30,24 @@ abstract class Seeder
         $this->db->exec("DELETE FROM $table");
     }
 
+    /**
+     * Get current timestamp
+     *
+     * Can be used for a 'DATETIME' database row
+     *
+     * @return string
+     */
     protected function now()
     {
         return date('Y-m-d G:i:s');
     }
 
+    /**
+     * Delete a session error
+     *
+     * @param $sessionVariable
+     * @return void
+     */
     protected function unsetSessionError($sessionVariable): void
     {
         if (isset($SESSION[$sessionVariable])) {

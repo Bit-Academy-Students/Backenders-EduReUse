@@ -17,6 +17,12 @@ class DonateController extends Seeder
         $this->conn = $this->database->connect();
     }
 
+    /**
+     * Adds new Donation to database
+     *
+     * @return void
+     * @throws Exception
+     */
     public function post()
     {
         $this->unsetSessionError('error');
@@ -108,6 +114,13 @@ class DonateController extends Seeder
         exit();
     }
 
+    /**
+     * Stores image into local uploads folder
+     *
+     * @param string $titel
+     * @return string
+     * @throws Exception
+     */
     private function storeImg(string $titel): string
     {
         $img_name = $_FILES['image']['name'];

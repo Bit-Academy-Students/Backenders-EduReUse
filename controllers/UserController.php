@@ -24,6 +24,12 @@ class UserController extends Seeder
         $this->user = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Edit User's password
+     *
+     * @return void
+     * @throws Exception
+     */
     public function editPass()
     {
         if (empty($_POST['current-pass']) || empty($_POST['new-pass']) || empty($_POST['repeat-pass'])) {
@@ -53,6 +59,12 @@ class UserController extends Seeder
         exit();
     }
 
+    /**
+     * Edit User cridentials
+     *
+     * @return void
+     * @throws Exception
+     */
     public function editUser()
     {
         if (empty($_POST['new-name']) || empty($_POST['new-email'])) {
