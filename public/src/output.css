@@ -345,6 +345,9 @@
   .h-4 {
     height: calc(var(--spacing) * 4);
   }
+  .h-20 {
+    height: calc(var(--spacing) * 20);
+  }
   .h-32 {
     height: calc(var(--spacing) * 32);
   }
@@ -360,8 +363,32 @@
   .h-fit {
     height: fit-content;
   }
+  .h-full {
+    height: 100%;
+  }
+  .h-screen {
+    height: 100vh;
+  }
   .max-h-1\.5 {
     max-height: calc(var(--spacing) * 1.5);
+  }
+  .min-h-100 {
+    min-height: calc(var(--spacing) * 100);
+  }
+  .min-h-1000 {
+    min-height: calc(var(--spacing) * 1000);
+  }
+  .min-h-100000 {
+    min-height: calc(var(--spacing) * 100000);
+  }
+  .min-h-full {
+    min-height: 100%;
+  }
+  .min-h-max {
+    min-height: max-content;
+  }
+  .min-h-screen {
+    min-height: 100vh;
   }
   .w-1\/1 {
     width: calc(1/1 * 100%);
@@ -375,11 +402,14 @@
   .w-4 {
     width: calc(var(--spacing) * 4);
   }
-  .w-8\/10 {
-    width: calc(8/10 * 100%);
-  }
   .w-9\/10 {
     width: calc(9/10 * 100%);
+  }
+  .w-20 {
+    width: calc(var(--spacing) * 20);
+  }
+  .w-30 {
+    width: calc(var(--spacing) * 30);
   }
   .w-32 {
     width: calc(var(--spacing) * 32);
@@ -556,10 +586,6 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
-  .border-1 {
-    border-style: var(--tw-border-style);
-    border-width: 1px;
-  }
   .border-2 {
     border-style: var(--tw-border-style);
     border-width: 2px;
@@ -586,17 +612,8 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
-  .border-sky-400 {
-    border-color: var(--color-sky-400);
-  }
   .border-sky-700 {
     border-color: var(--color-sky-700);
-  }
-  .border-slate-300 {
-    border-color: var(--color-slate-300);
-  }
-  .border-slate-400 {
-    border-color: var(--color-slate-400);
   }
   .bg-\[\#5481B7\] {
     background-color: #5481B7;
@@ -621,9 +638,6 @@
   }
   .bg-green-100 {
     background-color: var(--color-green-100);
-  }
-  .bg-green-300 {
-    background-color: var(--color-green-300);
   }
   .bg-indigo-100 {
     background-color: var(--color-indigo-100);
@@ -660,6 +674,9 @@
   }
   .bg-yellow-100 {
     background-color: var(--color-yellow-100);
+  }
+  .object-contain {
+    object-fit: contain;
   }
   .object-cover {
     object-fit: cover;

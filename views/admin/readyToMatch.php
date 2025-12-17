@@ -27,7 +27,7 @@ $stmt->execute(['need_id' => $needId]);
 $need = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // get offers with correct type from database
-$sql = "SELECT offers.id, offers.titel, product_states.label, offers.hoeveelheid, offers.beschrijving, offers.postcode, offers.date_created, offers.date_modified, types.type, users.naam, offers.is_completed
+$sql = "SELECT offers.id, offers.titel, product_states.label, offers.hoeveelheid, offers.beschrijving, offers.postcode, offers.date_created, offers.image_url, offers.date_modified, types.type, users.naam, offers.is_completed
 FROM `offers`
 INNER JOIN product_states ON offers.staat_id = product_states.id
 INNER JOIN types ON offers.type_id = types.id
@@ -105,8 +105,14 @@ foreach ($offers as $offer) {
                     <?php if (!$offer['is_completed']) { // only display need if admin hasn't handled the needs
                     ?>
                         <tr class="*:border-t *:border-gray-200 *:text-center *:m-2 *:py-2 hover:bg-slate-50 cursor-pointer transition">
-                            <!-- TODO: fix image -->
-                            <td class="rounded-tl-lg rounded-bl-lg"><?= isset($offer['foto']) ? $offer['foto'] : '(leeg)' ?></td>
+                            <td class="rounded-tl-lg rounded-bl-lg">
+                                <?php if (isset($offer['image_url'])) : ?>
+                                    <img src="/src/uploads/<?= $offer['image_url'] ?>" alt="foto aanbieding"
+                                        class="w-30 h-20 object-contain">
+                                <?php else : ?>
+                                    (leeg)
+                                <?php endif; ?>
+                            </td>
                             <td><?= $offer['naam'] ?></td>
                             <td><?= $offer['titel'] ?></td>
                             <td><?= $offer['type'] ?></td>
@@ -125,7 +131,7 @@ foreach ($offers as $offer) {
         </div>
 
         <!-- count of total selected items -->
-        <div class="w-[95%] mb-30 mt-4">
+        <div class="w-[95%] <?= isset($_SESSION['error']) ? '' : 'mb-30' ?> mt-4">
             <div id="totalDiv" class="flex gap-2 justify-self-end p-4 bg-white rounded-lg shadow-md" hidden>
                 <p id="total"></p>
                 <span class="text-slate-500">(max <?= $need['hoeveelheid'] ?>)</span>
@@ -147,7 +153,7 @@ foreach ($offers as $offer) {
         </div>
 
         <?php if (isset($_SESSION['error'])) { ?>
-            <p class="font-bold text-xl justify-self-center p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>
+            <p class="font-bold text-xl justify-self-center p-3 rounded-md bg-red-300 text-red-600 w-fit mb-30"><?= $_SESSION['error'] ?></p>
             <?php unset($_SESSION['error']); ?>
         <?php } ?>
     </form>
