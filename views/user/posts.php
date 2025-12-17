@@ -11,8 +11,28 @@ $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
 
+
+$sql = "SELECT COUNT(*) FROM offers WHERE user_id = :user_id";
+$stmt = $conn->prepare($sql);
+$stmt->execute(['user_id' => $_SESSION['id']]);
+$AlleOffers = $stmt->fetchColumn();
+
+
+$rows_per_page = 3;
+
+
+$pages = ceil($AlleOffers / $rows_per_page);
+
+
+$start = 0;
+
+if (isset($_GET['offer-page-nr'])) {
+    $page = $_GET['offer-page-nr'] - 1;
+    $start = $page * $rows_per_page;
+}
+
 // offers
-$sql = "SELECT * FROM offers WHERE user_id = :user_id";
+$sql = "SELECT * FROM offers WHERE user_id = :user_id LIMIT $start, $rows_per_page";
 $stmt = $conn->prepare($sql);
 $stmt->execute(['user_id' => $_SESSION['id']]);
 $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -66,18 +86,76 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     class="w-full h-40 object-cover rounded-md mb-4">
                             <?php } ?>
                             <h2 class="font-bold text-xl text-gray-800 mb-2"> <?= $offer['titel'] ?> </h2>
-                            <p class="text-sm text-gray-600">Status: Open</p>
+                            <p class="text-sm text-gray-600">Status: In verificatie</p>
                         </a>
-                    <?php } ?>
+                <?php }
+                } ?>
                 </div>
-            <?php } ?>
 
-            <div class="flex justify-center mt-6">
-                <a href="/doneer"
-                    class="rounded-md bg-sky-600 px-6 py-2 text-lg font-semibold text-white hover:bg-sky-500 transition">
-                    Doneer hier
-                </a>
-            </div>
+                <div class="flex flex-row justify-center">
+                    <?php
+                    if (isset($_GET['offer-page-nr']) && $_GET['offer-page-nr'] > 1) {
+                    ?>
+                        <a href="?offer-page-nr=<?php echo $_GET['offer-page-nr'] - 1 ?>"><i class="fa-solid fa-angle-left" style="color: #000000;"></i></a>
+                    <?php } else { ?>
+                        <a><i class="fa-solid fa-angle-left" style="color: #000000;"></i></a>
+                    <?php
+                    }
+
+                    ?>
+                    <div class="px-4">
+                        <?php
+
+                        //Check of de GET variabel geset is
+                        if (!isset($_GET['offer-page-nr'])) {
+                        ?> <a class="bg-sky-600 text-white px-4 py-2 rounded-md" href="?offer-page-nr=1">1</a>
+                        <?php
+                            $count_from = 2;
+                        } else {
+                            $count_from = 1;
+                        }
+                        ?>
+
+                        <?php
+                        /*Bepalen hoeveel pagina nummers er getoond moeten worden op basis van de GET variabel
+                            en welke tabel rijen er op de pagina getoond moeten worden */
+                        for ($num = $count_from; $num <= $pages; $num++) {
+                            if ($num == @$_GET['offer-page-nr']) {
+                        ?> <a class="bg-sky-600 text-white px-4 py-2 rounded-md" href="?offer-page-nr=<?php echo $num ?>"><?php echo $num ?></a>
+                            <?php
+                            } else {
+                            ?> <a class="px-4 py-2" href="?offer-page-nr=<?php echo $num ?>"><?php echo $num ?></a>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </div>
+
+
+                    <?php if (!isset($_GET['offer-page-nr'])) { ?>
+                        <a href="?offer-page-nr=2"><i class="fa-solid fa-angle-right" style="color: #000000;"></i></a>
+                        <?php
+                    } else {
+                        if ($_GET['offer-page-nr'] >= $pages) {
+                        ?>
+
+                            <a><i class="fa-solid fa-angle-right" style="color: #000000;"></i></a>
+
+                        <?php } else {
+                        ?>
+                            <a href="?offer-page-nr=<?php echo $_GET['offer-page-nr'] + 1 ?>"><i class="fa-solid fa-angle-right" style="color: #000000;"></i></a>
+                    <?php }
+                    } ?>
+                </div>
+
+
+
+                <div class="flex justify-center mt-6">
+                    <a href="/doneer"
+                        class="rounded-md bg-sky-600 px-6 py-2 text-lg font-semibold text-white hover:bg-sky-500 transition">
+                        Doneer hier
+                    </a>
+                </div>
         </div>
 
         <div class="flex flex-col gap-6">
@@ -94,6 +172,7 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <th class="">Type</th>
                                 <th class="">Hoeveelheid</th>
                                 <th class="">Deadline</th>
+                                <th class="">Edit</th>
                                 <th class="">Delete</th>
                             </tr>
                         </thead>
@@ -105,12 +184,16 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                     <td class="overflow-hidden"> <?= $need['type'] ?> </td>
                                     <td class="overflow-hidden"> <?= $need['hoeveelheid'] ?> </td>
                                     <td class="overflow-hidden"> <?= $need['deadline'] ?> </td>
+                                    <td class="overflow-hidden"><a href="/user/edit-aanvraag?id=<?= $need['id'] ?>"><i class="fa-solid fa-pen-to-square" style="color: #00a3ff;"></i></a></td>
+                                    <td class="overflow-hidden"> <a class="cursor-pointer" href="/user/delete-needs?id=<?= $need['id'] ?>"><i class="fa-solid fa-trash-can" style="color: #f03838;"></i></a></td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                     </table>
                 </div>
             <?php } ?>
+
+
 
             <div class="flex justify-center mt-6">
                 <a href="/aanvraag"
