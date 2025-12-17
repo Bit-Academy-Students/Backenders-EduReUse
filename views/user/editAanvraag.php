@@ -13,7 +13,10 @@ $conn->query("USE " . $db->getDbName());
 
 // product types
 $sql = "SELECT * FROM `types`";
-$types = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+
+$types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 try {
     if (isset($_POST['submit'])) {
@@ -27,11 +30,11 @@ try {
             throw new Exception('Geen hoeveelheid meegegeven');
         }
 
-        $omschrijving = $_POST['omschrijving'];
-        $type = $_POST['type'];
-        $hoeveelheid = $_POST['hoeveelheid'];
-        $deadline = !empty($_POST['deadline']) ? $_POST['deadline'] : null;
-        $postcode = !empty($_POST['postcode']) ? strtoupper($_POST['postcode']) : throw new Exception('Geen postcode meegegeven');
+        $omschrijving = out($_POST['omschrijving']);
+        $type = htmlspecialchars($_POST['type']);
+        $hoeveelheid = htmlspecialchars($_POST['hoeveelheid']);
+        $deadline = !empty($_POST['deadline']) ? htmlspecialchars($_POST['deadline']) : null;
+        $postcode = !empty($_POST['postcode']) ? htmlspecialchars(strtoupper($_POST['postcode'])) : throw new Exception('Geen postcode meegegeven');
 
         // regex voor postcode
         $pattern = '/^(\d{4})\s?([a-zA-Z]{2})$/';
@@ -91,6 +94,7 @@ try {
 
         <div>
             <form method="post" class="space-y-6">
+                <?php set_csrf(); ?>
                 <div class="flex items-baseline gap-2">
                     <label for="omschrijving" class="cursor-pointer text-lg">
                         Omschrijving

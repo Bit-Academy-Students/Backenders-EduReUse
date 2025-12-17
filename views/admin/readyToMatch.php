@@ -72,8 +72,8 @@ foreach ($offers as $offer) {
         <p class="text-slate-600">Omschrijving: <?= $need['titel'] ?></p>
     </div>
 
-
     <form action="/admin/match" method="GET">
+        <?php set_csrf(); ?>
         <div class="flex flex-col bg-white rounded-lg shadow-lg justify-self-center w-[90%] p-6">
             <?php if (empty($need)) { ?>
                 <h1 class="text-center text-2xl font-bold">Geen aanvraag met id '<?= $needId ?>' gevonden..</h1>

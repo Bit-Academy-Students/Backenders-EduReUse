@@ -12,8 +12,12 @@ $conn->query("USE " . $db->getDbName());
 
 try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = isset($_POST['email']) ? $_POST["email"] : throw new Exception("Geen email meegegeven");
-        $wachtwoord = isset($_POST['wachtwoord']) ? $_POST["wachtwoord"] : throw new Exception("Niet alle velden zijn ingevuld");
+        if (! is_csrf_valid()) {
+            exit();
+        }
+
+        $email = isset($_POST['email']) ? htmlspecialchars($_POST["email"]) : throw new Exception("Geen email meegegeven");
+        $wachtwoord = isset($_POST['wachtwoord']) ? htmlspecialchars($_POST["wachtwoord"]) : throw new Exception("Niet alle velden zijn ingevuld");
 
         $sql = "SELECT * FROM users WHERE email = :email";
         $stmt = $conn->prepare($sql);
@@ -24,6 +28,7 @@ try {
             throw new Exception("Verkeerde email en/of wachtwoord");
         }
 
+        // TODO: in productie: alleen met password_verify verifieren
         if ($loggedInUser && ($wachtwoord === $loggedInUser['wachtwoord']) || password_verify($wachtwoord, $loggedInUser['wachtwoord'])) {
             $_SESSION["id"] = $loggedInUser["id"];
             header("Location: /user/posts");
@@ -59,11 +64,13 @@ try {
     <div class="flex flex-col w-50% p-6 shadow-lg bg-white rounded-lg justify-self-center my-7">
         <h2 class="text-sky-600 font-bold text-3xl mb-5 text-center">Login</h2>
         <form method="post" class="space-y-6 mb-4">
+            <?php set_csrf(); ?>
             <div>
                 <div>
                     <label for="email" class="cursor-pointer">Email</label>
                     <input type="text"
                         id="email" name="email"
+                        required
                         class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
             </div>
@@ -74,6 +81,7 @@ try {
                     <input
                         type="password"
                         id="wachtwoord" name="wachtwoord"
+                        required
                         class="mt-2 mb-10 bg-slate-100 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
             </div>

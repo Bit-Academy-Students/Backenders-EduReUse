@@ -34,9 +34,11 @@ INNER JOIN users ON offers.user_id = users.id
 
 ORDER BY offers.id DESC";
 
-$offers = $conn->query($sql);
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-?>
+                ?>
 <!DOCTYPE html>
 <html lang="nl">
 

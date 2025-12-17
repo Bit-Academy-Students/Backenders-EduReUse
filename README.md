@@ -68,6 +68,13 @@ DB_USER="root"
 DB_PASS=""
 ```
 
+### **BELANGRIJK:**
+Wil je gebruik maken van de Map Tiler? Maak dan een [MapTiler](https://cloud.maptiler.com/account/keys/) account, en maak een API key aan. Vul vervolgens de `.env` zo in:
+```bash
+# API key
+API_KEY="{{ Jouw key }}"
+```
+
 ### 5. Vul de database met seeders:
 1. Voer de database migrations en seeder uit:
 ```

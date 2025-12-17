@@ -211,6 +211,7 @@ $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <form method="post"
                             class="flex flex-col gap-4 border-t-1 border-gray-200">
+                            <?php set_csrf(); ?>
                             <div class="flex flex-row gap-2 items-baseline">
                                 <label for="status" class="text-slate-500 font-semibold italic cursor-pointer">(Optioneel)</label>
                                 <select name="status" id="status"
@@ -229,6 +230,7 @@ $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <textarea name="new-log" id="new-log"
                                 cols="25" rows="4"
                                 class="resize-y px-4 py-2 bg-[#fcfcfc] border border-gray-300 rounded-md shadow-sm"
+                                required
                                 placeholder="Schrijf hier uw logbericht..."></textarea>
                             <input type="submit" value="Verstuur"
                                 class="bg-sky-500 text-white rounded-md p-1.5 w-fit hover:bg-sky-400 cursor-pointer transition self-end">

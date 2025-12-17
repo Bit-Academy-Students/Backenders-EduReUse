@@ -26,6 +26,10 @@ post('/user/edit-offer', 'views/user/editOffer.php');
 get('/user/detail-need', 'views/user/detailAanvraag.php');
 get('/user/edit-profile', 'views/user/editUser.php');
 post('/user/edit-profile', function () {
+    if (! is_csrf_valid()) {
+        exit();
+    }
+
     try {
         $controller = new UserController();
         $controller->editUser();
@@ -38,6 +42,10 @@ post('/user/edit-profile', function () {
 
 get('/user/change-password', 'views/user/editPassword.php');
 post('/user/change-password', function () {
+    if (! is_csrf_valid()) {
+        exit();
+    }
+
     try {
         $controller = new UserController();
         $controller->editPass();
@@ -55,6 +63,10 @@ if ($_SERVER['REQUEST_URI'] === '/user') {
 // donaties
 get('/doneer', 'views/user/doneer-formulier.php');
 post('/doneer', function () {
+    if (! is_csrf_valid()) {
+        exit();
+    }
+
     try {
         // voeg donatie toe aan database
         $controller = new DonateController();
@@ -80,11 +92,18 @@ get('/admin/matches', 'views/admin/matches.php');
 get('/admin/ready-to-match/$needId/$typeLabel', 'views/admin/readyToMatch.php');
 get('/admin/match', 'views/admin/officialMatch.php');
 post('/admin/match', function () {
+    if (! is_csrf_valid()) {
+        exit();
+    }
+
     $controller = new MatchController();
     $controller->post($_POST);
 });
 get('/admin/matches/$id', 'views/admin/matchesDetail.php');
 post('/admin/matches/$id', function () {
+    if (! is_csrf_valid()) {
+        exit();
+    }
     try {
         $controller = new MatchController();
         $controller->addLog($_POST);

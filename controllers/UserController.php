@@ -30,9 +30,9 @@ class UserController extends Seeder
             throw new Exception("Niet alle velden zijn ingevuld");
         }
 
-        $currentPass = $_POST['current-pass'];
-        $newPass = $_POST['new-pass'];
-        $repeatPass = $_POST['repeat-pass'];
+        $currentPass = htmlspecialchars($_POST['current-pass']);
+        $newPass = htmlspecialchars($_POST['new-pass']);
+        $repeatPass = htmlspecialchars($_POST['repeat-pass']);
 
         if (!$this->user || !(($currentPass === $this->user['wachtwoord']) || password_verify($currentPass, $this->user['wachtwoord']))) {
             throw new Exception("Huidige wachtwoord is onjuist");
@@ -59,8 +59,8 @@ class UserController extends Seeder
             throw new Exception("Niet alle velden zijn ingevuld");
         }
 
-        $name = trim($_POST['new-name']);
-        $email = trim($_POST['new-email']);
+        $name = htmlspecialchars(trim($_POST['new-name']));
+        $email = htmlspecialchars(trim($_POST['new-email']));
 
         if ($name === $this->user['naam'] && $email === $this->user['email']) {
             throw new Exception("Er zijn geen wijzigingen gedaan...");

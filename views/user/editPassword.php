@@ -32,15 +32,19 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         <h1 class="font-bold text-4xl text-center text-[#5481B7] border-b-1 border-gray-300 pb-4">Wachtwoord wijzigen</h1>
 
         <form method="post" class="flex flex-col gap-10">
+            <?php set_csrf(); ?>
             <div class="flex flex-col gap-4 text-lg items-center">
                 <input type="text" name="current-pass" id="current-pass"
                     placeholder="Huidig wachtwoord"
+                    required
                     class="bg-gray-200 w-60 p-2 rounded-md">
                 <input type="text" name="new-pass" id="new-pass"
                     placeholder="Nieuw wachtwoord"
+                    required
                     class="bg-gray-200 w-60 p-2 rounded-md">
                 <input type="text" name="repeat-pass" id="repeat-pass"
                     placeholder="Herhaal nieuw wachtwoord"
+                    required
                     class="bg-gray-200 w-60 p-2 rounded-md">
             </div>
 

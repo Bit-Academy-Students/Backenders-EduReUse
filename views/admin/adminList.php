@@ -71,7 +71,9 @@ INNER JOIN users ON needs.user_id = users.id
 
 ORDER BY date_created DESC;";
 
-$rows = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute();
+                        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $needs = [];
 $offers = [];

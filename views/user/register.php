@@ -12,10 +12,14 @@ $conn->query("USE " . $db->getDbName());
 
 try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $naam = isset($_POST['naam']) ? $_POST['naam'] : throw new Exception("Geen naam opgegeven");
-        $wachtwoord = isset($_POST["wachtwoord"]) ? $_POST['wachtwoord'] : throw new Exception("Geen wachtwoord opgegeven");
-        $herhaalWachtwoord = isset($_POST['herhaal-pass']) ? $_POST['herhaal-pass'] : throw new Exception("Geen wachtwoord opgegeven");
-        $email = isset($_POST["email"]) ? $_POST['email'] : throw new Exception("Geen emailadres opgegeven");
+        if (! is_csrf_valid()) {
+            exit();
+        }
+
+        $naam = isset($_POST['naam']) ? htmlspecialchars($_POST['naam']) : throw new Exception("Geen naam opgegeven");
+        $wachtwoord = isset($_POST["wachtwoord"]) ? htmlspecialchars($_POST['wachtwoord']) : throw new Exception("Geen wachtwoord opgegeven");
+        $herhaalWachtwoord = isset($_POST['herhaal-pass']) ? htmlspecialchars($_POST['herhaal-pass']) : throw new Exception("Geen wachtwoord opgegeven");
+        $email = isset($_POST["email"]) ? htmlspecialchars($_POST['email']) : throw new Exception("Geen emailadres opgegeven");
         $date_creared = date("Y-m-d H:i:s");
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -79,6 +83,7 @@ try {
             Registreren
         </h2>
         <form method="post" class="space-y-6 mb-4">
+            <?php set_csrf(); ?>
             <div>
                 <label for="naam" class="cursor-pointer">Naam / Schoolnaam</label>
                 <input type="text"
@@ -95,14 +100,14 @@ try {
             </div>
             <div>
                 <label for="wachtwoord" class="cursor-pointer">Wachtwoord</label>
-                <input type="text"
+                <input type="password"
                     id="wachtwoord" name="wachtwoord"
                     class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3"
                     required>
             </div>
             <div>
                 <label for="herhaal-pass" class="cursor-pointer">Herhaal wachtwoord</label>
-                <input type="text"
+                <input type="password"
                     id="herhaal-pass" name="herhaal-pass"
                     class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3"
                     required>

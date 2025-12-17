@@ -48,7 +48,9 @@ INNER JOIN types ON offers.type_id = types.id
 
 ORDER BY matches.id DESC";
 
-$matches = $conn->query($sql);
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                $matches = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>

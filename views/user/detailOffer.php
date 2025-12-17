@@ -42,7 +42,7 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doneer</title>
+    <title>Donatie</title>
 
     <link rel="stylesheet" href="/../src/output.css">
     <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
@@ -77,7 +77,11 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <p><b class="text-gray-700">Beschrijving: </b><?= $offer['beschrijving'] ?></p>
                 <?php if (!empty($offer['product_url'])) : ?>
                     <p><b class="text-gray-700">Link naar orginele product: </b>
-                        <a href="<?= $offer['product_url'] ?>"
+                        <?php $url = $offer['product_url'];
+                        if (!preg_match('~^https?://~i', $url)) {
+                            $url = 'https://' . $url;
+                        } ?>
+                        <a href="<?= htmlspecialchars($url) ?>"
                             target="_blank"
                             class="underline decoration-solid">
                             Link

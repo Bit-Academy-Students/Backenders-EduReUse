@@ -74,7 +74,8 @@ foreach ($offers as $offer) {
 
 // get statuses from database
 $sql = "SELECT * FROM statuses";
-$stmt = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
 $statuses = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // check if need is completely fulfilled
@@ -115,6 +116,7 @@ function sendBackWithSessionError(array $need, ?string $errorMessage = null)
     </h1>
 
     <form method="post">
+        <?php set_csrf(); ?>
         <div class="grid grid-cols-1 md:grid-cols-11 justify-self-center w-9/10 gap-4">
             <div class="flex flex-col bg-white rounded-lg shadow-md justify-self-center w-full my-10 px-6 pt-6 md:col-span-5">
                 <h1 class="font-bold text-3xl text-center mb-4">
@@ -181,6 +183,7 @@ function sendBackWithSessionError(array $need, ?string $errorMessage = null)
                 </label>
                 <textarea name="log" id="log" cols="10" rows="4"
                     class="resize-y px-4 py-2 bg-[#fcfcfc] border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    required
                     placeholder="Bijvoorbeeld: Klant heeft het product zelf opgehaald, omdat hij om de hoek woont. De status heb ik gelijk op 'Geleverd' gezet.
 -Admin"></textarea>
             </div>
@@ -189,7 +192,7 @@ function sendBackWithSessionError(array $need, ?string $errorMessage = null)
                 <label for="confirmed" class="text-xl font-semibold cursor-pointer">
                     Klopt alles?
                 </label>
-                <input type="checkbox" name="confirmed" id="confirmed" class="w-4 h-4">
+                <input type="checkbox" name="confirmed" id="confirmed" class="w-4 h-4" required>
             </div>
             <?php if (isset($_SESSION['error'])) { ?>
                 <p class="font-bold text-xl p-3 rounded-md bg-red-300 text-red-600 w-fit"><?= $_SESSION['error'] ?></p>

@@ -15,11 +15,15 @@ $conn->query("USE " . $db->getDbName());
 
 // product states
 $sql = "SELECT * FROM `product_states`";
-$states = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$states = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // product types
 $sql = "SELECT * FROM `types`";
-$types = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $sql = "SELECT * FROM users WHERE id = :id";
 $stmt = $conn->prepare($sql);
@@ -46,9 +50,13 @@ $recordset = $stmt->execute(['id' => $id]);
         </div>
         <div id="content">
             <form method="post" enctype="multipart/form-data" class="space-y-6">
+                <?php set_csrf(); ?>
                 <div class="flex items-baseline gap-2">
                     <label for="titel" class="cursor-pointer text-lg">Titel:</label>
-                    <input type="text" name="titel" id="titel" class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
+                    <input type="text" name="titel" id="titel"
+                        required
+                        placeholder="Beschrijf het product dat je wil doneren"
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
 
                 <div class="flex items-baseline gap-2">
@@ -64,6 +72,7 @@ $recordset = $stmt->execute(['id' => $id]);
                     <label for="aantal" class="cursor-pointer text-lg">Aantal:</label>
                     <input type="number" name="aantal" id="aantal"
                         value="1" min="0"
+                        required
                         class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
 
@@ -88,14 +97,18 @@ $recordset = $stmt->execute(['id' => $id]);
 
                 <div class="flex items-baseline gap-2">
                     <label for="postcode" class="text-lg">Postcode:</label>
-                    <input type="text" name="postcode" id="postcode" class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
+                    <input type="text" name="postcode" id="postcode"
+                        required
+                        class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
 
                 <div class="flex items-baseline gap-2 text-lg">
                     <label for="image" class="text-lg cursor-pointer flex w-full justify-center rounded-md bg-slate-100 px-3 py-1.5 font-semibold text-black">Voeg foto toe</label>
-                    <input type="file" name="image" id="image">
+                    <input type="file" name="image" id="image" required>
                 </div>
-                <input class="cursor-pointer flex w-full justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-sky-500 transition" type="submit" name="submit" value="Doneer">
+                <input
+                    type="submit" name="submit" value="Doneer"
+                    class="cursor-pointer flex w-full justify-center rounded-md bg-sky-600 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-sky-500 transition">
             </form>
 
             <?php if (isset($_SESSION['error'])) { ?>

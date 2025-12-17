@@ -156,8 +156,12 @@ $matches = [];
                     <label class="text-sm font-semibold text-gray-600 uppercase">Product URL</label>
 
                     <?php if ($offer['product_url']) : ?>
-                        <?php if (preg_match($pattern, $offer['product_url'], $matches)): ?>
-                            <a href="<?= htmlspecialchars($offer['product_url']) ?>"
+                        <?php if (preg_match($pattern, $offer['product_url'], $matches)):
+                            $url = $offer['product_url'];
+                            if (!preg_match('~^https?://~i', $url)) {
+                                $url = 'https://' . $url;
+                            } ?>
+                            <a href="<?= htmlspecialchars($url) ?>"
                                 target="_blank"
                                 class="text-lg text-blue-600 hover:text-blue-800 hover:underline break-all">
                                 <?= htmlspecialchars($matches['domain']) ?>/

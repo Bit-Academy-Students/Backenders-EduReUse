@@ -32,19 +32,22 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
         <h1 class="font-bold text-4xl text-center text-[#5481B7] border-b-1 border-gray-300 pb-4">Wijzig gegevens</h1>
 
         <form method="post" class="flex flex-col gap-10">
+            <?php set_csrf(); ?>
             <div class="flex flex-col gap-4 text-lg items-center">
                 <div class="flex flex-col w-full px-20">
                     <label for="new-name" class="cursor-pointer font-semibold">Nieuwe (school)naam</label>
                     <input type="text" name="new-name" id="new-name"
-                        placeholder="naam"
+                        placeholder="Nieuwe gebruikersnaam"
                         value="<?= $user['naam'] ?>"
+                        required
                         class="bg-gray-200 p-2 rounded-md">
                 </div>
                 <div class="flex flex-col w-full px-20">
                     <label for="new-email" class="cursor-pointer font-semibold">Nieuw emailadres</label>
                     <input type="text" name="new-email" id="new-email"
-                        placeholder="emailadres"
+                        placeholder="Nieuw emailadres"
                         value="<?= $user['email'] ?>"
+                        required
                         class="bg-gray-200 p-2 rounded-md">
                 </div>
             </div>

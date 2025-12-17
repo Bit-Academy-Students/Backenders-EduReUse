@@ -31,16 +31,16 @@ class DonateController extends Seeder
             }
         }
 
-        $titel = (!empty($_POST['titel'])) ? $_POST['titel'] : throw new Exception('Geen titel meegegeven');
-        $type = (!empty($_POST['type'])) ? $_POST['type'] : throw new Exception('Geen product type meegegeven');
-        $aantal = (!empty($_POST['aantal'])) ? $_POST['aantal'] : throw new Exception('Geen hoeveelheid meegegeven');
+        $titel = (!empty($_POST['titel'])) ? htmlspecialchars($_POST['titel']) : throw new Exception('Geen titel meegegeven');
+        $type = (!empty($_POST['type'])) ? htmlspecialchars($_POST['type']) : throw new Exception('Geen product type meegegeven');
+        $aantal = (!empty($_POST['aantal'])) ? htmlspecialchars($_POST['aantal']) : throw new Exception('Geen hoeveelheid meegegeven');
         if ($aantal < 0) {
             throw new Exception("Aantal kan niet minder dan 0 zijn");
         }
-        $beschrijving = $_POST['beschrijving'];
-        $staat = (!empty($_POST['staat'])) ? $_POST['staat'] : throw new Exception('Geen product staat meegegeven');
+        $beschrijving = htmlspecialchars($_POST['beschrijving']);
+        $staat = (!empty($_POST['staat'])) ? htmlspecialchars($_POST['staat']) : throw new Exception('Geen product staat meegegeven');
 
-        $postcode = (!empty($_POST['postcode'])) ? strtoupper($_POST['postcode']) : throw new Exception('Geen postcode meegegeven');
+        $postcode = (!empty($_POST['postcode'])) ? htmlspecialchars(strtoupper($_POST['postcode'])) : throw new Exception('Geen postcode meegegeven');
 
         // regex voor postcode
         $pattern = '/^(\d{4})\s?([a-zA-Z]{2})$/';
@@ -54,7 +54,7 @@ class DonateController extends Seeder
 
         // only add row to database if an image was uploaded
         $image_name = '';
-        $url = $_POST['product_url'];
+        $url = htmlspecialchars($_POST['product_url']);
         if (empty($_FILES['image']['name'])) {
             throw new Exception("Geen foto geüpload");
         }

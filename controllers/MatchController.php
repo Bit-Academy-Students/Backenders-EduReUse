@@ -49,9 +49,9 @@ class MatchController extends Seeder
             $sql = "INSERT INTO matches (status_id, need_id, offer_id, date_created, date_modified) VALUES (:statusId, :needId, :offerId, :dateCreated, :dateModified)";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
-                'statusId' => $post['status'],
-                'needId' => $post['need_id'],
-                'offerId' => $offer,
+                'statusId' => htmlspecialchars($post['status']),
+                'needId' => htmlspecialchars($post['need_id']),
+                'offerId' => htmlspecialchars($offer),
                 'dateCreated' => $this->now(),
                 'dateModified' => $this->now(),
             ]);
@@ -81,7 +81,7 @@ class MatchController extends Seeder
                 $sql = "INSERT INTO history_logs (notitie, date_created, admin_id, match_id) VALUES (:log, :dateCreated, :adminId, :matchId)";
                 $stmt = $this->conn->prepare($sql);
                 $stmt->execute([
-                    'log' => $post['log'],
+                    'log' => htmlspecialchars($post['log']),
                     'dateCreated' => $this->now(),
                     'adminId' => $_SESSION['id'],
                     'matchId' => $matchId,
@@ -95,7 +95,7 @@ class MatchController extends Seeder
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([
                 'now' => $this->now(),
-                'needId' => $post['need_id'],
+                'needId' => htmlspecialchars($post['need_id']),
             ]);
         }
 
@@ -103,8 +103,12 @@ class MatchController extends Seeder
         if (!$post['need-fulfilled']) {
             $sql = "SELECT * FROM needs WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute(['id' => $post['need_id']]);
+            $stmt->execute(['id' => htmlspecialchars($post['need_id'])]);
             $need = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$need) {
+                throw new Exception('De opgegeven aanvraag bestaat niet.');
+            }
 
             // count offers' amount and determine remainder
             $count = 0;
@@ -119,7 +123,7 @@ class MatchController extends Seeder
             $stmt->execute([
                 'remainder' => $remainder,
                 'now' => $this->now(),
-                'needId' => $post['need_id'],
+                'needId' => htmlspecialchars($post['need_id']),
             ]);
         }
 
@@ -143,10 +147,10 @@ class MatchController extends Seeder
         }
 
         // error handling
-        $newStatusId = (!empty($post['status']) ? $post['status'] : throw new Exception("Geen status meegegeven"));
-        $originalStatusId = (!empty($post['original-match-status']) ? $post['original-match-status'] : throw new Exception("Oude status ontbreekt"));
-        $log = (!empty($post['new-log'])) ? trim($post['new-log']) : throw new Exception("Geen log meegegeven");
-        $matchId = (!empty($post['match-id'])) ? $post['match-id'] : throw new Exception("Geen match meegegeven");
+        $newStatusId = (!empty($post['status']) ? htmlspecialchars($post['status']) : throw new Exception("Geen status meegegeven"));
+        $originalStatusId = (!empty($post['original-match-status']) ? htmlspecialchars($post['original-match-status']) : throw new Exception("Oude status ontbreekt"));
+        $log = (!empty($post['new-log'])) ? htmlspecialchars(trim($post['new-log'])) : throw new Exception("Geen log meegegeven");
+        $matchId = (!empty($post['match-id'])) ? htmlspecialchars($post['match-id']) : throw new Exception("Geen match meegegeven");
 
         // if different status was selected -> update to database
         if ($originalStatusId !== $newStatusId) {

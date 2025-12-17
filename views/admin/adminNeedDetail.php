@@ -161,7 +161,8 @@ if (!$need) {
                 const data = await response.json();
 
                 if (!response.ok || !data.features.length) {
-                    console.log('Niet gevonden');
+                    alert('Er is geen locatie gevonden op deze postcode: Map wordt niet getoond');
+                    console.log('Locatie niet gevonden. Kaart kan niet worden getoond');
                     return;
                 }
 
@@ -174,8 +175,8 @@ if (!$need) {
 
             const map = L.map('map').setView([long, lat], 14);
 
-            const key = 'kPWqhBvKYnFpIPZWxbbb';
-            L.tileLayer(`https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${key}`, { //style URL
+            const key = "<?= $_ENV['MAPTILER_API_KEY'] ?>";
+            L.tileLayer(`https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${key}`, {
                 tileSize: 512,
                 zoomOffset: -1,
                 minZoom: 1,

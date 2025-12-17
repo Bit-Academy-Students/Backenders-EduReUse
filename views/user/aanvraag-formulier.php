@@ -13,19 +13,25 @@ $conn->query("USE " . $db->getDbName());
 
 // product types
 $sql = "SELECT * FROM `types`";
-$types = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$types = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 try {
     if (isset($_POST['submit'])) {
-        $omschrijving = (!empty($_POST['omschrijving'])) ? $_POST['omschrijving'] : throw new Exception('Geen omschrijving meegegeven');
-        $type = (!empty($_POST['type'])) ? $_POST['type'] : throw new Exception('Geen product type meegegeven');
-        $hoeveelheid = (!empty($_POST['hoeveelheid'])) ? $_POST['hoeveelheid'] : throw new Exception('Geen hoeveelheid meegegeven');
+        if (! is_csrf_valid()) {
+            exit();
+        }
+
+        $omschrijving = (!empty($_POST['omschrijving'])) ? htmlspecialchars($_POST['omschrijving']) : throw new Exception('Geen omschrijving meegegeven');
+        $type = (!empty($_POST['type'])) ? htmlspecialchars($_POST['type']) : throw new Exception('Geen product type meegegeven');
+        $hoeveelheid = (!empty($_POST['hoeveelheid'])) ? htmlspecialchars($_POST['hoeveelheid']) : throw new Exception('Geen hoeveelheid meegegeven');
         if ($hoeveelheid < 0) {
             throw new Exception("Hoeveelheid moet hoger dan 0 zijn.");
         }
 
-        $postcode = (!empty($_POST['postcode'])) ? strtoupper($_POST['postcode']) : throw new Exception('Geen postcode meegegeven');
-        $deadline = (!empty($_POST['deadline'])) ? $_POST['deadline'] : null;
+        $postcode = (!empty($_POST['postcode'])) ? htmlspecialchars(strtoupper($_POST['postcode'])) : throw new Exception('Geen postcode meegegeven');
+        $deadline = (!empty($_POST['deadline'])) ? htmlspecialchars($_POST['deadline']) : null;
 
         // regex voor postcode
         $pattern = '/^(\d{4})\s?([a-zA-Z]{2})$/';
@@ -85,12 +91,14 @@ try {
 
         <div>
             <form method="post" class="space-y-6">
+                <?php set_csrf(); ?>
                 <div class="flex items-baseline gap-2">
                     <label for="omschrijving" class="cursor-pointer text-lg">
                         Omschrijving
                     </label>
                     <input type="text"
                         name="omschrijving" id="omschrijving"
+                        required
                         placeholder="Bijvoorbeeld: 'een mooie nieuwe laptop'"
                         class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
@@ -114,6 +122,7 @@ try {
                     </label>
                     <input type="number"
                         name="hoeveelheid" id="hoeveelheid"
+                        required
                         value="1" min="0"
                         class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>
@@ -124,6 +133,7 @@ try {
                     </label>
                     <input type="text"
                         name="postcode" id="postcode"
+                        required
                         placeholder="1234 AB"
                         class="bg-slate-100 mt-2 rounded-md shadow-xs block w-full rounded-md py-1.5 px-3">
                 </div>

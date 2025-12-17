@@ -89,9 +89,13 @@ function out($text)
     echo htmlspecialchars($text);
 }
 
+function returnOut($text)
+{
+    return htmlspecialchars($text);
+}
+
 function set_csrf()
 {
-    session_start();
     if (!isset($_SESSION["csrf"])) {
         $_SESSION["csrf"] = bin2hex(random_bytes(50));
     }
@@ -100,7 +104,6 @@ function set_csrf()
 
 function is_csrf_valid()
 {
-    session_start();
     if (!isset($_SESSION['csrf']) || !isset($_POST['csrf'])) {
         return false;
     }
