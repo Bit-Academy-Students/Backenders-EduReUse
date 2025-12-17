@@ -65,10 +65,10 @@ $seeders = [
     NeedSeeder::class => [
         'table' => 'needs',
         'data' => [
-            ['Snel werkende laptop', 1, '1011 AC', '2025-12-17', 1, 3],
-            ['3D-printer', 2, '1011 AC', '2025-12-17', 2, 3],
-            ['Zelfrijdende robot', 1, '1011 AC', '2025-12-17', 3, 3],
-            ['Zelfrijdende robot', 1, '1011 AC', '2025-12-17', 3, 3, 1],
+            ['Snel werkende laptop', 1, '1623 RV', '2025-12-17', 1, 3],
+            ['3D-printer', 2, '3022 EV', '2025-12-17', 2, 3],
+            ['Zelfrijdende robot', 1, '1062 HG', '2025-12-17', 3, 3],
+            ['Zelfrijdende robot', 1, '7681 MD', '2025-12-17', 3, 3, 1],
         ],
     ],
     MatchSeeder::class => [
