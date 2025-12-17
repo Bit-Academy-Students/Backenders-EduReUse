@@ -113,7 +113,7 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             //Check of de GET variabel geset is
                             if (!isset($_GET['offer-page-nr'])) {
-                                ?> <a class="bg-sky-600 text-white px-2 rounded-md" href="?offer-page-nr=1">1</a> <?php
+                                ?> <a class="bg-sky-600 text-white px-2 py-2 rounded-md" href="?offer-page-nr=1">1</a> <?php
                                 $count_from = 2;
                             } else {
                                 $count_from = 1;
