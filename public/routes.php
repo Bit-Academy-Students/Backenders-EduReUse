@@ -86,7 +86,6 @@ post('/aanvraag', 'views/user/aanvraag-formulier.php');
 get('/admin/need/$needId', 'views/admin/adminNeedDetail.php');
 get('/admin/offer/$offerId', 'views/admin/adminOfferDetail.php');
 get('/admin/alles', 'views/admin/adminList.php');
-get('/admin/aanbiedingen', 'views/admin/offers.php');
 get('/admin/aanvragen', 'views/admin/needs.php');
 get('/admin/matches', 'views/admin/matches.php');
 get('/admin/ready-to-match/$needId/$typeLabel', 'views/admin/readyToMatch.php');
@@ -112,6 +111,7 @@ post('/admin/matches/$id', function () {
         header('location: /admin/matches/' . $_POST['match-id']);
     }
 });
+get('/admin/gebruikers', 'views/admin/users.php');
 
 if ($_SERVER['REQUEST_URI'] === '/admin/ready-to-match' || $_SERVER['REQUEST_URI'] === '/admin/ready-to-match/') {
     header('location: /admin/aanvragen');
