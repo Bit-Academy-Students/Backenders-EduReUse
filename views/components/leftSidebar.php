@@ -29,10 +29,4 @@ $page = $e[1];
             Gebruikers
         </h2>
     </a>
-
-    <a href="/admin/planning">
-        <h2 class="text-2xl hover:font-bold <?= ($page === 'planning') ? 'font-bold' : '' ?>">
-            Planning
-        </h2>
-    </a>
 </aside>

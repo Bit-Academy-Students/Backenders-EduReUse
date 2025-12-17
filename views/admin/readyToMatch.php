@@ -105,6 +105,7 @@ foreach ($offers as $offer) {
                     <?php if (!$offer['is_completed']) { // only display need if admin hasn't handled the needs
                     ?>
                         <tr class="*:border-t *:border-gray-200 *:text-center *:m-2 *:py-2 hover:bg-slate-50 cursor-pointer transition">
+                            <!-- TODO: fix image -->
                             <td class="rounded-tl-lg rounded-bl-lg"><?= isset($offer['foto']) ? $offer['foto'] : '(leeg)' ?></td>
                             <td><?= $offer['naam'] ?></td>
                             <td><?= $offer['titel'] ?></td>

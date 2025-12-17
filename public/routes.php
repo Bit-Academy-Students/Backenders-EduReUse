@@ -85,6 +85,15 @@ get('/aanvraag', 'views/user/aanvraag-formulier.php');
 post('/aanvraag', 'views/user/aanvraag-formulier.php');
 
 // admin pagina's
+get('/admin/gebruikers', 'views/admin/users.php');
+post('/admin/gebruikers', function () {
+    if (! is_csrf_valid()) {
+        exit();
+    }
+
+    $controller = new UserController();
+    $controller->makeAdmin();
+});
 get('/admin/need/$needId', 'views/admin/adminNeedDetail.php');
 get('/admin/offer/$offerId', 'views/admin/adminOfferDetail.php');
 get('/admin/alles', 'views/admin/adminList.php');
@@ -97,8 +106,12 @@ post('/admin/match', function () {
         exit();
     }
 
-    $controller = new MatchController();
-    $controller->post($_POST);
+    try {
+        $controller = new MatchController();
+        $controller->post($_POST);
+    } catch (Exception $e) {
+        $_SESSION['error'] = $e->getMessage();
+    }
 });
 get('/admin/matches/$id', 'views/admin/matchesDetail.php');
 post('/admin/matches/$id', function () {
@@ -113,7 +126,6 @@ post('/admin/matches/$id', function () {
         header('location: /admin/matches/' . $_POST['match-id']);
     }
 });
-get('/admin/gebruikers', 'views/admin/users.php');
 
 if ($_SERVER['REQUEST_URI'] === '/admin/ready-to-match' || $_SERVER['REQUEST_URI'] === '/admin/ready-to-match/') {
     header('location: /admin/aanvragen');

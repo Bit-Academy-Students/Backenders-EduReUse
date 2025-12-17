@@ -17,7 +17,6 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 ### Frontend
  - **Frontend framework:** [tailwind css](https://tailwindcss.com/)
  - **Icon library:** [FontAwesome](https://fontawesome.com/)
- - **Genereren van maps:** [Leaflet](https://leafletjs.com/) en [OpenStreetMap](openstreetmap.org/)
 
 ### Backend
  - **Plain PHP** voor het grootste gedeelte
@@ -27,6 +26,7 @@ Scholen hebben regelmatig afgeschreven of ongebruikte apparatuur (laptops, 3D-pr
 ### Libraries
  - **Environment variabelen:** [PHPDotEnv](https://github.com/vlucas/phpdotenv)
  - **Simpele routing:** [PHP ROUTER](https://phprouter.com/) (`public/routes.php` en `public/router.php`)
+ - **Genereren van maps:** [Leaflet](https://leafletjs.com/) en [OpenStreetMap](openstreetmap.org/)
 
 
 ## Requirements

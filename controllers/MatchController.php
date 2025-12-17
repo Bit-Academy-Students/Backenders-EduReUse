@@ -73,6 +73,19 @@ class MatchController extends Seeder
                 'now' => $this->now(),
                 'offerId' => $offer,
             ]);
+
+            // TODO: fix into db
+            // // update date_delivered, date_modified, etc. into DB whenever status gets set to 'delivered', 'refurbished', etc.
+            // $queryData = $this->getUpdateRowQuery($post['id']);
+
+            // // update into db
+            // $sql = $queryData[0];
+            // $stmt = $this->conn->prepare($sql);
+            // $stmt->execute([
+            //     $queryData[1] => $this->now(),
+            //     'dateModified' => $this->now(),
+            //     'matchId' => $offer
+            // ]);
         }
 
         // if a log was added, each match should have it's own log

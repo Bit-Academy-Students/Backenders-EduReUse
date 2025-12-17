@@ -103,4 +103,38 @@ class UserController extends Seeder
         header('location: /logout');
         exit();
     }
+
+    public function makeAdmin(): void
+    {
+        foreach ($_POST as $postVariable => $makeAdmin) {
+            // only iterate over 'update-user-x' variables
+            if (!str_contains($postVariable, 'update-user-')) {
+                continue;
+            }
+
+            // get user's credentials
+            $postVariable = str_replace('update-user-', '', $postVariable);
+            $sql = "SELECT * FROM users WHERE id = :userId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(['userId' => intval($postVariable)]);
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // don't run query if no changes are made
+            if ($user['is_admin'] === intval($makeAdmin)) {
+                continue;
+            }
+
+            // update admin status into database
+            $sql = "UPDATE users SET is_admin = :makeAdmin WHERE id = :userId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                'makeAdmin' => intval($makeAdmin),
+                'userId' => intval($postVariable)
+            ]);
+        }
+
+        header('location: /admin/gebruikers');
+        exit();
+    }
 }
