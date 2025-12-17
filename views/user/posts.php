@@ -11,18 +11,14 @@ $db = new Database();
 $conn = $db->connect();
 $conn->query("USE " . $db->getDbName());
 
-
 $sql = "SELECT COUNT(*) FROM offers WHERE user_id = :user_id";
 $stmt = $conn->prepare($sql);
 $stmt->execute(['user_id' => $_SESSION['id']]);
 $AlleOffers = $stmt->fetchColumn();
 
-
 $rows_per_page = 3;
 
-
 $pages = ceil($AlleOffers / $rows_per_page);
-
 
 $start = 0;
 
@@ -88,10 +84,11 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <h2 class="font-bold text-xl text-gray-800 mb-2"> <?= $offer['titel'] ?> </h2>
                             <p class="text-sm text-gray-600">Status: In verificatie</p>
                         </a>
-                <?php }
-                } ?>
+                    <?php } ?>
                 </div>
+            <?php } ?>
 
+            <?php if ($offers) : ?>
                 <div class="flex flex-row justify-center">
                     <?php
                     if (isset($_GET['offer-page-nr']) && $_GET['offer-page-nr'] > 1) {
@@ -104,10 +101,7 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                     ?>
                     <div class="px-4">
-                        <?php
-
-                        //Check of de GET variabel geset is
-                        if (!isset($_GET['offer-page-nr'])) {
+                        <?php if (!isset($_GET['offer-page-nr'])) { // Check of de GET variabel geset is
                         ?> <a class="bg-sky-600 text-white px-4 py-2 rounded-md" href="?offer-page-nr=1">1</a>
                         <?php
                             $count_from = 2;
@@ -131,7 +125,6 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         ?>
                     </div>
 
-
                     <?php if (!isset($_GET['offer-page-nr'])) { ?>
                         <a href="?offer-page-nr=2"><i class="fa-solid fa-angle-right" style="color: #000000;"></i></a>
                         <?php
@@ -147,15 +140,14 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php }
                     } ?>
                 </div>
+            <?php endif; ?>
 
-
-
-                <div class="flex justify-center mt-6">
-                    <a href="/doneer"
-                        class="rounded-md bg-sky-600 px-6 py-2 text-lg font-semibold text-white hover:bg-sky-500 transition">
-                        Doneer hier
-                    </a>
-                </div>
+            <div class="flex justify-center mt-6">
+                <a href="/doneer"
+                    class="rounded-md bg-sky-600 px-6 py-2 text-lg font-semibold text-white hover:bg-sky-500 transition">
+                    Doneer hier
+                </a>
+            </div>
         </div>
 
         <div class="flex flex-col gap-6">
@@ -192,8 +184,6 @@ $needs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </table>
                 </div>
             <?php } ?>
-
-
 
             <div class="flex justify-center mt-6">
                 <a href="/aanvraag"

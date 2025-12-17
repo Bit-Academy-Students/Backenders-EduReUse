@@ -124,7 +124,7 @@ foreach ($offers as $offer) {
         </div>
 
         <!-- count of total selected items -->
-        <div class="w-[95%] mb-3<?= (!empty($_SESSION['error'])) ? '' : 0 ?> mt-4">
+        <div class="w-[95%] mb-30 mt-4">
             <div id="totalDiv" class="flex gap-2 justify-self-end p-4 bg-white rounded-lg shadow-md" hidden>
                 <p id="total"></p>
                 <span class="text-slate-500">(max <?= $need['hoeveelheid'] ?>)</span>
