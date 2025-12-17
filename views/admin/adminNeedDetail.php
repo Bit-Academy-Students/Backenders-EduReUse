@@ -78,8 +78,6 @@ if (!$need) {
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
-    <script src="https://cdn.maptiler.com/maptiler-geocoding-control/v2.1.7/leaflet.umd.js"></script>
-    <link href="https://cdn.maptiler.com/maptiler-geocoding-control/v2.1.7/style.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-100">

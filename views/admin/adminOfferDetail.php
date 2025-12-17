@@ -88,6 +88,15 @@ $matches = [];
 
     <link rel="stylesheet" href="/src/output.css">
     <?php require_once __DIR__ . '/../components/fontawesome-link.php' ?>
+
+    <!-- Geolocation links -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
 </head>
 
 <body class="bg-gray-100">
@@ -179,6 +188,51 @@ $matches = [];
             </div>
         </div>
     </div>
+
+
+    <div id="map" class="h-80"></div>
+
+    <script>
+        const api = `https://api.geoapify.com/v1/geocode/search?text=<?= htmlspecialchars(str_replace(' ', '', $offer['postcode'])) ?>&apiKey=13a8e0d15e224c5ebf41734d171a7d2d`;
+
+        let long = null;
+        let lat = null;
+        let stad = null;
+        async function getCoordinates() {
+            try {
+                const response = await fetch(api);
+                const data = await response.json();
+
+                if (!response.ok || !data.features.length) {
+                    alert('Er is geen locatie gevonden op deze postcode: Map wordt niet getoond');
+                    console.log('Locatie niet gevonden. Kaart kan niet worden getoond');
+                    return;
+                }
+
+                long = data.features[0].geometry.coordinates[1];
+                lat = data.features[0].geometry.coordinates[0];
+                stad = data.features[0].properties.city;
+            } catch (error) {
+                console.log(error);
+            }
+
+            const map = L.map('map').setView([long, lat], 14);
+
+            const key = "<?= $_ENV['MAPTILER_API_KEY'] ?>";
+            L.tileLayer(`https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${key}`, {
+                tileSize: 512,
+                zoomOffset: -1,
+                minZoom: 1,
+                attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+                crossOrigin: false
+            }).addTo(map);
+
+            L.marker([long, lat]).addTo(map)
+                .bindPopup(`<?= htmlspecialchars($offer['postcode']) ?>, ${stad}`);
+        };
+
+        getCoordinates();
+    </script>
 </body>
 
 </html>
