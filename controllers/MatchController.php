@@ -141,8 +141,8 @@ class MatchController extends Seeder
             ]);
         }
 
-        header('Location: /admin/matches');
-        exit();
+        // header('Location: /admin/matches');
+        // exit();
     }
 
     /**
