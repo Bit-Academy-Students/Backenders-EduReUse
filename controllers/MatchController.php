@@ -74,18 +74,20 @@ class MatchController extends Seeder
                 'offerId' => $offer,
             ]);
 
-            // update date_delivered, date_modified, etc. into DB whenever status gets set to 'delivered', 'refurbished', etc.
-            $queryData = $this->getUpdateRowQuery($post['status']);
+            if ($post['status'] == 5 || $post['status'] == 6 || $post['status'] == 7) {
+                // update date_delivered, date_modified, etc. into DB whenever status gets set to 'delivered', 'refurbished', etc.
+                $queryData = $this->getUpdateRowQuery($post['status']);
 
-            // update into db per match
-            foreach ($matchIds as $matchId) {
-                $sql = $queryData[0];
-                $stmt = $this->conn->prepare($sql);
-                $stmt->execute([
-                    $queryData[1] => $this->now(),
-                    'dateModified' => $this->now(),
-                    'matchId' => $matchId
-                ]);
+                // update into db per match
+                foreach ($matchIds as $matchId) {
+                    $sql = $queryData[0];
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->execute([
+                        $queryData[1] => $this->now(),
+                        'dateModified' => $this->now(),
+                        'matchId' => $matchId
+                    ]);
+                }
             }
         }
 
@@ -141,8 +143,8 @@ class MatchController extends Seeder
             ]);
         }
 
-        // header('Location: /admin/matches');
-        // exit();
+        header('Location: /admin/matches');
+        exit();
     }
 
     /**
