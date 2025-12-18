@@ -258,3 +258,5 @@ launch.json
 public/src/uploads/*
 !public/src/uploads/default_laptop_image.png
 !public/src/uploads/default_printer_image.png
+!public/src/uploads/default_new_laptop.png
+!public/src/uploads/default_new_printer_image.jpg
