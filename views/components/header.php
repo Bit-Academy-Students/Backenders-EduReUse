@@ -32,8 +32,10 @@ if (isset($user) && $user['is_admin'] === 1) {
 
     <div class="flex gap-8 items-end">
         <div class="flex flex-row gap-4">
-            <a href="<?= isset($_SESSION['id']) ? '/doneer' : '/login' ?>" class=" text-white rounded-md p-1.5 w-35 mt-1 hover:underline transition text-center w-fit h-fit">Donatie doen</a>
-            <a href="<?= isset($_SESSION['id']) ? '/aanvraag' : '/login' ?>" class=" text-white rounded-md p-1.5 w-35 mt-1 hover:underline transition text-center w-fit">Aanvraag indienen</a>
+            <?php if (!$loggedInUser) { ?>
+                <a href="<?= isset($_SESSION['id']) ? '/doneer' : '/login' ?>" class=" text-white rounded-md p-1.5 w-35 mt-1 hover:underline transition text-center w-fit h-fit">Donatie doen</a>
+                <a href="<?= isset($_SESSION['id']) ? '/aanvraag' : '/login' ?>" class=" text-white rounded-md p-1.5 w-35 mt-1 hover:underline transition text-center w-fit">Aanvraag indienen</a>
+            <?php } ?>
         </div>
 
         <?php if ($userIsAdmin) { ?>
