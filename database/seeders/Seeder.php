@@ -48,7 +48,7 @@ abstract class Seeder
      * @param $sessionVariable
      * @return void
      */
-    protected function unsetSessionError($sessionVariable): void
+    protected function unsetSessionError(string $sessionVariable): void
     {
         if (isset($SESSION[$sessionVariable])) {
             unset($_SESSION[$sessionVariable]);

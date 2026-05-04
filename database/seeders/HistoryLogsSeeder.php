@@ -14,11 +14,9 @@ class HistoryLogsSeeder extends Seeder
      */
     public function add(string $notitie, int $adminId, int $matchId): void
     {
-        $now = date('Y-m-d G:i:s');
-
         $this->db->exec(
             "INSERT INTO history_logs (notitie, date_created, admin_id, match_id)
-            VALUES ('$notitie', '$now', $adminId, $matchId)"
+            VALUES ('$notitie', '" . $this->now() . "', $adminId, $matchId)"
         );
     }
 }

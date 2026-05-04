@@ -7,8 +7,8 @@ use PDO;
 
 class Database
 {
-    protected PDO $database;
-    protected string $dbName;
+    private PDO $database;
+    private string $dbName;
 
     public function __construct()
     {
@@ -48,7 +48,9 @@ class Database
      */
     public function databaseExists(string $dbName): bool
     {
-        $stmt = $this->database->prepare("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :dbName");
+        $stmt = $this->database->prepare(
+            "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = :dbName"
+        );
         $stmt->bindParam(':dbName', $dbName);
         $stmt->execute();
 
