@@ -5,11 +5,12 @@ namespace Controllers;
 use Database\Database;
 use Database\seeders\Seeder;
 use Exception;
+use PDO;
 
 class DonateController extends Seeder
 {
     private Database $database;
-    private $conn;
+    private PDO $conn;
 
     public function __construct()
     {
